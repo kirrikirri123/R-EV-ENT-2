@@ -1,8 +1,6 @@
 package com.ahlenius.revent2.service;
 
-import com.ahlenius.revent2.entity.Item;
-import com.ahlenius.revent2.entity.Member;
-import com.ahlenius.revent2.entity.Rental;
+import com.ahlenius.revent2.entity.*;
 import com.ahlenius.revent2.repository.Inventory;
 import com.ahlenius.revent2.repository.RentalRegistry;
 
