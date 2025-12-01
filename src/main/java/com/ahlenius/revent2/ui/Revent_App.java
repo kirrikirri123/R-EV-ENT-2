@@ -2,7 +2,6 @@ package com.ahlenius.revent2.ui;
 import com.ahlenius.revent2.ui.controller.ButtonController;
 import com.ahlenius.revent2.ui.view.*;
 import javafx.application.Application;
-import javafx.event.ActionEvent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.stage.Stage;
@@ -20,7 +19,7 @@ public class Revent_App extends Application {
 
     public Revent_App(){}
 
-    @Override
+        @Override
     public void start(Stage stage) throws Exception {
 
         stage.setTitle("R-EV-ENT - Re-Invent your event - Just rent!");
@@ -28,6 +27,8 @@ public class Revent_App extends Application {
         //Styling
        // start.getStylesheets().add(getClass().getResource("/com/ahlenius/revent2/revent_style.css").toExternalForm());
        // main.getStylesheets().add(getClass().getResource("/com/ahlenius/revent2/revent_style.css").toExternalForm());
+
+      // stage.getScene().setRoot(mainView.getMainView());
 
         // Set centerMain
         mainView.getMainView().setCenter(membershipView.getMemberPane());
@@ -41,6 +42,10 @@ public class Revent_App extends Application {
         // change scene
         falseButton.setOnAction(actionEvent -> {
             changeScene(stage,main);
+        });
+        // Action på knappar kopplade till stage och scene.
+        mainView.getQuitBtn().setOnAction(actionEvent -> {
+            stage.close();
         });
 
         }

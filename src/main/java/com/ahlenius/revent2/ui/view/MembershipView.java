@@ -5,10 +5,7 @@ import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.FlowPane;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.*;
 
 public class MembershipView {
     // Här kommer under meny men olika alternativ till medlemskapshantering.
@@ -18,7 +15,8 @@ public class MembershipView {
     private Button searchMem;
     private Button updateMem;
     private Button historyMem;
-    private String searchString = "Skriv namn eller medlemsid för att söka.";
+    private String searchString = "Sök på namn eller medlemsnummer: ";
+    private String searchBtnString = "Sök";
     private Button okBtn;
 
 
@@ -45,33 +43,45 @@ public class MembershipView {
         newMemPane.add(confrimationText,2,5);
         newMemPane.setVgap(5);
         newMemPane.setHgap(5);
+        newMemPane.setAlignment(Pos.CENTER);
 
         searchMem = new Button("Sök medlem");
-        Label searhMemLabel = new Label(searchString);
+        Label searchMemLabel = new Label(searchString);
         TextField searchMember = new TextField();
+        searchMember.setMaxWidth(250);
         searchMember.setPromptText("Namn eller medlemsnummer");
-        FlowPane searchMemPane = new FlowPane();
+        Button searchBtnMem = new Button(searchBtnString);
+        VBox searchMemPane = new VBox();
+        searchMemPane.setSpacing(5);
         searchMemPane.setAlignment(Pos.CENTER);
-        searchMemPane.getChildren().addAll(searhMemLabel,searchMember);
+        searchMemPane.getChildren().addAll(searchMemLabel,searchMember,searchBtnMem);
 
         updateMem = new Button("Uppdatera medlem");
+        Label updateMemLabel = new Label(searchString);
         TextField updateMember = new TextField();
-        searchMember.setPromptText("Namn eller medlemsnummer");
-        FlowPane updateMemPane = new FlowPane();
+        updateMember.setMaxWidth(250);
+        updateMember.setPromptText("Namn eller medlemsnummer");
+        Button searchBtnUpd = new Button(searchBtnString);
+        VBox updateMemPane = new VBox();
+        updateMemPane.setSpacing(5);
         updateMemPane.setAlignment(Pos.CENTER);
-        updateMemPane.getChildren().addAll(searhMemLabel,updateMember);
+        updateMemPane.getChildren().addAll(updateMemLabel,updateMember,searchBtnUpd);
 
         historyMem = new Button("Medlemshistorik");
+        Label memberHistLab = new Label(searchString);
         TextField memberHistory = new TextField();
-        searchMember.setPromptText("Namn eller medlemsnummer");
-        FlowPane memHistoryPane= new FlowPane();
+        memberHistory.setMaxWidth(250);
+        memberHistory.setPromptText("Namn eller medlemsnummer");
+        Button searchBtnHist = new Button(searchBtnString);
+        VBox memHistoryPane= new VBox();
+        memHistoryPane.setSpacing(5);
         memHistoryPane.setAlignment(Pos.CENTER);
-        memHistoryPane.getChildren().addAll(searhMemLabel,memberHistory);
+        memHistoryPane.getChildren().addAll(memberHistLab,memberHistory,searchBtnHist);
 
         // Vänsterfält
         VBox leftField = new VBox();
-        leftField.setPadding(new Insets(5,5,5,5));
-        leftField.setSpacing(5);
+        leftField.setPadding(new Insets(15,15,5,10));
+        leftField.setSpacing(10);
         leftField.getChildren().addAll(newMem,searchMem,updateMem,historyMem);
 
         // Actions knappar
@@ -91,12 +101,21 @@ public class MembershipView {
             confrimationText.setText("Ny medlem skapad.");
         System.out.println("Knappen är tryckt - spara/kolla info.");
         });
+        searchBtnMem.setOnAction(actionEvent -> {
+            searchBtnMem.setText("Söker medlem...");
+        });
+        searchBtnHist.setOnAction(actionEvent -> {
+            searchBtnHist.setText("Söker medlem...");
+        });
+        searchBtnUpd.setOnAction(actionEvent -> {
+            searchBtnUpd.setText("Söker medlem...");
+        });
 
 
 
         // Layout MembershipView
         memberPane.setCenter(newMemPane);
-        memberPane.setRight(leftField);
+        memberPane.setLeft(leftField);
     }
     public BorderPane getMemberPane(){
         return memberPane;
