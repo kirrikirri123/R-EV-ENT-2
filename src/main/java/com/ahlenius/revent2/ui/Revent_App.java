@@ -31,7 +31,7 @@ public class Revent_App extends Application {
       // stage.getScene().setRoot(mainView.getMainView());
 
         // Set centerMain
-        mainView.getMainView().setCenter(membershipView.getMemberPane());
+        mainView.getMainView().setCenter(membershipView.getMemberPane()); // funkade tidigare
 
 
         start = new Scene(startView.getStartView(),800,450);
