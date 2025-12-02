@@ -11,38 +11,38 @@ import javafx.scene.text.Text;
 public class ProductView {
     // Här läggs allt som har med produkterna att göra. Foto-info, boka osv.
     private BorderPane productPane = new BorderPane();
+    private FlowPane itemView = new FlowPane();
+    private GridPane newProdPane =new GridPane();
+    private VBox updateProdPane = new VBox();
     private Button products;
     private Button newProd;
     private Button editProd;
-    private Button okBtn;
+    private final Button OKBTN = new Button("OK");
     private Label confrimationText= new Label();
 
 
     public ProductView(){
-        products = new Button("Alla prdukter");
-        FlowPane itemView = new FlowPane();
+        products = new Button("Alla produkter");
         HBox images = new HBox(new Text("Test"));
         itemView.getChildren().addAll(images);
-
         newProd = new Button("Ny produkt");
-        GridPane newProdPane =new GridPane(); // Det blir ett NUllpointerException av detta..
-        Label prodName = new Label("Produktnamn :");
+        Label prodName = new Label("Produktnamn ");
         TextField prodNameField = new TextField();
         prodNameField.setMaxWidth(250);
-        Label prodDescript = new Label("Beskrivning :");
+        Label prodDescript = new Label("Beskrivning ");
         TextField prodDescriptField = new TextField();
         prodDescriptField.setMaxWidth(450);
-        Label dayPrice = new Label("Dagspris i sek :");
+        Label dayPrice = new Label("Dagspris i sek ");
         TextField dayPriceField= new TextField();
         dayPriceField.setMaxWidth(50);
         newProdPane.add(prodName,0,0);
         newProdPane.add(prodNameField,1,0);
         newProdPane.add(prodDescript,0,1);
-        newProdPane.add(prodDescriptField,1,2);
-        newProdPane.add(dayPrice,0,3);
+        newProdPane.add(prodDescriptField,1,1);
+        newProdPane.add(dayPrice,0,2);
         newProdPane.add(dayPriceField,1,2);
-        newProdPane.add(okBtn,2,3);
-        newProdPane.add(confrimationText,3,3);
+        newProdPane.add(OKBTN,2,3);
+        newProdPane.add(confrimationText,1,4);
         newProdPane.setVgap(5);
         newProdPane.setHgap(5);
         newProdPane.setAlignment(Pos.CENTER);
@@ -53,10 +53,9 @@ public class ProductView {
         updateProd.setMaxWidth(250);
         updateProd.setPromptText("Produktnamn");
         Button searchBtnUpd = new Button("Sök");
-        VBox updateMemPane = new VBox();
-        updateMemPane.setSpacing(5);
-        updateMemPane.setAlignment(Pos.CENTER);
-        updateMemPane.getChildren().addAll(updateProdLabel,updateProd,searchBtnUpd);
+        updateProdPane.setSpacing(5);
+        updateProdPane.setAlignment(Pos.CENTER);
+        updateProdPane.getChildren().addAll(updateProdLabel,updateProd,searchBtnUpd);
 
 
         //Actions knappar.
@@ -67,10 +66,10 @@ public class ProductView {
             productPane.setCenter(newProdPane);
         });
         editProd.setOnAction(actionEvent -> {
-            productPane.setCenter(updateMemPane);
+            productPane.setCenter(updateProdPane);
         });
-        okBtn.setOnAction(actionEvent -> {
-            confrimationText.setText("Ny medlem skapad.");
+        OKBTN.setOnAction(actionEvent -> {
+            confrimationText.setText("Ny produkt tillagd.");
             System.out.println("Knappen är tryckt - spara/kolla info.");
         });
 
@@ -81,10 +80,19 @@ public class ProductView {
         leftField.getChildren().addAll(products,newProd,editProd);
 
         // Layout ProductView
-        productPane.setCenter(newProdPane);
+        productPane.setCenter(itemView);
         productPane.setLeft(leftField);
     }
 
+    public VBox getUpdateProdPane() {
+        return updateProdPane;
+    }
+    public GridPane getNewProdPane() {
+        return newProdPane;
+    }
+    public FlowPane getItemView() {
+        return itemView;
+    }
     public BorderPane getProductPane(){
      return productPane; // Blir detta ett extra onödigt steg?
     }
