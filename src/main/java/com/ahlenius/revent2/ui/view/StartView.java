@@ -12,7 +12,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 
 public class StartView {
-    // här skapas den synliga biten för programmet. Startsidan. Bild, länk till Huvudsidan och kanske en timer som automatiskt skickar en till huduvsidan efter 10 sekunder.
+    // Startsidan. Bild, länk till Huvudsidan och kanske en timer som automatiskt skickar en till huduvsidan efter 10 sekunder.
     //bottenlist med lite halv osynlig info. Avslutsknapp?
     private BorderPane startview = new BorderPane();
 

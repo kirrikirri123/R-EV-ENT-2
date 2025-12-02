@@ -1,0 +1,104 @@
+/* =======================
+   Grundtema & bakgrunder
+   ======================= */
+.root {
+    -fx-background-color: #F4F4F4;     /* Ljus neutral bakgrund */
+    -fx-font-family: "Segoe UI", sans-serif;
+}
+
+/* Paneler / VBox / HBox */
+.pane, .vbox, .hbox {
+    -fx-background-color: #FFFFFF;
+    -fx-padding: 10;
+    -fx-background-radius: 6;
+    -fx-border-radius: 6;
+    -fx-border-color: #D2AD69;
+}
+
+/* =======================
+   Rubriker & text
+   ======================= */
+.label.title {
+    -fx-font-size: 22px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #3E6B79;
+}
+
+.label.subtitle {
+    -fx-font-size: 16px;
+    -fx-text-fill: #3E6B79;
+}
+
+.label {
+    -fx-text-fill: #505050;
+}
+
+/* =======================
+   Buttons
+   ======================= */
+.button {
+    -fx-background-radius: 6;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+}
+
+/* Primär knapp – blå */
+.button.primary {
+    -fx-background-color: #00C0FA;
+}
+.button.primary:hover {
+    -fx-background-color: #3E6B79;
+}
+
+/* Varm orange knapp */
+.button.accent {
+    -fx-background-color: #FA5100;
+}
+.button.accent:hover {
+    -fx-background-color: #FAA100;
+}
+
+/* Beige/guld knapp */
+.button.alt {
+    -fx-background-color: #D2AD69;
+    -fx-text-fill: #3E6B79;
+}
+.button.alt:hover {
+    -fx-background-color: #B4765A;
+    -fx-text-fill: white;
+}
+
+/* =======================
+   TextField / ComboBox
+   ======================= */
+.text-field, .combo-box {
+    -fx-background-color: #FFFFFF;
+    -fx-border-color: #3E6B79;
+    -fx-border-radius: 4;
+    -fx-background-radius: 4;
+}
+.text-field:focused, .combo-box:focused {
+    -fx-border-color: #00C0FA;
+}
+
+/* =======================
+   Scrollbars
+   ======================= */
+.scroll-bar .thumb {
+    -fx-background-color: #3E6B79;
+}
+.scroll-bar .track {
+    -fx-background-color: #D2AD69;
+}
+
+/* =======================
+   ListView / TableView
+   ======================= */
+.list-cell, .table-row-cell {
+    -fx-background-color: white;
+}
+.list-cell:selected, .table-row-cell:selected {
+    -fx-background-color: #00C0FA;
+    -fx-text-fill: white;
+}
+

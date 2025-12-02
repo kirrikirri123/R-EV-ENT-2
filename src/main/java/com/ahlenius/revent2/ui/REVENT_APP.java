@@ -18,11 +18,17 @@ public class REVENT_APP extends Application {
 
         stage.setTitle("R-EV-ENT - Re-Invent your event - Just rent!");
 
+        //Styling
+       // start.getStylesheets().add(getClass().getResource("/com/ahlenius/revent2/revent_style.css").toExternalForm());
+       // main.getStylesheets().add(getClass().getResource("/com/ahlenius/revent2/revent_style.css").toExternalForm());
+
+        //
+
 
         start = new Scene(startView.getStartView(),800,450);
-        stage.setScene(start);
+        main = new Scene(mainView.getMainView(),800,750);
+        stage.setScene(main);
         stage.show();
-
 
     }
 
