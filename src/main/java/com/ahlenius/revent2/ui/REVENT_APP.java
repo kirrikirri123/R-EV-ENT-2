@@ -16,7 +16,7 @@ public class REVENT_APP extends Application {
     @Override
     public void start(Stage stage) throws Exception {
 
-        stage.setTitle("R-EV-ENT - Skapa stora minnen med lite ansträning.");
+        stage.setTitle("R-EV-ENT - Re-Invent your event - Just rent!");
 
 
         start = new Scene(startView.getStartView(),800,450);
@@ -24,5 +24,9 @@ public class REVENT_APP extends Application {
         stage.show();
 
 
+    }
+
+    public void changeScene(Stage stage,Scene scene){
+        stage.setScene(scene);
     }
 }
