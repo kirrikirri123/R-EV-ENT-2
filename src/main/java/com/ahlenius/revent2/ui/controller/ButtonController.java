@@ -58,12 +58,6 @@ public class ButtonController {
             productView.getProductPane().setCenter(productView.getNewProdPane());
             });
 
-        // Uthyrningsknappar i meny
-
-
-
-
-
-    }
+            }
 
 }

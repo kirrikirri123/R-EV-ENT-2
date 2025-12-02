@@ -1,5 +1,6 @@
 package com.ahlenius.revent2.ui.view;
 
+import com.ahlenius.revent2.service.RentalService;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
@@ -10,6 +11,7 @@ import javafx.scene.text.Text;
 
 public class ProductView {
     // Här läggs allt som har med produkterna att göra. Foto-info, boka osv.
+    private RentalService rentalService;
     private BorderPane productPane = new BorderPane();
     private FlowPane itemView = new FlowPane();
     private GridPane newProdPane =new GridPane();
@@ -20,8 +22,10 @@ public class ProductView {
     private final Button OKBTN = new Button("OK");
     private Label confrimationText= new Label();
 
+    public ProductView(){}
 
-    public ProductView(){
+    public ProductView(RentalService rentalService){
+        this.rentalService = rentalService;
         products = new Button("Alla produkter");
         HBox images = new HBox(new Text("Test"));
         itemView.getChildren().addAll(images);

@@ -12,6 +12,8 @@ public class MembershipService {
     // Hanterar memberfunktioner. Medlemsrabatter? Ta isf in PI och S objekten hit istället?
     private MemberRegistry memberRegistry;
 
+    public MembershipService(){}
+
     public MembershipService(MemberRegistry memberRegistry){
         this.memberRegistry = memberRegistry;}
 
@@ -26,10 +28,6 @@ public class MembershipService {
     public void addMemberList(Member member) {
         getMemberRegistry().getMemberRegistryList().add(member);
     }
-    public void searchInfo(){
-        System.out.println("Vilken medlem? Ange namn eller personnummer/organistationsnummer.");
-    }
-
     public List<Member> searchMemberByNameIdReturnList(String nameOrId){
         List<Member> foundM= new ArrayList<>();
         for(Member m : getMemberRegistry().getMemberRegistryList()){
@@ -46,7 +44,7 @@ public class MembershipService {
         return foundMember;
     }
 
-    public void checkListPrintMembersFound(String nameOrId){
+    public void checkListPrintMembersFound(String nameOrId){ //TODO Obs ! Finns utskrift i konsoll
         List<Member> foundMatches = searchMemberByNameIdReturnList(nameOrId);
         if(foundMatches.size()>1) {
             System.out.println("Hittade flera matchningar: ");
@@ -59,7 +57,7 @@ public class MembershipService {
             System.out.println("Hittade "+member.getName()+" med ID: "+ member.getId() + ". Är "+ memberStatusPrint);}
         }}
 
-    public void removeMember(String nameOrId, Scanner scan){
+    public void removeMember(String nameOrId, Scanner scan){ //TODO Obs! Finns utskrift i konsoll
         List<Member> foundMatches = searchMemberByNameIdReturnList(nameOrId);
         if(foundMatches.isEmpty()){System.out.println("Hittade ingen matchning."); return;}
         for(Member m : foundMatches)
@@ -70,20 +68,20 @@ public class MembershipService {
                 System.out.println("Medlem borttagen.");
             }else{System.out.println("Avbryter borttagning.");}}}
 
-    public void getMemberHistory(Member member){
+    public void getMemberHistory(Member member){ // TODO Obs ! Finns utskrift i konsoll.
         if(member.getHistoryMember().isEmpty()){System.out.println("Finns ingen historik på vald medlem.");}
         else { for (Rental r : member.getHistoryMember() ){
             System.out.println(r); }
         }}
 
-    public void printMemberReg() {
+    public void printMemberReg() { //TODO Obs finns utkskrift i konsoll.
         if (getMemberRegistry().getMemberRegistryList().isEmpty()){System.out.println("Listan är tom.");}
         for (Member m: getMemberRegistry().getMemberRegistryList()){
             System.out.println(m);
         }
     }
 
-    public void findAndUpdateMember(String nameOrId, Scanner scan){
+    public void findAndUpdateMember(String nameOrId, Scanner scan){ // TODO Obs ! Finns uskrift i konsoll
         List<Member> foundMatches = searchMemberByNameIdReturnList(nameOrId);
         if(foundMatches.isEmpty()){System.out.println("Hittade ingen matchning."); return;}
         for(Member m : foundMatches)

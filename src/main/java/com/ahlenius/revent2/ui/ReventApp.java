@@ -1,25 +1,39 @@
 package com.ahlenius.revent2.ui;
+import com.ahlenius.revent2.repository.Inventory;
+import com.ahlenius.revent2.repository.MemberRegistry;
+import com.ahlenius.revent2.repository.RentalRegistry;
+import com.ahlenius.revent2.service.MembershipService;
+import com.ahlenius.revent2.service.RentalService;
 import com.ahlenius.revent2.ui.controller.ButtonController;
 import com.ahlenius.revent2.ui.view.*;
 import javafx.application.Application;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
 import javafx.stage.Stage;
 
 public class ReventApp extends Application {
+    Inventory inventory = new Inventory();
+    MemberRegistry memberRegistry = new MemberRegistry();
+    RentalRegistry rentalRegistry = new RentalRegistry();
+
+    MembershipService memberService = new MembershipService(memberRegistry); //Plocka in även PI och S objektet?
+    RentalService rentalService = new RentalService(inventory,rentalRegistry);
+
     StartView startView = new StartView();
     MainView mainView = new MainView();
-    MembershipView membershipView = new MembershipView();
-    ProductView productView = new ProductView();
+    MembershipView membershipView = new MembershipView(memberService);
+    ProductView productView = new ProductView(rentalService);
     RentalView rentalView = new RentalView();
     EconomyView economyView = new EconomyView();
     ButtonController buttonController= new ButtonController(startView,mainView,membershipView,productView,rentalView,economyView);
     Scene start,main;
 
+
             @Override
     public void start(Stage stage) throws Exception {
 
         stage.setTitle("R-EV-ENT - Re-Invent your event - Just rent!");
+        //start.getStylesheets().add(getClass().getResource("/com/ahlenius/revent2/revent_style.css.txt").toExternalForm());
+        //main.getStylesheets().add(getClass().getResource("/com/ahlenius/revent2/revent_style.css.txt").toExternalForm());
 
         start = new Scene(startView.getStartView(),500,450);
         main = new Scene(mainView.getMainView(),800,750);
@@ -36,13 +50,9 @@ public class ReventApp extends Application {
           });
 
           }
-
     public void changeScene(Stage stage,Scene scene){
         stage.setScene(scene);
     }
 }
 
-//Styling
-// start.getStylesheets().add(getClass().getResource("/com/ahlenius/revent2/revent_style.css").toExternalForm());
-// main.getStylesheets().add(getClass().getResource("/com/ahlenius/revent2/revent_style.css").toExternalForm());
 

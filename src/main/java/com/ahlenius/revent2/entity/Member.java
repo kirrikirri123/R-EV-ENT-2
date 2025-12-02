@@ -6,6 +6,7 @@ import java.util.List;
 public class Member {
     private String id;
     private String name;
+    private String phone;  // lägg till i konstruktor och metod.
     private String memberStatus; //private eller society
     private List<Rental> historyMember = new LinkedList<>();
 

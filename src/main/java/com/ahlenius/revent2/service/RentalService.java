@@ -9,7 +9,6 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.Scanner;
 import java.util.concurrent.TimeUnit;
 
@@ -37,19 +36,14 @@ public class RentalService {
     public void addItemToList(Item item) {
         getInventory().getItemsList().add(item);
     }
-
-    public void searchProd() {
-        System.out.println("Vilken produkt?");
-    }
-    public List<Item> searchItemByName(String prod) {
+        public List<Item> searchItemByName(String prod) {
         List<Item> foundI = new ArrayList<>();
         for (Item i : getInventory().getItemsList()) {
             if (i.getName().equalsIgnoreCase(prod)) {
                 foundI.add(i);} }
         return foundI;
     }
-
-    public Item searchItemByNameReturnItem(String prod) {
+    public Item searchItemByNameReturnItem(String prod) { // TODO Obs! Utskrift i konsoll
         Item foundItem = null;
         for (Item it : getInventory().getItemsList()) {
             if (it.getName().equalsIgnoreCase(prod)) {
@@ -58,7 +52,7 @@ public class RentalService {
         }
         return foundItem;}
 
-    public void checkListPrintItemsFound(String prod) { // onödigt krånglig då Itemslist är en ArrayList?
+    public void checkListPrintItemsFound(String prod) { // TODO Obs! Uskrift i konsoll . Onödigt krånglig då Itemslist är en ArrayList? Borde vara streams.
         List<Item> foundMatches = searchItemByName(prod);
         if (foundMatches.size() >= 2) {
             System.out.println("Hittade flera matchningar.");
@@ -78,7 +72,7 @@ public class RentalService {
                 indexItem = i;}}
         return indexItem; }
 
-    public void removeItemFromList(String prod, Scanner scan) {
+    public void removeItemFromList(String prod, Scanner scan) {//TODO Obs ! Finns utskfiter i konsoll
         List<Item> removeI = searchItemByName(prod); //listan som returneras sparas i denna lista.
         if(removeI.isEmpty()){System.out.println("Hittade ingen matchning."); return;}
         for (Item item : removeI){
@@ -101,7 +95,7 @@ public class RentalService {
         addItemToList(item);
     }
 
-    public void printItemList(){
+    public void printItemList(){ //TODO Obs finns utskrift i konsoll
         if(getInventory().getItemsList().isEmpty()){System.out.println("Inga produkter att visa.");}
         for(Item item:getInventory().getItemsList()){
             System.out.println(item);
@@ -112,7 +106,7 @@ public class RentalService {
         }
     }
 
-    public void printItemGroup(String attribut){
+    public void printItemGroup(String attribut){//TODO utskrift i exception
         for(Item it : getInventory().getItemsList()) {
             if (it.getDescription().contains(attribut)){
                 System.out.println(it);
@@ -146,17 +140,18 @@ public class RentalService {
         return rental;
     }
     //önska antal
-    public int rentDaysChoice(Scanner scan) {
+    public int rentDaysChoice(Scanner scan) { // TODO Obs! Finns utskrift i konsoll.
         System.out.println("Hur många dagar önskas hyra?");
         int days = scan.nextInt();
         return days;    }
     // byt antal
+    /*
     public void changeRentDays(Member member, int x) {
-        getRentalRegistry().getRentalList().get(member).setRentDays(x);
+        //getRentalRegistry().getRentalList().get(member).setRentDays(x); Ändrad Lista från Rental till List<Rental>
     }
     //visa valt antal
     public int rentalCountDays(Member member) {
-        return getRentalRegistry().getRentalList().get(member).getRentDays();
+        //return getRentalRegistry().getRentalList().get(member).getRentDays(); Ändrat Lista från Rental till List<Rental>
     }
 
     public double returnRentalDayPrice(Member member) {
@@ -221,7 +216,7 @@ public class RentalService {
 
     public double priceMonth(double dayPrice,double days) {
         return (days/30)*((dayPrice*30)*0.7);
-    }
+    }*/
 
 }
 
