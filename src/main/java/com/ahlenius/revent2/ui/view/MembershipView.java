@@ -1,5 +1,8 @@
 package com.ahlenius.revent2.ui.view;
 
+import com.ahlenius.revent2.exceptions.InvalidMemberInfoInputException;
+import com.ahlenius.revent2.exceptions.InvalidNameInputException;
+import com.ahlenius.revent2.exceptions.InvalidPhoneInputException;
 import com.ahlenius.revent2.service.MembershipService;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -23,6 +26,7 @@ public class MembershipView {
     private String searchString = "Sök på namn eller medlemsnummer: ";
     private String searchBtnString = "Sök";
     private Button okBtn;
+    private Label exceptionInfo = new Label();
 
     public MembershipView(){}
 
@@ -51,6 +55,7 @@ public class MembershipView {
         newMemPane.add(userId,1,3);
         newMemPane.add(okBtn,2,4);
         newMemPane.add(confrimationText,1,5);
+        newMemPane.add(exceptionInfo,1,6);
         newMemPane.setVgap(5);
         newMemPane.setHgap(5);
         newMemPane.setAlignment(Pos.CENTER);
@@ -107,10 +112,14 @@ public class MembershipView {
 
         // Knappar funktioner
         okBtn.setOnAction(actionEvent -> {
-         membershipService.newMember(userId.getText(), userName.getText(), "Privat");
-         confrimationText.setText("Ny medlem skapad.");
-        System.out.println("Knappen är tryckt - spara/kolla info.");
-        });
+            try{
+            membershipService.newMember(userId.getText(), userName.getText(), userPhone.getText(), "Privat");
+                confrimationText.setText("Ny medlem skapad.");
+                userId.clear();userName.clear();userPhone.clear();exceptionInfo.setText(" ");
+            } catch (InvalidMemberInfoInputException | InvalidNameInputException | InvalidPhoneInputException e) {
+                exceptionInfo.setText(e.getMessage());}
+            });
+
         searchBtnMem.setOnAction(actionEvent -> {
             membershipService.checkListPrintMembersFound(searchMember.getText()); // skriver ut i konsoll
             searchBtnMem.setText("Söker medlem...");
@@ -147,4 +156,6 @@ public class MembershipView {
     public BorderPane getMemberPane(){
         return memberPane;
     }
+
+
 }

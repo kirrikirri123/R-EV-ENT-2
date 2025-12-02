@@ -2,6 +2,9 @@ package com.ahlenius.revent2.service;
 
 import com.ahlenius.revent2.entity.Member;
 import com.ahlenius.revent2.entity.Rental;
+import com.ahlenius.revent2.exceptions.InvalidMemberInfoInputException;
+import com.ahlenius.revent2.exceptions.InvalidNameInputException;
+import com.ahlenius.revent2.exceptions.InvalidPhoneInputException;
 import com.ahlenius.revent2.repository.MemberRegistry;
 
 import java.util.ArrayList;
@@ -21,9 +24,12 @@ public class MembershipService {
         return memberRegistry;
     }
 
-    public void newMember(String id, String name, String memberStatus){
-        Member member = new Member(id,name,memberStatus);
-        addMemberList(member); }
+    public void newMember(String id, String name,String phone, String memberStatus)throws InvalidMemberInfoInputException,InvalidPhoneInputException,InvalidNameInputException {
+        if(id.isEmpty()||name.isEmpty()||memberStatus.isEmpty()){throw new InvalidMemberInfoInputException("Dubbelkolla att alla fält är ifyllda.");}
+        if(phone.isEmpty()|| phone.length()>10) {throw new InvalidPhoneInputException("Dubbelkolla ditt mobilnummer. Ex. 070 123 45 67");}
+        if(name.equalsIgnoreCase("bajs")){throw new InvalidNameInputException ("STOPP! Bajs är inte ett godkänt namn");
+        } else {Member member = new Member(id,name,phone,memberStatus);
+        addMemberList(member); }}
 
     public void addMemberList(Member member) {
         getMemberRegistry().getMemberRegistryList().add(member);
@@ -115,14 +121,13 @@ public class MembershipService {
         }
     }
 
-    public void defaultList() { // För testning.
-        newMember("112", "Pelle Polis","Privat");
-        newMember("123", "Björn Varg","Privat");
-        newMember("920618", "Kickan Karlsson","Privat");
-        newMember("1","Marta Mus","Privat");
-        newMember("123456", "Ersboda Pingisföreningsklubb","Förening");
+    public void defaultList() throws InvalidNameInputException,InvalidMemberInfoInputException,InvalidPhoneInputException { // För testning.
+        newMember("112", "Pelle Polis","090-669966","Privat");
+        newMember("123", "Björn Varg","0950-37417","Privat");
+        newMember("920618", "Kickan Karlsson","0950-14841","Privat");
+        newMember("1","Marta Mus","0950-10832","Privat");
+        newMember("123456", "Ersboda Pingisföreningsklubb","0950-12363","Förening");
     }
-
 }
 
 
