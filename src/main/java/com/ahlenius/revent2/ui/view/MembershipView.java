@@ -11,6 +11,9 @@ public class MembershipView {
     // Här kommer under meny men olika alternativ till medlemskapshantering.
     private BorderPane memberPane = new BorderPane();
     private GridPane newMemPane= new GridPane();
+    private VBox memHistoryPane = new VBox();
+    private VBox updateMemPane = new VBox();
+    private VBox searchMemPane = new VBox();
     private Button newMem;
     private Button searchMem;
     private Button updateMem;
@@ -40,7 +43,7 @@ public class MembershipView {
         newMemPane.add(idNR,0,3);
         newMemPane.add(userId,1,3);
         newMemPane.add(okBtn,2,4);
-        newMemPane.add(confrimationText,2,5);
+        newMemPane.add(confrimationText,1,5);
         newMemPane.setVgap(5);
         newMemPane.setHgap(5);
         newMemPane.setAlignment(Pos.CENTER);
@@ -51,7 +54,6 @@ public class MembershipView {
         searchMember.setMaxWidth(250);
         searchMember.setPromptText("Namn eller medlemsnummer");
         Button searchBtnMem = new Button(searchBtnString);
-        VBox searchMemPane = new VBox();
         searchMemPane.setSpacing(5);
         searchMemPane.setAlignment(Pos.CENTER);
         searchMemPane.getChildren().addAll(searchMemLabel,searchMember,searchBtnMem);
@@ -62,7 +64,6 @@ public class MembershipView {
         updateMember.setMaxWidth(250);
         updateMember.setPromptText("Namn eller medlemsnummer");
         Button searchBtnUpd = new Button(searchBtnString);
-        VBox updateMemPane = new VBox();
         updateMemPane.setSpacing(5);
         updateMemPane.setAlignment(Pos.CENTER);
         updateMemPane.getChildren().addAll(updateMemLabel,updateMember,searchBtnUpd);
@@ -73,7 +74,6 @@ public class MembershipView {
         memberHistory.setMaxWidth(250);
         memberHistory.setPromptText("Namn eller medlemsnummer");
         Button searchBtnHist = new Button(searchBtnString);
-        VBox memHistoryPane= new VBox();
         memHistoryPane.setSpacing(5);
         memHistoryPane.setAlignment(Pos.CENTER);
         memHistoryPane.getChildren().addAll(memberHistLab,memberHistory,searchBtnHist);
@@ -98,7 +98,7 @@ public class MembershipView {
             memberPane.setCenter(memHistoryPane);
         });
         okBtn.setOnAction(actionEvent -> {
-            confrimationText.setText("Ny medlem skapad.");
+           confrimationText.setText("Ny medlem skapad.");
         System.out.println("Knappen är tryckt - spara/kolla info.");
         });
         searchBtnMem.setOnAction(actionEvent -> {
@@ -111,12 +111,27 @@ public class MembershipView {
             searchBtnUpd.setText("Söker medlem...");
         });
 
-
-
         // Layout MembershipView
         memberPane.setCenter(newMemPane);
         memberPane.setLeft(leftField);
     }
+
+    public GridPane getNewMemPane() {
+        return newMemPane;
+    }
+
+    public VBox getMemHistoryPane() {
+        return memHistoryPane;
+    }
+
+    public VBox getUpdateMemPane() {
+        return updateMemPane;
+    }
+
+    public VBox getSearchMemPane() {
+        return searchMemPane;
+    }
+
     public BorderPane getMemberPane(){
         return memberPane;
     }

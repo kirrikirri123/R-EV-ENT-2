@@ -19,68 +19,132 @@ public class MainView {
     private Label bottomLabel = new Label();
     private Button quitBtn = new Button();
     private MenuBar menuHeader = new MenuBar();
+    private MenuItem home;
+    private MenuItem newMem;
+    private MenuItem searchMem;
+    private MenuItem updateMem;
+    private MenuItem historyMem;
+    private MenuItem products;
+    private MenuItem newProducts;
+    private MenuItem editProduct;
+    private MenuItem newRental;
+    private MenuItem endRental;
+    private MenuItem rentalHistory;
+    private MenuItem memberhistory;
 
-    public MainView(){
+
+    public MainView() {
         //Top
         Image iconleft = new Image(getClass().getResourceAsStream("/com/ahlenius/revent2/icon_small.png"));
         ImageView iconImageView = new ImageView(iconleft);
         iconImageView.setPreserveRatio(true);
         iconImageView.setFitWidth(125);
         HBox topHeader = new HBox();
-        topHeader.setPadding(new Insets(15,15,3,15));
-        topHeader.getChildren().addAll(iconImageView,headerLabel);
-
+        topHeader.setPadding(new Insets(15, 15, 3, 15));
+        topHeader.getChildren().addAll(iconImageView, headerLabel);
 
         //MenuBar
-        Menu startMenu= new Menu("Start");
-        MenuItem home = new MenuItem("Hem");
+        Menu startMenu = new Menu("Start");
+        home = new MenuItem("Hem");
         startMenu.getItems().add(home);
         Menu memberMenu = new Menu("Medlemshantering");
-        MenuItem newMemb = new MenuItem("Ny medlem");
-        MenuItem searchMem = new MenuItem("Sök medlem");
-        MenuItem updateMem = new MenuItem("Uppdatera medlem");
-        MenuItem historyMem = new MenuItem("Se medlemshistorik");
-        memberMenu.getItems().addAll(newMemb,searchMem,updateMem,historyMem);
+        newMem = new MenuItem("Ny medlem");
+        searchMem = new MenuItem("Sök medlem");
+        updateMem = new MenuItem("Uppdatera medlem");
+        historyMem = new MenuItem("Se medlemshistorik");
+        memberMenu.getItems().addAll(newMem, searchMem, updateMem, historyMem);
         Menu productMenu = new Menu("Produkter");
-        MenuItem products = new MenuItem("Alla prdukter");
-        MenuItem newProducts = new MenuItem("Ny produkt");
-        MenuItem editProduct = new MenuItem("Redigera produkt");
-        productMenu.getItems().addAll(products,newProducts,editProduct);
+        products = new MenuItem("Alla produkter");
+        newProducts = new MenuItem("Ny produkt");
+        editProduct = new MenuItem("Redigera produkt");
+        productMenu.getItems().addAll(products, newProducts, editProduct);
         Menu rentalMenu = new Menu("Uthyrning");
-        MenuItem newRental = new MenuItem("Ny uthyrning");
-        MenuItem endRental = new MenuItem("Avsluta uthyrning");
-        rentalMenu.getItems().addAll(newRental,endRental);
+        newRental = new MenuItem("Ny uthyrning");
+        endRental = new MenuItem("Avsluta uthyrning");
+        rentalMenu.getItems().addAll(newRental, endRental);
         Menu history = new Menu("Historik");
-        MenuItem rentalHistory = new MenuItem("Uthyrnignshistorik");
-        MenuItem memberhistory = new MenuItem("Medlemsspecifik");
-        history.getItems().addAll(rentalHistory,memberhistory);
+        rentalHistory = new MenuItem("Uthyrnignshistorik");
+        memberhistory = new MenuItem("Medlemsspecifik");
+        history.getItems().addAll(rentalHistory, memberhistory);
         Menu economyMenu = new Menu("Ekonomi");
 
-        menuHeader.getMenus().addAll(startMenu,memberMenu,productMenu,rentalMenu,history,economyMenu);
-        menuHeader.setPadding(new Insets(2,10,2,200));
-    //Bottom
+        menuHeader.getMenus().addAll(startMenu, memberMenu, productMenu, rentalMenu, history, economyMenu);
+        menuHeader.setPadding(new Insets(2, 10, 2, 200));
+        //Center Welcome
+        Label mainLabel = new Label(" Välkommen, dags att börja hyra!");
+        mainLabel.setStyle("-fx-font-size: 24px");
+        Label mainUnderLabel = new Label("Det finns inget bättre arrangemang än det som skapar bestående minnen \ntill priset av en mindre prislapp och små besvär." +
+                "\n R-EV-ENT är den hjälpande handen som hyr till dig om privatperson och förening\n när ni skapar för ett oförglömligt minne, en ökad gemenskap i föreningen \n och glädje för familj med vänner." +
+                "\n Ditt nästa lyckade event börjar här. Just rent !");
+        mainUnderLabel.setStyle("-fx-font-size: 12px");
+         VBox centerBox = new VBox();
+        centerBox.setSpacing(5);
+        centerBox.setAlignment(Pos.CENTER);
+        centerBox.getChildren().addAll(mainLabel,mainUnderLabel);
+
+
+        //Bottom
         quitBtn.setText("Avsluta");
-        bottom.setPadding(new Insets(15,10,10,10));
+        bottom.setPadding(new Insets(15, 10, 10, 10));
         bottom.setAlignment(Pos.BASELINE_RIGHT);
-        bottom.getChildren().addAll(bottomLabel,quitBtn);
-        header.getChildren().addAll(topHeader,menuHeader);
-    // Layout
+        bottom.getChildren().addAll(bottomLabel, quitBtn);
+        header.getChildren().addAll(topHeader, menuHeader);
+        // Layout
         mainPane.setTop(header);
+        mainPane.setCenter(centerBox);
         mainPane.setBottom(bottom);
-    }
 
-    public Label getHeaderLabel() {
-        return headerLabel;
-    }
-    public Label getBottomLabel() {
-        return bottomLabel;
-    }
-    public Button getQuitBtn() {
-        return quitBtn;
-    }
+        // Action-i menyn
+        home.setOnAction(actionEvent -> {
 
-    public BorderPane getMainView(){
-    return mainPane;
-}
-
+        });
+          }
+        public MenuItem getHistoryMem () {
+            return historyMem;
+        }
+        public MenuItem getUpdateMem () {
+            return updateMem;
+        }
+        public MenuItem getSearchMem () {
+            return searchMem;
+        }
+        public MenuItem getNewMem () {
+            return newMem;
+        }
+        public MenuItem getHome () {
+            return home;
+        }
+        public Label getHeaderLabel () {
+            return headerLabel;
+        }
+        public Label getBottomLabel () {
+            return bottomLabel;
+        }
+        public Button getQuitBtn () {
+            return quitBtn;
+        }
+        public BorderPane getMainView () {
+            return mainPane;
+        }
+    public MenuItem getMemberhistory() {
+        return memberhistory;
+    }
+    public MenuItem getRentalHistory() {
+        return rentalHistory;
+    }
+    public MenuItem getEndRental() {
+        return endRental;
+    }
+    public MenuItem getNewRental() {
+        return newRental;
+    }
+    public MenuItem getEditProduct() {
+        return editProduct;
+    }
+    public MenuItem getNewProducts() {
+        return newProducts;
+    }
+    public MenuItem getProducts() {
+        return products;
+    }
 }
