@@ -57,8 +57,8 @@ public class MainView {
         Menu economyMenu = new Menu("Ekonomi");
 
         menuHeader.getMenus().addAll(startMenu,memberMenu,productMenu,rentalMenu,history,economyMenu);
-        menuHeader.setPadding(new Insets(2,10,2,350));
-        //Bottom
+        menuHeader.setPadding(new Insets(2,10,2,200));
+    //Bottom
         quitBtn.setText("Avsluta");
         bottom.setPadding(new Insets(15,10,10,10));
         bottom.setAlignment(Pos.BASELINE_RIGHT);
@@ -67,7 +67,6 @@ public class MainView {
     // Layout
         mainPane.setTop(header);
         mainPane.setBottom(bottom);
-
     }
 
     public Label getHeaderLabel() {
