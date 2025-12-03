@@ -30,18 +30,19 @@ public class MembershipService {
     public void addMemberList(Member member) {
         getMemberRegistry().getMemberRegistryList().add(member);
     }
+
     public List<Member> searchMemberByNameIdReturnList(String nameOrPhone) throws NullPointerException {
         List<Member> foundM = new ArrayList<>();
         for (Member m : getMemberRegistry().getMemberRegistryList()) {
             if (m.getName().contains(nameOrPhone) && m.getName().length()>3|| m.getName().equalsIgnoreCase(nameOrPhone) || m.getPhone().equals(nameOrPhone)) {
                 foundM.add(m);}}
         if (foundM.isEmpty()) { throw new NullPointerException("Hittade ingen matchande medlem.");}
-        return foundM;}
+        return foundM;} // sorterar med contains om det är mer än 3 chars och inte bara blanksteg.
 
     public Member searchMemberByNameOrPhoneReturnMember(String nameOrPhone) throws NullPointerException{
         Member foundMember = null;
         for (Member m : getMemberRegistry().getMemberRegistryList()) {
-            if (m.getName().contains(nameOrPhone)||m.getName().equalsIgnoreCase(nameOrPhone) || m.getPhone().equals(nameOrPhone)) {
+            if (m.getName().equalsIgnoreCase(nameOrPhone) || m.getPhone().equals(nameOrPhone)) {
                 foundMember = m;}
             }
         if(foundMember==null){throw new NullPointerException("Hittade ingen matchande medlem.");}
@@ -80,6 +81,7 @@ public class MembershipService {
     public void findAndUpdateMember(String nameOrId, Scanner scan){ // TODO Obs ! Finns uskrift och scanner i konsoll
         List<Member> foundMatches = searchMemberByNameIdReturnList(nameOrId);
         if(foundMatches.isEmpty()){System.out.println("Hittade ingen matchning."); return;}
+
         for(Member m : foundMatches)
         {System.out.println("Hittade "+m.getName()+" med ID: "+ m.getId()+ ".");
             System.out.println("Ska profilen uppdateras?\n -  Om felaktigt ange X ! -");
