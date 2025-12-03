@@ -27,13 +27,15 @@ public class ReventApp extends Application {
     ButtonController buttonController= new ButtonController(startView,mainView,membershipView,productView,rentalView,economyView);
     Scene start,main;
 
-
-            @Override
+    @Override
     public void start(Stage stage) throws Exception {
 
         stage.setTitle("R-EV-ENT - Re-Invent your event - Just rent!");
         //start.getStylesheets().add(getClass().getResource("/com/ahlenius/revent2/revent_style.css.txt").toExternalForm());
         //main.getStylesheets().add(getClass().getResource("/com/ahlenius/revent2/revent_style.css.txt").toExternalForm());
+        memberService.defaultList();
+        rentalService.defaultList();
+
 
         start = new Scene(startView.getStartView(),500,450);
         main = new Scene(mainView.getMainView(),800,750);

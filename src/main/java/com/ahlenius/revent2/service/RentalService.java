@@ -72,12 +72,13 @@ public class RentalService {
                 indexItem = i;}}
         return indexItem; }
 
-    public void removeItemFromList(String prod, Scanner scan) {//TODO Obs ! Finns utskfiter i konsoll
+    public void removeItemFromList(String prod, Scanner scan) {//TODO Obs ! Finns utskfiter i scanner konsoll
         List<Item> removeI = searchItemByName(prod); //listan som returneras sparas i denna lista.
-        if(removeI.isEmpty()){System.out.println("Hittade ingen matchning."); return;}
+        if(removeI.isEmpty()){System.out.println("Hittade ingen matchning."); return;} // Lägga som exception?
         for (Item item : removeI){
             System.out.println("Hittade produkten: " + item.getName() + ", " + item.getDescription() + "." +
                     " Ska produkten tas bort från listan? JA / NEJ");
+
             String removeUser = scan.nextLine();
             if (removeUser.equalsIgnoreCase("ja")){
                 getInventory().getItemsList().removeAll(removeI);
@@ -95,7 +96,7 @@ public class RentalService {
         addItemToList(item);
     }
 
-    public void printItemList(){ //TODO Obs finns utskrift i konsoll
+    public void printItemList(){ //TODO Obs finns utskrift i konsoll  Kasta vidare exception?
         if(getInventory().getItemsList().isEmpty()){System.out.println("Inga produkter att visa.");}
         for(Item item:getInventory().getItemsList()){
             System.out.println(item);
@@ -106,7 +107,7 @@ public class RentalService {
         }
     }
 
-    public void printItemGroup(String attribut){//TODO utskrift i exception
+    public void printItemGroup(String attribut){//TODO utskrift i exception, Kasta vidare upp?
         for(Item it : getInventory().getItemsList()) {
             if (it.getDescription().contains(attribut)){
                 System.out.println(it);
@@ -140,7 +141,7 @@ public class RentalService {
         return rental;
     }
     //önska antal
-    public int rentDaysChoice(Scanner scan) { // TODO Obs! Finns utskrift i konsoll.
+    public int rentDaysChoice(Scanner scan) { // TODO Obs! Finns utskrift och scanner i konsoll.
         System.out.println("Hur många dagar önskas hyra?");
         int days = scan.nextInt();
         return days;    }
@@ -162,9 +163,6 @@ public class RentalService {
         return getRentalRegistry().getRentalList().get(member).getRentalItem().getName();
     }
 
-    public void chooseDateInfo(String when){
-        System.out.println(when + " vilket datum? Skriv i formatet ÅÅÅÅ-MM-DD.");
-    }
 
     public String userChooseDate(String dateStartString){
         return dateStartString.replace(' ','-');}
@@ -183,7 +181,7 @@ public class RentalService {
         // kan man göra hela kedjan i denna metod?
     }
 
-    public void printRentalsList() {
+    public void printRentalsList() { //TODO Exception för inge uythyrningar
         if (getRentalRegistry().getRentalList().isEmpty()){System.out.println("Inga uthyrningar gjorda.");}
         for(Map.Entry<Member, Rental> entry :getRentalRegistry().getRentalList().entrySet()) {
             System.out.println(entry.getKey() + " - "+ entry.getValue());

@@ -6,7 +6,7 @@ import java.util.List;
 public class Member {
     private String id;
     private String name;
-    private String phone;  // lägg till i konstruktor och metod.
+    private String phone;
     private String memberStatus; //private eller society
     private List<Rental> historyMember = new LinkedList<>();
 
@@ -48,6 +48,6 @@ public class Member {
 
     @Override
     public String toString() {
-        return "Id-nummer:"+ this.id + ", Namn:"+ this.name +".";
+        return "Id-nummer: "+ this.id + "\nNamn: "+ this.name +"\nTelefonnummer:  "+ phone;
     }}
 
