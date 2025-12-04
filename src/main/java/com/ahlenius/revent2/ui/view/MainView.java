@@ -27,6 +27,7 @@ public class MainView {
     private MenuItem products;
     private MenuItem newProducts;
     private MenuItem editProduct;
+    private MenuItem accesibleProd;
     private MenuItem newRental;
     private MenuItem endRental;
     private MenuItem rentalHistory;
@@ -54,14 +55,15 @@ public class MainView {
         historyMem = new MenuItem("Se medlemshistorik");
         memberMenu.getItems().addAll(newMem, searchMem, updateMem, historyMem);
         Menu productMenu = new Menu("Produkter");
-        products = new MenuItem("Alla produkter");
+        products = new MenuItem("Galleri");
         newProducts = new MenuItem("Ny produkt");
         editProduct = new MenuItem("Redigera produkt");
         productMenu.getItems().addAll(products, newProducts, editProduct);
         Menu rentalMenu = new Menu("Uthyrning");
+        accesibleProd = new MenuItem("Aktuella produkter");
         newRental = new MenuItem("Ny uthyrning");
         endRental = new MenuItem("Avsluta uthyrning");
-        rentalMenu.getItems().addAll(newRental, endRental);
+        rentalMenu.getItems().addAll(accesibleProd,newRental, endRental);
         Menu history = new Menu("Historik");
         rentalHistory = new MenuItem("Uthyrnignshistorik");
         memberhistory = new MenuItem("Medlemsspecifik");
@@ -87,6 +89,7 @@ public class MainView {
         quitBtn.setText("Avsluta");
         bottom.setPadding(new Insets(15, 10, 10, 10));
         bottom.setAlignment(Pos.BASELINE_RIGHT);
+        bottom.setPrefHeight(50);
         bottom.getChildren().addAll(bottomLabel, quitBtn);
         header.getChildren().addAll(topHeader, menuHeader);
         // Layout
@@ -96,7 +99,7 @@ public class MainView {
 
         // Action-i menyn
         home.setOnAction(actionEvent -> {
-
+            mainPane.setCenter(centerBox);
         });
           }
         public MenuItem getHistoryMem () {
@@ -146,5 +149,8 @@ public class MainView {
     }
     public MenuItem getProducts() {
         return products;
+    }
+    public MenuItem getAccesibleProd() {
+        return accesibleProd;
     }
 }

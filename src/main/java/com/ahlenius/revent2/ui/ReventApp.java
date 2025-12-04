@@ -31,14 +31,14 @@ public class ReventApp extends Application {
     public void start(Stage stage) throws Exception {
 
         stage.setTitle("R-EV-ENT - Re-Invent your event - Just rent!");
-        //start.getStylesheets().add(getClass().getResource("/com/ahlenius/revent2/revent_style.css.txt").toExternalForm());
-        //main.getStylesheets().add(getClass().getResource("/com/ahlenius/revent2/revent_style.css.txt").toExternalForm());
         memberService.defaultList();
         rentalService.defaultList();
 
 
         start = new Scene(startView.getStartView(),500,450);
         main = new Scene(mainView.getMainView(),800,750);
+       start.getStylesheets().add("/com/ahlenius/revent2/revent_style.css");
+       main.getStylesheets().add("/com/ahlenius/revent2/revent_style.css");
         stage.setScene(start);
         stage.show();
 

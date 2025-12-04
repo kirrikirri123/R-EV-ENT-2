@@ -1,15 +1,11 @@
 package com.ahlenius.revent2.ui.view;
 
-import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
-import javafx.scene.paint.Color;
-import javafx.scene.shape.Rectangle;
 
 public class StartView {
     // Startsidan. Bild, länk till Huvudsidan och kanske en timer som automatiskt skickar en till huduvsidan efter 10 sekunder.
@@ -25,7 +21,6 @@ public class StartView {
         flowPane.setAlignment(Pos.CENTER);
         Image image = new Image(getClass().getResourceAsStream("/com/ahlenius/revent2/icon_small.png")); // vad gör man om de är NUll! Hantera!
         imageStart = new ImageView(image);
-        Rectangle rectangle = new Rectangle(250,250);
         flowPane.getChildren().addAll(imageStart);
         HBox hboxBottom = new HBox();
         hboxBottom.setAlignment(Pos.CENTER);
