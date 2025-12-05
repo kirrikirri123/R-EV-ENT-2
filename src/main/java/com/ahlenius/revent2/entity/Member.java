@@ -6,13 +6,15 @@ import java.util.List;
 public class Member {
     private String id;
     private String name;
+    private String phone;
     private String memberStatus; //private eller society
     private List<Rental> historyMember = new LinkedList<>();
 
     public Member (){}
-    public Member (String id, String name, String memberStatus) {
+    public Member (String id, String name,String phone, String memberStatus) {
         this.id = id;
         this.name = name;
+        this.phone = phone;
         this.memberStatus = memberStatus;
     }
 
@@ -37,9 +39,15 @@ public class Member {
     public List<Rental> getHistoryMember() {
         return historyMember;
     }
+    public String getPhone() {
+        return phone;
+    }
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
 
     @Override
     public String toString() {
-        return "Id-nummer:"+ this.id + ", Namn:"+ this.name +".";
+        return "Id-nummer: "+ this.id + "\nNamn: "+ this.name +"\nTelefonnummer:  "+ phone;
     }}
 

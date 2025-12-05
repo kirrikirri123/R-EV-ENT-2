@@ -24,7 +24,7 @@ public class ButtonController {
         // Medlemsknappar i meny.
         mainView.getNewMem().setOnAction(actionEvent -> {
             mainView.getMainView().setCenter(membershipView.getMemberPane());
-            membershipView.getMemberPane().setCenter(membershipView.getNewMemPane());
+            membershipView.getMemberPane().setCenter(membershipView.getGridPaneNewMem());
         });
 
         mainView.getHistoryMem().setOnAction(actionEvent -> {
@@ -58,12 +58,6 @@ public class ButtonController {
             productView.getProductPane().setCenter(productView.getNewProdPane());
             });
 
-        // Uthyrningsknappar i meny
-
-
-
-
-
-    }
+            }
 
 }
