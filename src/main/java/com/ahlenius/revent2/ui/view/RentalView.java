@@ -60,6 +60,7 @@ public class RentalView {
     // Ny uthyrning
         Label headerNewRental = new Label("Ny uthyrning");
         newRentalBox.setAlignment(Pos.CENTER);
+        newRentalBox.setSpacing(10);
         Label confrimationText = new Label();
         GridPane newRentalPane= new GridPane();
         Label memName = new Label("Namn på hyrande medlem: ");
@@ -71,7 +72,7 @@ public class RentalView {
         ComboBox<Item> availableItem = new ComboBox<>(rentalService.getInventory().getItemsObsList());
         availableItem.setMaxWidth(250);
         TextField fromDateField = new TextField();
-        fromDateField.setPromptText("2025-12-01");
+        fromDateField.setPromptText("Använd format: ÅÅÅÅ-MM-DD");
         fromDateField.setMaxWidth(125);
         newRentalPane.add(memName,0,0);
         newRentalPane.add(rentalmemField,1,0);
