@@ -46,6 +46,7 @@ public class ButtonController {
         // Produktknappar i meny
         mainView.getProducts().setOnAction(actionEvent -> {
             mainView.getMainView().setCenter(productView.getProductPane());
+            productView.getProductPane().setCenter(productView.getItemView());
              });
 
         mainView.getEditProduct().setOnAction(actionEvent -> {
@@ -55,7 +56,7 @@ public class ButtonController {
 
         mainView.getNewProducts().setOnAction(actionEvent -> {
             mainView.getMainView().setCenter(productView.getProductPane());
-            productView.getProductPane().setCenter(productView.getNewProdPane());
+            productView.getProductPane().setCenter(productView.getNewProdBox());
             });
 
             }

@@ -37,8 +37,7 @@
    Buttons
    ======================= */
 .button {
-    -fx-background-radius: 6;
-    -fx-text-fill: white;
+    -fx-text-fill: black;
     -fx-font-weight: bold;
 }
 
@@ -65,7 +64,7 @@
 }
 .button.alt:hover {
     -fx-background-color: #B4765A;
-    -fx-text-fill: white;
+    -fx-text-fill: black;
 }
 
 /* =======================

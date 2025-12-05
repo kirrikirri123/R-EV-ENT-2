@@ -36,14 +36,14 @@ public class RentalService {
     public void addItemToList(Item item) {
         getInventory().getItemsList().add(item);
     }
-        public List<Item> searchItemByName(String prod) {
+    public List<Item> searchItemByName(String prod) {
         List<Item> foundI = new ArrayList<>();
         for (Item i : getInventory().getItemsList()) {
             if (i.getName().equalsIgnoreCase(prod)) {
                 foundI.add(i);} }
         return foundI;
     }
-    public Item searchItemByNameReturnItem(String prod) { // TODO Obs! Utskrift i konsoll
+    public Item searchItemByNameReturnItem(String prod) {
         Item foundItem = null;
         for (Item it : getInventory().getItemsList()) {
             if (it.getName().equalsIgnoreCase(prod)) {
