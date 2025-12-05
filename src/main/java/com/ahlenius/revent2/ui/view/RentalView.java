@@ -73,7 +73,7 @@ public class RentalView {
         availableItem.setMaxWidth(250);
         TextField fromDateField = new TextField();
         fromDateField.setPromptText("Använd format: ÅÅÅÅ-MM-DD");
-        fromDateField.setMaxWidth(125);
+        fromDateField.setMaxWidth(250);
         newRentalPane.add(memName,0,0);
         newRentalPane.add(rentalmemField,1,0);
         newRentalPane.add(rentalProd,0,2);
@@ -113,6 +113,9 @@ public class RentalView {
         });
 
     // Knappar Funktioner
+        OKBTN.setOnAction(actionEvent -> {
+
+        });
 
 
     // Layout RentalPane

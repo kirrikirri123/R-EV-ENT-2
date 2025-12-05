@@ -114,11 +114,10 @@ public class ProductView {
         Label prodDescript = new Label("Beskrivning ");
         TextField prodDescriptField = new TextField();
         prodDescriptField.setPromptText("tex. Lurvig svart varg med löstagbar svans");
-        prodDescriptField.setMaxWidth(450);
         Label dayPrice = new Label("Dagspris i sek ");
         TextField dayPriceField= new TextField();
         dayPriceField.setPromptText("tex. 750");
-        dayPriceField.setMaxWidth(50);
+        dayPriceField.setMaxWidth(250);
         GridPane newProdPane =new GridPane();
         newProdPane.add(itemTypeL,0,0);
         newProdPane.add(itemTypeCombo,2,0);

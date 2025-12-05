@@ -19,7 +19,7 @@ public class BouncyCastle extends Item {
     }
     @Override
     public String toString(){
-        return "Produkt: "+ this.name + "."+ this.description + ".";
+        return this.name.getValue() + " - "+ this.description.getValue() + ".";
     }}
 
 
