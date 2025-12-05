@@ -125,7 +125,6 @@ public class ProductView {
         newProdPane.add(prodDescriptField,2,2);
         newProdPane.add(dayPrice,0,3);
         newProdPane.add(dayPriceField,2,3);
-        double day = Double.parseDouble(dayPriceField.getText());
         newProdPane.add(OKBTN,3,4);
         newProdPane.add(confrimationText,1,5);
         newProdPane.add(exceptionInfo,1,6);
@@ -171,7 +170,7 @@ public class ProductView {
         // Knappar funktion
 
         OKBTN.setOnAction(actionEvent -> {
-            try{
+            try{  double day = Double.parseDouble(dayPriceField.getText());
                 if(itemTypeCombo.getItems().toString().equals(costume)){rentalService.newMascotItem(prodNameField.getText(),prodDescriptField.getText(),day,"Året runt");}
                 if(itemTypeCombo.getItems().toString().equals(bouncyC)){rentalService.newBouncyItem(prodNameField.getText(),prodDescriptField.getText(),day,false);}
 
