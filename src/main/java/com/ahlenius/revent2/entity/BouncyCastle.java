@@ -1,7 +1,7 @@
 package com.ahlenius.revent2.entity;
 
 public class BouncyCastle extends Item {
-    private boolean indoorUse;
+    private boolean indoorUse; // se om detta stör ObservableList
 
 
     public BouncyCastle(){}

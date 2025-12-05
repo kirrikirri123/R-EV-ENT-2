@@ -1,7 +1,7 @@
 package com.ahlenius.revent2.entity;
 
 public class MascotCostume extends Item {
-    private String season;
+    private String season; // se om detta stör ObservableList
 
 
     public MascotCostume(){}

@@ -1,34 +1,39 @@
 package com.ahlenius.revent2.entity;
 
+import javafx.beans.property.SimpleDoubleProperty;
+import javafx.beans.property.SimpleStringProperty;
+
+
 public class Item {
-    protected String name;
-    protected String description;
-    protected double dayPrice;
+    protected SimpleStringProperty name= new SimpleStringProperty();
+    protected SimpleStringProperty description = new SimpleStringProperty();
+    protected SimpleDoubleProperty dayPrice= new SimpleDoubleProperty();
 
 
     public Item (){}
     public Item(String name,String description,double day){
-        this.name = name;
-        this.description = description;
-        this.dayPrice = day;}
+        this.name.set(name);
+        this.description.set(description);
+        this.dayPrice.set(day);
+    }
 
     public String getName() {
-        return name;
+        return name.get();
     }
     public void setName(String name) {
-        this.name = name;
+        this.name.set(name);
     }
     public String getDescription() {
-        return description;
+        return description.get();
     }
     public void setDescription(String description) {
-        this.description = description;
+        this.description.set(description);
     }
     public double getDayPrice() {
-        return dayPrice;
+        return dayPrice.get();
     }
     public void setDayPrice(double dayPrice) {
-        this.dayPrice = dayPrice;
+        this.dayPrice.set(dayPrice);
     }
 
 }
