@@ -34,7 +34,7 @@ public class ReventApp extends Application {
     public void start(Stage stage) throws Exception {
 
         stage.setTitle("R-EV-ENT - Re-Invent your event - Just rent!");
-        memberService.defaultList();
+
         rentalService.defaultList();
 
 
