@@ -5,6 +5,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableSet;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 public class MemberRegistry {
@@ -19,6 +20,21 @@ public class MemberRegistry {
     public ObservableSet<Member> getMemberRegObsList() {
         return memberRegObsList;
     }
+
+    public void add(Member member){
+        memberRegistryList.add(member);
+        memberRegObsList.add(member);
+    }
+    public void remove(Member member){
+        memberRegistryList.remove(member);
+        memberRegObsList.remove(member);
+    }
+
+    public void addList(List<Member> tempMember){
+        memberRegistryList.addAll(tempMember);
+        memberRegObsList.addAll(tempMember);
+    }
+
 }
 
 

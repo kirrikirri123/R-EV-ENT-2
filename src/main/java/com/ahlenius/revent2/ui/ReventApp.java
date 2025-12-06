@@ -10,6 +10,8 @@ import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
+import java.io.IOException;
+
 public class ReventApp extends Application {
     Inventory inventory = new Inventory();
     MemberRegistry memberRegistry = new MemberRegistry();
@@ -47,10 +49,12 @@ public class ReventApp extends Application {
         mainView.getQuitBtn().setOnAction(actionEvent -> {
             stage.close();
         });
-         startView.getImageStart().setOnMouseClicked(mouseEvent -> {
-         startView.getBottomLabel().setText("Du klickade!");
+         startView.getImageStart().setOnMouseClicked(mouseEvent -> { // Flytta denna till buttoncontroller?
          changeScene(stage,main);
-          });
+             try {
+                 memberService.loadJsonToArrayList();
+             } catch (IOException e) {System.out.println("Fel vid synkning från Json-fil.");             }
+         });
 
           }
     public void changeScene(Stage stage,Scene scene){

@@ -1,0 +1,37 @@
+[ {
+  "id" : "112",
+  "name" : "Pelle Polis",
+  "phone" : "090669966",
+  "memberStatus" : "Privat",
+  "historyMember" : [ ]
+}, {
+  "id" : "970517",
+  "name" : "Kickan Knäppsson",
+  "phone" : "091077993",
+  "memberStatus" : "Privat",
+  "historyMember" : [ ]
+}, {
+  "id" : "123",
+  "name" : "Björn Varg",
+  "phone" : "095037417",
+  "memberStatus" : "Privat",
+  "historyMember" : [ ]
+}, {
+  "id" : "1",
+  "name" : "Marta Mus",
+  "phone" : "0950-10832",
+  "memberStatus" : "Privat",
+  "historyMember" : [ ]
+}, {
+  "id" : "123456",
+  "name" : "Ersboda Pingisföreningsklubb",
+  "phone" : "0950-12363",
+  "memberStatus" : "Förening",
+  "historyMember" : [ ]
+}, {
+  "id" : "920618",
+  "name" : "Kickan Karlsson",
+  "phone" : "095014841",
+  "memberStatus" : "Privat",
+  "historyMember" : [ ]
+} ]

@@ -1,6 +1,7 @@
 package com.ahlenius.revent2.repository;
 
 import com.ahlenius.revent2.entity.Item;
+import com.ahlenius.revent2.entity.Member;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
@@ -30,6 +31,10 @@ public class Inventory {
         itemList.remove(item);
         itemsObsList.remove(item);
      }
+    public void addList(List<Item> tempItems){
+        itemList.addAll(tempItems);
+        itemsObsList.addAll(tempItems);
+    }
 
 
 }
