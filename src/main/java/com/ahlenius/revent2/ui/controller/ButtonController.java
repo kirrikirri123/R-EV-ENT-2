@@ -4,21 +4,23 @@ import com.ahlenius.revent2.ui.view.*;
 
 public class ButtonController {
     // Här försöker vi lägga actions för knappar.
-    StartView startView = new StartView();
-    MainView mainView = new MainView();
-    MembershipView membershipView = new MembershipView();
-    ProductView productView = new ProductView();
-    RentalView rentalView = new RentalView();
-    EconomyView economyView = new EconomyView();
+    private StartView startView = new StartView();
+    private MainView mainView = new MainView();
+    private MembershipView membershipView = new MembershipView();
+    private ProductView productView = new ProductView();
+    private RentalView rentalView = new RentalView();
+    private EconomyView economyView = new EconomyView();
+    private HistoryView historyView = new HistoryView();
 
 
-    public ButtonController(StartView startView, MainView mainview, MembershipView membershipView,ProductView productView,RentalView rentalView,EconomyView economyView) {
+    public ButtonController(StartView startView, MainView mainview, MembershipView membershipView,ProductView productView,RentalView rentalView,EconomyView economyView,HistoryView historyView) {
         this.startView = startView;
         this.mainView = mainview;
         this.membershipView = membershipView;
         this.productView = productView;
         this.rentalView = rentalView;
         this.economyView = economyView;
+        this.historyView = new HistoryView();
 
 
         // Medlemsknappar i meny.
@@ -47,18 +49,42 @@ public class ButtonController {
         mainView.getProducts().setOnAction(actionEvent -> {
             mainView.getMainView().setCenter(productView.getProductPane());
             productView.getProductPane().setCenter(productView.getItemView());
-             });
+        });
 
         mainView.getEditProduct().setOnAction(actionEvent -> {
             mainView.getMainView().setCenter(productView.getProductPane());
             productView.getProductPane().setCenter(productView.getUpdateProdPane());
-            });
+        });
 
         mainView.getNewProducts().setOnAction(actionEvent -> {
             mainView.getMainView().setCenter(productView.getProductPane());
             productView.getProductPane().setCenter(productView.getNewProdBox());
-            });
+        });
 
-            }
+        // Uthyrningsknappar i meny
+        mainView.getAccesibleProd().setOnAction(actionEvent -> {
+                    mainView.getMainView().setCenter(rentalView.getRentalPane());
+                    rentalView.getRentalPane().setCenter(rentalView.getProdViewBox());
+                });
+        mainView.getNewRental().setOnAction(actionEvent -> {
+            mainView.getMainView().setCenter(rentalView.getRentalPane());
+            rentalView.getRentalPane().setCenter(rentalView.getNewRentalBox());
+        });
+        mainView.getEndRental().setOnAction(actionEvent -> {
+            mainView.getMainView().setCenter(rentalView.getRentalPane());
+            rentalView.getRentalPane().setCenter(rentalView.getEndRentalBox());
+        });
+        // Historyknappar i meny
+        mainView.getRentalHistory().setOnAction(actionEvent -> {
+            mainView.getMainView().setCenter(historyView.getHistoryPane());
+            historyView.getHistoryPane().setCenter(historyView.getHistoryViewBox());
+        });
+        mainView.getMemberhistory().setOnAction(actionEvent -> {
+            mainView.getMainView().setCenter(historyView.getHistoryPane());
+            historyView.getHistoryPane().setCenter(historyView.getMemberHistoryBox());
+        });
 
+
+
+    }
 }

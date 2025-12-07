@@ -4,7 +4,6 @@ import com.ahlenius.revent2.entity.Member;
 import com.ahlenius.revent2.entity.Rental;
 import com.ahlenius.revent2.exceptions.*;
 import com.ahlenius.revent2.service.MembershipService;
-import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
