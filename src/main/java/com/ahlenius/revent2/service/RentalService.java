@@ -34,18 +34,18 @@ public class RentalService {
     // _______________________________________________________________________
 // Produkt metoder
     public void addItemToList(Item item) {
-        getInventory().getItemsList().add(item);
+        getInventory().add(item);
     }
     public List<Item> searchItemByName(String prod) {
         List<Item> foundI = new ArrayList<>();
-        for (Item i : getInventory().getItemsList()) {
+        for (Item i : getInventory().getItemList()) {
             if (i.getName().equalsIgnoreCase(prod)) {
                 foundI.add(i);} }
         return foundI;
     }
     public Item searchItemByNameReturnItem(String prod) {
         Item foundItem = null;
-        for (Item it : getInventory().getItemsList()) {
+        for (Item it : getInventory().getItemList()) {
             if (it.getName().equalsIgnoreCase(prod)) {
                 foundItem = it;
             }
@@ -67,12 +67,12 @@ public class RentalService {
 
     public int searchItemGetListIndex(String prod){
         int indexItem=0;
-        for(int i = 0; i < getInventory().getItemsList().size();i++){
-            if(getInventory().getItemsList().get(i).getName().equalsIgnoreCase(prod)){
+        for(int i = 0; i < getInventory().getItemList().size();i++){
+            if(getInventory().getItemList().get(i).getName().equalsIgnoreCase(prod)){
                 indexItem = i;}}
         return indexItem; }
 
-    public void removeItemFromList(String prod, Scanner scan) {//TODO Obs ! Finns utskfiter i scanner konsoll
+    public void removeItemFromList(String prod, Scanner scan) {//TODO Obs ! Finns utskfiter i scanner konsoll. Gör om till flera metoder. En sök. En validering. En Remove. En bekröfta Remove.
         List<Item> removeI = searchItemByName(prod); //listan som returneras sparas i denna lista.
         if(removeI.isEmpty()){System.out.println("Hittade ingen matchning."); return;} // Lägga som exception?
         for (Item item : removeI){
@@ -81,7 +81,7 @@ public class RentalService {
 
             String removeUser = scan.nextLine();
             if (removeUser.equalsIgnoreCase("ja")){
-                getInventory().getItemsList().removeAll(removeI);
+                getInventory().getItemList().removeAll(removeI); // använd getInventory.remove();
                 System.out.println(" Produkt borttagen.");}
             System.out.println(" Se aktuell lista:");printItemList();
         }}
@@ -96,9 +96,9 @@ public class RentalService {
         addItemToList(item);
     }
 
-    public void printItemList(){ //TODO Obs finns utskrift i konsoll  Kasta vidare exception?
-        if(getInventory().getItemsList().isEmpty()){System.out.println("Inga produkter att visa.");}
-        for(Item item:getInventory().getItemsList()){
+    public void printItemList(){ //TODO Obs finns utskrift i konsoll  Kasta vidare exception? Hur använda denna i JavaFX?
+        if(getInventory().getItemList().isEmpty()){System.out.println("Inga produkter att visa.");}
+        for(Item item:getInventory().getItemList()){
             System.out.println(item);
             try{
                 TimeUnit.MILLISECONDS.sleep(500);
@@ -107,14 +107,6 @@ public class RentalService {
         }
     }
 
-    public void printItemGroup(String attribut){//TODO utskrift i exception, Kasta vidare upp?
-        for(Item it : getInventory().getItemsList()) {
-            if (it.getDescription().contains(attribut)){
-                System.out.println(it);
-                try{TimeUnit.MILLISECONDS.sleep(500);
-                } catch (InterruptedException e) {System.out.println("Utskriften avbröts. Prova igen lite senare.");
-                }}}
-    }
 
     public void defaultList() { // För testning.
         newBouncyItem("Kungliga slottet"," Stor hoppborg,för max 15 barn",1000, false);
@@ -131,8 +123,8 @@ public class RentalService {
         LocalDate datetOfRent = LocalDate.parse(YYYYMMDD, styleDate);
         return datetOfRent;    }
 
-    public Rental newRental(Item rentalItem, int rentDays, String startOfRent) { // Datum YYYY-MM-DD
-        Rental rental = new Rental(rentalItem, rentDays, startOfRent);
+    public Rental newRental(Member memberRenting, Item rentalItem, int rentDays, String startOfRent) { // Datum YYYY-MM-DD
+        Rental rental = new Rental(memberRenting,rentalItem, rentDays, startOfRent);
         return rental;
     }
 

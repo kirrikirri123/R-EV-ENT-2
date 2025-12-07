@@ -5,6 +5,7 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 
 public class Rental {    // Proffstipset var att lägga ett member objekt i fält också. Varför inte gjort det??
+    private Member memberRenting;
     private Item rentalItem;
     private int rentDays;
     private LocalDate startOfRent;
@@ -13,7 +14,8 @@ public class Rental {    // Proffstipset var att lägga ett member objekt i fäl
     public Rental() {
     }
 
-    public Rental(Item rentalItem, int rentDays, String startOfRent) {
+    public Rental(Member memberRenting,Item rentalItem, int rentDays, String startOfRent) {
+        this.memberRenting = memberRenting;
         this.rentalItem = rentalItem;
         this.rentDays = rentDays;
         this.startOfRent = createDateOfRent(startOfRent);

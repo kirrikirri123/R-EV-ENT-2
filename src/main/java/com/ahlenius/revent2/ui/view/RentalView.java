@@ -1,12 +1,18 @@
 package com.ahlenius.revent2.ui.view;
 
+import com.ahlenius.revent2.entity.Item;
 import com.ahlenius.revent2.service.RentalService;
+import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
+import javafx.util.Callback;
 
 public class RentalView {
     //Här hanteras bokning och återlämning
@@ -35,8 +41,19 @@ public class RentalView {
 
     // Aktuella produkter. TabelPane
         Label headerViewProd = new Label("Aktuella produkter för uthyrning:");
+        TableView<Item> itemListTableView = new TableView<>();
+        itemListTableView.setItems(rentalService.getInventory().getItemsObsList());
+        TableColumn<Item,String> prodNameCol = new TableColumn<Item,String>("Produktnamn");
+        prodNameCol.setCellValueFactory(new PropertyValueFactory<>("name"));
+        TableColumn<Item,String> prodDescriptCol = new TableColumn<>("Info");
+        prodDescriptCol.setCellValueFactory(new PropertyValueFactory<>("description"));
+        TableColumn<Item,String> dayPriceCol = new TableColumn<>("Dagspris i SEK. ex.moms");
+        dayPriceCol.setCellValueFactory(new PropertyValueFactory<>("dayPrice"));
+        itemListTableView.getColumns().setAll(prodNameCol,prodDescriptCol,dayPriceCol);
 
-        prodViewBox.getChildren().addAll(headerViewProd);
+        prodViewBox.getChildren().addAll(headerViewProd,itemListTableView);
+        prodViewBox.setSpacing(15);
+        prodViewBox.setPadding(new Insets(25,10,10,10));
 
     // Ny uthyrning
         Label headerNewRental = new Label("Ny uthyrning");
@@ -53,6 +70,7 @@ public class RentalView {
     // Knappar Layout
 
         viewProd.setOnAction(actionEvent -> {
+            itemListTableView.refresh();
             rentalPane.setCenter(prodViewBox);
         });
         newRental.setOnAction(actionEvent -> {
