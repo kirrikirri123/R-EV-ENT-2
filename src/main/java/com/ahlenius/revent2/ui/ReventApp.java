@@ -52,8 +52,9 @@ public class ReventApp extends Application {
          startView.getImageStart().setOnMouseClicked(mouseEvent -> { // Flytta denna till buttoncontroller?
          changeScene(stage,main);
              try {
-                 memberService.loadJsonToArrayList();
-             } catch (IOException e) {System.out.println("Fel vid synkning från Json-fil.");             }
+                 memberService.loadJsonToArrayList(); // Skulle man haft ett interface som "hanterar" Json??
+                 rentalService.loadJsonToArrayList();
+             } catch (IOException e) {System.out.println("Fel vid synkning från Json-fil."+ e.getMessage());             }
          });
 
           }

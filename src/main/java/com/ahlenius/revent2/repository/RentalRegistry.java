@@ -1,23 +1,44 @@
 package com.ahlenius.revent2.repository;
 
-import com.ahlenius.revent2.entity.Member;
 import com.ahlenius.revent2.entity.Rental;
 import javafx.collections.FXCollections;
-import javafx.collections.ObservableMap;
+import javafx.collections.ObservableList;
 
-import java.util.HashMap;
+import java.util.ArrayList;
+
 import java.util.List;
-import java.util.Observable;
+
 
 public class RentalRegistry {
-    private HashMap<Member, List<Rental>> rentalList = new HashMap<Member, List<Rental>>();// borde ändras till <Member,List<Rental> .med Rentalobjekts lista som värde så kan samma medlem hyra flera saker.
-    private ObservableMap<Member, List<Rental>> rentalObsList = FXCollections.observableHashMap();
+    private List<Rental> rentalList = new ArrayList<>();
+    private ObservableList<Rental> rentalObsList = FXCollections.observableArrayList();
 
 
     public RentalRegistry(){}
 
-    public HashMap<Member,List<Rental>> getRentalList() {
+    public List<Rental> getRentalList() {
         return rentalList;
-    }}
+    }
+
+    public ObservableList<Rental> getRentalObsList(){
+     return rentalObsList;
+    }
+
+    public void add(Rental rental){
+        rentalList.add(rental);
+        rentalObsList.add(rental);
+    }
+    public void remove(Rental rental){
+        rentalList.remove(rental);
+        rentalObsList.remove(rental);
+    }
+
+    public void addList(List<Rental> tempRental){
+        rentalList.addAll(tempRental);
+        rentalObsList.addAll(tempRental);
+    }
+
+
+}
 
 

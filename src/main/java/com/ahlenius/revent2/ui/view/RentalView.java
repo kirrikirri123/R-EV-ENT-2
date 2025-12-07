@@ -95,7 +95,7 @@ public class RentalView {
         endRentalBox.setSpacing(10);
         Label rentalChoice = new Label("Välj hyrande medlem: ");
         ComboBox<String> memberComboBox =new ComboBox<>();
-        memberComboBox.getItems().addAll("Kalle","Stina","Olle");
+        memberComboBox.getItems().addAll("Ettan","Tvåan");
         Button confirmMem = new Button("Välj medlem");
         endRentalBox.getChildren().addAll(headerCloseRental,rentalChoice,memberComboBox,confirmMem);
 

@@ -1,53 +1,59 @@
 package com.ahlenius.revent2.entity;
 
+import javafx.beans.property.SimpleStringProperty;
+
 import java.util.LinkedList;
 import java.util.List;
 
 public class Member {
-    private String id;
-    private String name;
-    private String phone;
-    private String memberStatus; //private eller society
+    private SimpleStringProperty id = new SimpleStringProperty();
+    private SimpleStringProperty name= new SimpleStringProperty();
+    private SimpleStringProperty phone= new SimpleStringProperty();
+    private SimpleStringProperty memberStatus= new SimpleStringProperty(); //private eller society
     private List<Rental> historyMember = new LinkedList<>();
 
     public Member (){}
     public Member (String id, String name,String phone, String memberStatus) {
-        this.id = id;
-        this.name = name;
-        this.phone = phone;
-        this.memberStatus = memberStatus;
+        this.id.set(id);
+        this.name.set(name);
+        this.phone.set(phone);
+        this.memberStatus.set(memberStatus);
     }
 
     public String getId() {
-        return id;
+        return id.get();
     }
+
     public void setId(String id) {
-        this.id = id;
+        this.id.set(id);
     }
     public String getName() {
-        return name;
+        return name.get();
     }
+
     public void setName(String name) {
-        this.name = name;
+        this.name.set(name);
     }
+
     public String getMemberStatus() {
-        return memberStatus;
+        return memberStatus.get();
     }
+
     public void setMemberStatus(String memberStatus) {
-        this.memberStatus = memberStatus;
+        this.memberStatus.set(memberStatus);
     }
     public List<Rental> getHistoryMember() {
         return historyMember;
     }
     public String getPhone() {
-        return phone;
+        return phone.get();
     }
     public void setPhone(String phone) {
-        this.phone = phone;
+        this.phone.set(phone);
     }
 
     @Override
     public String toString() {
-        return "Id-nummer: "+ this.id + "\nNamn: "+ this.name +"\nTelefonnummer:  "+ phone;
+        return "Id-nummer: "+ this.id.getValue() + "\nNamn: "+ this.name.getValue() +"\nTelefonnummer:  "+ phone.getValue();
     }}
 

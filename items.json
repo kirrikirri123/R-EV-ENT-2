@@ -1,0 +1,26 @@
+[ {
+  "name" : "Kungliga slottet",
+  "description" : " Stor hoppborg,för max 15 barn",
+  "dayPrice" : 1000.0,
+  "indoorUse" : false
+}, {
+  "name" : "Slott",
+  "description" : " Liten hoppborg, för max 7 barn",
+  "dayPrice" : 450.0,
+  "indoorUse" : true
+}, {
+  "name" : "UltimateXtreme",
+  "description" : " Maxad hoppupplevelse, för max 8 vuxna",
+  "dayPrice" : 3500.0,
+  "indoorUse" : false
+}, {
+  "name" : "Nallebjörn",
+  "description" : " Kramgo, lurvig brunbjörndräkt",
+  "dayPrice" : 200.0,
+  "season" : "Året om"
+}, {
+  "name" : "Tomten",
+  "description" : " Premium tomtedräkt. Kvalitetskläder naturligt skägg. Inga skor medföljer.",
+  "dayPrice" : 1000.0,
+  "season" : "Jul"
+} ]

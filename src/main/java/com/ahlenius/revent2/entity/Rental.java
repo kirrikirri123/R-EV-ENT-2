@@ -1,57 +1,67 @@
 package com.ahlenius.revent2.entity;
 
+import javafx.beans.property.SimpleBooleanProperty;
+import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.property.SimpleObjectProperty;
+
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 
-public class Rental {    // Proffstipset var att lägga ett member objekt i fält också. Varför inte gjort det??
-    private Member memberRenting;
-    private Item rentalItem;
-    private int rentDays;
-    private LocalDate startOfRent;
-    private boolean returned;
+public class Rental {
+    private SimpleObjectProperty<Member> rentingMember;
+    private SimpleObjectProperty<Item> rentalItem;
+    private SimpleIntegerProperty rentDays = new SimpleIntegerProperty();
+    private SimpleObjectProperty<LocalDate> startOfRent;
+    private SimpleBooleanProperty returned = new SimpleBooleanProperty();
 
     public Rental() {
     }
 
-    public Rental(Member memberRenting,Item rentalItem, int rentDays, String startOfRent) {
-        this.memberRenting = memberRenting;
-        this.rentalItem = rentalItem;
-        this.rentDays = rentDays;
-        this.startOfRent = createDateOfRent(startOfRent);
-        this.returned = false;
+    public Rental(Member rentingMember,Item rentalItem, int rentDays, String startOfRent) {
+        this.rentingMember.set(rentingMember);
+        this.rentalItem.set(rentalItem);
+        this.rentDays.set(rentDays);
+        this.startOfRent.set(createDateOfRent(startOfRent));
+        this.returned.set(false);
     }
 
-    public Rental(Item rentalItem, int rentDays) {
-        this.rentalItem = rentalItem;
-        this.rentDays = rentDays;
-        this.startOfRent = LocalDate.now();
-        this.returned = false;
+    public Rental(Member rentingMember,Item rentalItem, int rentDays) {
+        this.rentingMember.set(rentingMember);
+        this.rentalItem.set(rentalItem);
+        this.rentDays.set(rentDays);
+        this.startOfRent.set(LocalDate.now());
+        this.returned.set(false);
     }
 
     public int getRentDays(){
-        return rentDays;
+        return rentDays.get();
     }
 
     public void setRentDays(int rentDays) {
-        this.rentDays = rentDays;
+        this.rentDays.set(rentDays);
     }
-
     public void setRentalItem(Item rentalItem) {
-        this.rentalItem = rentalItem;
+        this.rentalItem.set(rentalItem);
     }
-
     public Item getRentalItem() {
-        return rentalItem;
+        return rentalItem.get();
     }
     public LocalDate getStartOfRent(){
-        return startOfRent;
+        return startOfRent.get();
     }
     public void setReturned(boolean returned){
-        this.returned= returned;
+        this.returned.set(returned);
     }
     public boolean isReturned(){
-        return returned;
+        return returned.get();
+    }
+
+    public Member getRentingMember() {
+        return rentingMember.get();
+    }
+    public void setRentingMember(Member rentingMember) {
+        this.rentingMember.set(rentingMember);
     }
 
     //_____________________________________________________________________________________
@@ -63,7 +73,7 @@ public class Rental {    // Proffstipset var att lägga ett member objekt i fäl
 
     @Override
     public String toString() {
-        return " Hyresobjekt: " + this.rentalItem.getName() + ". Hyrestid i dagar: " + this.rentDays+". Datum för hyresstart: "+ this.startOfRent + " Återlämnad ? "+ this.returned;
+        return " Hyresobjekt: " + this.rentalItem.getName() + ". Hyrestid i dagar: " + this.rentDays.getValue()+". Datum för hyresstart: "+ this.startOfRent.getValue() + " Återlämnad ? "+ this.returned.getValue();
 
     }
 }
