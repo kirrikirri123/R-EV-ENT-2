@@ -104,6 +104,7 @@ public class ProductView {
         newProd = new Button("Ny produkt");
         Label prodName = new Label("Produktnamn ");
         TextField prodNameField = new TextField();
+        prodNameField.setPromptText("Stora stygga vargen");
         prodNameField.setMaxWidth(250);
         ComboBox<String> itemTypeCombo = new ComboBox<>();
         Label itemTypeL = new Label("Vilken typ av produkt?");
@@ -112,10 +113,11 @@ public class ProductView {
         itemTypeCombo.getItems().addAll(costume,bouncyC);
         Label prodDescript = new Label("Beskrivning ");
         TextField prodDescriptField = new TextField();
-        prodDescriptField.setMaxWidth(450);
+        prodDescriptField.setPromptText("tex. Lurvig svart varg med löstagbar svans");
         Label dayPrice = new Label("Dagspris i sek ");
         TextField dayPriceField= new TextField();
-        dayPriceField.setMaxWidth(50);
+        dayPriceField.setPromptText("tex. 750");
+        dayPriceField.setMaxWidth(250);
         GridPane newProdPane =new GridPane();
         newProdPane.add(itemTypeL,0,0);
         newProdPane.add(itemTypeCombo,2,0);
@@ -136,15 +138,15 @@ public class ProductView {
         // Redigera produktVY
         editProd = new Button("Redigera produkt");
         Label headerUpd = new Label("Redigera produkt");
-        Label updateProdLabel = new Label("Sök produktnamn");
+        Label updateProdLabel = new Label("Sök produktnamn för redigering");
         TextField updateProd = new TextField();
         updateProd.setMaxWidth(250);
         updateProd.setPromptText("Produktnamn");
-        Button searchBtnUpd = new Button("Sök");
+        Button searchBtnUpd = new Button("Sök och redigera");
 
         Alert confrUpdProd = new Alert(Alert.AlertType.CONFIRMATION);
-        ButtonType yesBtn = new ButtonType("JA");
-        ButtonType noBtn = new ButtonType("NEJ");
+        ButtonType yesBtn = new ButtonType("Ja");
+        ButtonType noBtn = new ButtonType("Avbryt");
         Button btnYES = (Button)confrUpdProd.getDialogPane().lookupButton(yesBtn);
         Button btnNO = (Button)confrUpdProd.getDialogPane().lookupButton(noBtn);
         confrUpdProd.getButtonTypes().setAll(yesBtn,noBtn);

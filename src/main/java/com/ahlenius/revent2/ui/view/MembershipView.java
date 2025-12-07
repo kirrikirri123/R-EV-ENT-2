@@ -107,8 +107,8 @@ public class MembershipView {
         Button searchBtnUpd = new Button(searchBtnString);
 
         Alert confrUpdMem = new Alert(Alert.AlertType.CONFIRMATION);
-        ButtonType yesBtn = new ButtonType("JA");
-        ButtonType noBtn = new ButtonType("NEJ");
+        ButtonType yesBtn = new ButtonType("Ja");
+        ButtonType noBtn = new ButtonType("Avbryt");
         Button btnYES = (Button)confrUpdMem.getDialogPane().lookupButton(yesBtn);
         Button btnNO = (Button)confrUpdMem.getDialogPane().lookupButton(noBtn);
         confrUpdMem.getButtonTypes().setAll(yesBtn,noBtn);
@@ -120,6 +120,7 @@ public class MembershipView {
         updateMemPane.getChildren().addAll(headerUpdate,updateMemLabel,updateMember,searchBtnUpd,updateMemInfo);
             // Steg 2 uppdatera medlem.
         VBox updateMemVbox= new VBox();
+
 
 
 

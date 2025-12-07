@@ -1,20 +1,20 @@
 package com.ahlenius.revent2.ui.view;
 
 import com.ahlenius.revent2.entity.Item;
+import com.ahlenius.revent2.entity.Member;
 import com.ahlenius.revent2.service.RentalService;
-import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.Node;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
-import javafx.util.Callback;
+
 
 public class RentalView {
+
     //Här hanteras bokning och återlämning
     private RentalService rentalService;
     private BorderPane rentalPane = new BorderPane();
@@ -24,6 +24,8 @@ public class RentalView {
     private Button viewProd = new Button();
     private Button newRental = new Button();
     private Button endRental = new Button();
+    private Button OKBTN = new Button("OK");
+    private Label exceptionInfo = new Label();
 
     public RentalView(){}
 
@@ -58,14 +60,44 @@ public class RentalView {
     // Ny uthyrning
         Label headerNewRental = new Label("Ny uthyrning");
         newRentalBox.setAlignment(Pos.CENTER);
-
-        newRentalBox.getChildren().addAll(headerNewRental);
+        newRentalBox.setSpacing(10);
+        Label confrimationText = new Label();
+        GridPane newRentalPane= new GridPane();
+        Label memName = new Label("Namn på hyrande medlem: ");
+        Label rentalProd= new Label("Välj produkt: ");
+        Label rentFromDate = new Label("Startdatum: ");
+        TextField rentalmemField = new TextField();
+        rentalmemField.setMaxWidth(250);
+        rentalmemField.setPromptText("tex. Kickan Kristersson");
+        ComboBox<Item> availableItem = new ComboBox<>(rentalService.getInventory().getItemsObsList());
+        availableItem.setMaxWidth(250);
+        TextField fromDateField = new TextField();
+        fromDateField.setPromptText("Använd format: ÅÅÅÅ-MM-DD");
+        fromDateField.setMaxWidth(250);
+        newRentalPane.add(memName,0,0);
+        newRentalPane.add(rentalmemField,1,0);
+        newRentalPane.add(rentalProd,0,2);
+        newRentalPane.add(availableItem,1,2);
+        newRentalPane.add(rentFromDate,0,3);
+        newRentalPane.add(fromDateField,1,3);
+        newRentalPane.add(OKBTN,2,4);
+        newRentalPane.add(confrimationText,1,5);
+        newRentalPane.add(exceptionInfo,1,6);
+        newRentalPane.setVgap(5);
+        newRentalPane.setHgap(5);
+        newRentalPane.setAlignment(Pos.CENTER);
+        newRentalPane.setAlignment(Pos.CENTER);
+        newRentalBox.getChildren().addAll(headerNewRental,newRentalPane);
 
     // Avsluta uthyrning
         Label headerCloseRental = new Label("Avsluta uthyrning");
         endRentalBox.setAlignment(Pos.CENTER);
-
-        endRentalBox.getChildren().addAll(headerCloseRental);
+        endRentalBox.setSpacing(10);
+        Label rentalChoice = new Label("Välj hyrande medlem: ");
+        ComboBox<String> memberComboBox =new ComboBox<>();
+        memberComboBox.getItems().addAll("Kalle","Stina","Olle");
+        Button confirmMem = new Button("Välj medlem");
+        endRentalBox.getChildren().addAll(headerCloseRental,rentalChoice,memberComboBox,confirmMem);
 
     // Knappar Layout
 
@@ -81,6 +113,9 @@ public class RentalView {
         });
 
     // Knappar Funktioner
+        OKBTN.setOnAction(actionEvent -> {
+
+        });
 
 
     // Layout RentalPane
