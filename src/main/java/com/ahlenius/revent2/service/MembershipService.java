@@ -4,12 +4,17 @@ import com.ahlenius.revent2.entity.Member;
 import com.ahlenius.revent2.entity.Rental;
 import com.ahlenius.revent2.exceptions.*;
 import com.ahlenius.revent2.repository.MemberRegistry;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.*;
 
 public class MembershipService {
     // Hanterar memberfunktioner. Medlemsrabatter? Ta isf in PI och S objekten hit istället?
     private MemberRegistry memberRegistry;
+     ObjectMapper mapper = new ObjectMapper();
 
     public MembershipService(){}
 
@@ -19,18 +24,39 @@ public class MembershipService {
     public MemberRegistry getMemberRegistry() {
         return memberRegistry;
     }
-
-    public void newMember(String id, String name,String phone, String memberStatus)throws InvalidMemberInfoInputException,InvalidPhoneInputException,InvalidNameInputException {
-        if(phone.isEmpty()||!phone.startsWith("07")&& !phone.startsWith("09")) {throw new InvalidPhoneInputException("Dubbelkolla ditt mobilnummer. Ex. 070 123 45 67");}
-        if(name.equalsIgnoreCase("bajs")){throw new InvalidNameInputException ("STOPP! Bajs är inte ett godkänt namn");}
-        if(id.isEmpty()||name.isEmpty()||memberStatus.isEmpty()){throw new InvalidMemberInfoInputException("Dubbelkolla att alla fält är ifyllda.");}
+// Skapa spara, ladda medlem.
+    public void newMember(String id, String name,String phone, String memberStatus)
+            throws InvalidMemberInfoInputException, InvalidPhoneInputException, InvalidNameInputException, IOException {
+        if(phone.isEmpty()||!phone.startsWith("07")&& !phone.startsWith("09"))
+                {throw new InvalidPhoneInputException("Dubbelkolla ditt mobilnummer. Ex. 070 123 45 67");}
+        if(name.equalsIgnoreCase("bajs"))
+                {throw new InvalidNameInputException ("STOPP! Bajs är inte ett godkänt namn");}
+        if(id.isEmpty()||name.isEmpty()||memberStatus.isEmpty())
+                {throw new InvalidMemberInfoInputException("Dubbelkolla att alla fält är ifyllda.");}
         else {Member member = new Member(id,name,phone,memberStatus);
         addMemberList(member); }}
 
-    public void addMemberList(Member member) {
-        getMemberRegistry().getMemberRegistryList().add(member);
-    }
+    public void addMemberList(Member member) throws IOException {
+        getMemberRegistry().add(member); // måste man ha getter här inne??
+        System.out.println(member.getName() + " är sparad i listan.");
+        listToJson();} //bekräftelse i konsoll
 
+    public void listToJson() throws IOException {
+    try {
+        mapper.enable(SerializationFeature.INDENT_OUTPUT);
+        mapper.writeValue(new File("members.json"),memberRegistry.getMemberRegistryList());
+        System.out.println("Listan är sparad i fil");}// bekräftelse i konsoll
+    catch (IOException e){ throw new IOException("Fel uppstsod vid sparande till fil.");}}
+
+    public void loadJsonToArrayList() throws IOException{
+    try{
+        List<Member> fromFile = Arrays.asList(mapper.readValue(new File("members.json"),Member[].class));
+        System.out.println("Laddat fil i temporär lista.");
+       memberRegistry.addList(fromFile);
+        System.out.println("Sparad från Json till Lista. Observable list?");}
+    catch (IOException e){throw new IOException("Fel uppstod vid uppladdning av data från fil.");}}
+
+// Söka ändra medlem.
     public List<Member> searchMemberByNameIdReturnList(String nameOrPhone) throws NullPointerException {
         List<Member> foundM = new ArrayList<>();
         for (Member m : getMemberRegistry().getMemberRegistryList()) {
@@ -72,12 +98,11 @@ public class MembershipService {
          if(member.getHistoryMember().isEmpty()){ throw new NoHistoryFoundException("Finns ingen historik på vald medlem.");}
          return member.getHistoryMember();} //returnerar riktiga listan
 
-    public void printMemberReg() { //TODO Obs finns utkskrift i konsoll. FÅ utskriften genom Egetexception?
-        if (getMemberRegistry().getMemberRegistryList().isEmpty()){System.out.println("Listan är tom.");}
-        for (Member m: getMemberRegistry().getMemberRegistryList()){
-            System.out.println(m);
-        }
-    }
+    public void printMemberReg() throws NullPointerException {
+        if (getMemberRegistry().getMemberRegistryList().isEmpty())
+            {throw new NullPointerException("Listan är tom.");}
+        for (Member m: getMemberRegistry().getMemberRegistryList()){ System.out.println(m);}}
+
     public void findAndUpdateMember(String nameOrId, Scanner scan){ // TODO Obs ! Finns uskrift och scanner i konsoll
         List<Member> foundMatches = searchMemberByNameIdReturnList(nameOrId);
         if(foundMatches.isEmpty()){System.out.println("Hittade ingen matchning."); return;}
@@ -113,7 +138,7 @@ public class MembershipService {
         }
     }
 
-    public void defaultList() { // För testning.
+   /* public void defaultList() { // För testning.
         try {
             newMember("112", "Pelle Polis", "090669966", "Privat");
             newMember("123", "Björn Varg", "095037417", "Privat");
@@ -123,9 +148,8 @@ public class MembershipService {
             newMember("123456", "Ersboda Pingisföreningsklubb", "0950-12363", "Förening");
         } catch (InvalidMemberInfoInputException | InvalidNameInputException | InvalidPhoneInputException e) {
             System.out.println("Fel i testlistan"+ e.getMessage());
-
-        }
-    }
+        }catch (IOException ex){System.out.println("Fel vid sparande i Json");}
+    }*/
 }
 
 

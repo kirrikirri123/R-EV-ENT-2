@@ -9,6 +9,7 @@ import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class MembershipView {
@@ -153,11 +154,12 @@ public class MembershipView {
             membershipService.newMember(userId.getText(), userName.getText(), userPhone.getText(), "Privat");
                 confrimationText.setText("Ny medlem skapad.");
                 userId.clear();userName.clear();userPhone.clear();exceptionInfo.setText(" ");
-            } catch (InvalidMemberInfoInputException | InvalidNameInputException | InvalidPhoneInputException e) {
+            } catch (InvalidMemberInfoInputException | InvalidNameInputException | InvalidPhoneInputException |
+            IOException e) {
                 exceptionInfo.setText(e.getMessage());}
             });
 
-        searchBtnMem.setOnAction(actionEvent -> {
+        searchBtnMem.setOnAction(actionEvent -> { // Nånting gör så att det tidigare sökningar syns i resultatet. även om ett exception kommer emellan.
             if(searchMember.getText().isEmpty()){confirmationSearchMem.setText("För att söka fyll i namn eller telefonummer.");}
             else {
              confirmationSearchMem.setText(" ");
