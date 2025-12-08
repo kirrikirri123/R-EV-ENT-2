@@ -1,10 +1,13 @@
 package com.ahlenius.revent2.entity;
 
 public class BouncyCastle extends Item {
-    private boolean indoorUse; // se om detta stör ObservableList
+     private boolean indoorUse; // se om detta stör ObservableList
 
 
-    public BouncyCastle(){}
+    public BouncyCastle(){
+        super();
+    }
+
     public BouncyCastle(String name,String description,double day,boolean indoorUse){
         super(name, description, day);
         this.indoorUse = indoorUse;

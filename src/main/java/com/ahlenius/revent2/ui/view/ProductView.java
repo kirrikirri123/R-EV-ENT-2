@@ -1,20 +1,15 @@
 package com.ahlenius.revent2.ui.view;
 
-
 import com.ahlenius.revent2.entity.Item;
-
-import com.ahlenius.revent2.exceptions.InvalidMemberInfoInputException;
-import com.ahlenius.revent2.exceptions.InvalidNameInputException;
-import com.ahlenius.revent2.exceptions.InvalidPhoneInputException;
 import com.ahlenius.revent2.service.RentalService;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
-
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 
+import java.io.IOException;
 
 public class ProductView {
     // Här läggs allt som har med produkterna att göra. Foto-info, boka osv.
@@ -30,7 +25,7 @@ public class ProductView {
     private Label confrimationText= new Label();
     private Label exceptionInfo= new Label();
     private Label updProdInfo = new Label();
-    private String itemNameSearch = ""; // ta bort?
+
 
     public ProductView(){}
 
@@ -40,6 +35,7 @@ public class ProductView {
         products = new Button("Galleri");
         VBox item1 = new VBox();
         Label headerGallery = new Label("Ett urval av produkter");
+        headerGallery.setPrefSize(400,35);
         item1.setAlignment(Pos.CENTER);
         item1.setSpacing(10);
         item1.setMaxWidth(250);
@@ -49,7 +45,6 @@ public class ProductView {
         imageView1.setFitWidth(250);
         String nameItem = "Gurk-man";
         Label nameItem1 = new Label(nameItem);
-        nameItem1.setAlignment(Pos.CENTER);
         String descripItem = "Grön och ståtlig dräkt. \nGaranterar skratt!";
         Label descripItem1 = new Label(descripItem);
         String dayPriceItem = "275";
@@ -166,26 +161,29 @@ public class ProductView {
         });
         editProd.setOnAction(actionEvent -> {
             productPane.setCenter(updateProdPane);
-
         });
-
         // Knappar funktion
 
         OKBTN.setOnAction(actionEvent -> {
-            try{  double day = Double.parseDouble(dayPriceField.getText());
-                if(itemTypeCombo.getItems().toString().equals(costume)){rentalService.newMascotItem(prodNameField.getText(),prodDescriptField.getText(),day,"Året runt");}
-                if(itemTypeCombo.getItems().toString().equals(bouncyC)){rentalService.newBouncyItem(prodNameField.getText(),prodDescriptField.getText(),day,false);}
-
-                confrimationText.setText("Ny medlem skapad.");
+             double day = Double.parseDouble(dayPriceField.getText());
+                if(itemTypeCombo.getValue().equals(costume)){
+                    try { rentalService.newMascotItem(prodNameField.getText(),prodDescriptField.getText(),day,"Året runt");
+                        confrimationText.setText("Ny produkt tillagd");
+                    } catch (IOException e) {exceptionInfo.setText(e.getMessage()+"Dräktproblem");}
+                    }
+                if(itemTypeCombo.getValue().equals(bouncyC)){
+                    try {
+                        rentalService.newBouncyItem(prodNameField.getText(),prodDescriptField.getText(),day,false);
+                        confrimationText.setText("Ny produkt tillagd");
+                    } catch (IOException e) {exceptionInfo.setText(e.getMessage()+"Hoppborgssfail");
+                    }
+                }
                 prodNameField.clear();prodDescriptField.clear();dayPriceField.clear();exceptionInfo.setText(" ");
-            } catch (Exception e) {
-                exceptionInfo.setText(e.getMessage());}
-             confrimationText.setText("Ny produkt tillagd.");
-            System.out.println("Knappen är tryckt - spara/kolla info.");
+                rentalService.getInventory().getItemList().stream().forEach(System.out::println); // istället för forEachLoop
         });
         searchBtnUpd.setOnAction(actionEvent -> {
-            //Item foundProd = RentalService.searchMemberByNameOrPhoneReturnMember(updateProd.getText());
-            //confrUpdProd.setContentText("Hittade produkten - " + foundProd.getName() + ". Stämmer det?");
+            Item foundProd = rentalService.searchItemByNameReturnItem(updateProd.getText());
+            confrUpdProd.setContentText("Hittade produkten - " + foundProd.getName() + ". Stämmer det?");
             confrUpdProd.show();
             btnYES.setOnAction(actionE -> {
                 updProdInfo.setText("Medlem bekräftad. Laddar sida för uppdatering av medlemsinfo."); // startar men gör inget.
