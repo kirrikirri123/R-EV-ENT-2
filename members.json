@@ -1,19 +1,25 @@
 [ {
-  "id" : "1",
-  "name" : "Marta Mus",
-  "phone" : "0950-10832",
+  "id" : "1990-050-41",
+  "name" : "BJörn Fjärtsson",
+  "phone" : "0910775210",
   "memberStatus" : "Privat",
-  "historyMember" : [ ]
-}, {
-  "id" : "123456",
-  "name" : "Ersboda Pingisföreningsklubb",
-  "phone" : "0950-12363",
-  "memberStatus" : "Förening",
   "historyMember" : [ ]
 }, {
   "id" : "920618",
   "name" : "Kickan Karlsson",
   "phone" : "095014841",
+  "memberStatus" : "Privat",
+  "historyMember" : [ ]
+}, {
+  "id" : "1920626",
+  "name" : "Kerstin Bus1",
+  "phone" : "090457812",
+  "memberStatus" : "Privat",
+  "historyMember" : [ ]
+}, {
+  "id" : "1236578945",
+  "name" : "Flims Flamsson",
+  "phone" : "0702354578",
   "memberStatus" : "Privat",
   "historyMember" : [ ]
 }, {
@@ -23,15 +29,33 @@
   "memberStatus" : "Privat",
   "historyMember" : [ ]
 }, {
+  "id" : "123456",
+  "name" : "Ersboda Pingisföreningsklubb",
+  "phone" : "0950-12363",
+  "memberStatus" : "Förening",
+  "historyMember" : [ ]
+}, {
+  "id" : "123",
+  "name" : "Björn Varg",
+  "phone" : "095037417",
+  "memberStatus" : "Privat",
+  "historyMember" : [ ]
+}, {
+  "id" : "12584564",
+  "name" : "Varg Björnsson",
+  "phone" : "07011224455",
+  "memberStatus" : "Privat",
+  "historyMember" : [ ]
+}, {
   "id" : "7701231568",
   "name" : "Jarmo Knutsson",
   "phone" : "095015948",
   "memberStatus" : "Privat",
   "historyMember" : [ ]
 }, {
-  "id" : "123",
-  "name" : "Björn Varg",
-  "phone" : "095037417",
+  "id" : "18891209",
+  "name" : "Björn Sovis",
+  "phone" : "07011111111",
   "memberStatus" : "Privat",
   "historyMember" : [ ]
 }, {
@@ -41,9 +65,9 @@
   "memberStatus" : "Privat",
   "historyMember" : [ ]
 }, {
-  "id" : "18891209",
-  "name" : "Björn Sovis",
-  "phone" : "07011111111",
+  "id" : "1",
+  "name" : "Marta Mus",
+  "phone" : "0950-10832",
   "memberStatus" : "Privat",
   "historyMember" : [ ]
 } ]

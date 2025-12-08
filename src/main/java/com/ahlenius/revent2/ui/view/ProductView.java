@@ -176,11 +176,13 @@ public class ProductView {
                     try {
                         rentalService.newBouncyItem(prodNameField.getText(),prodDescriptField.getText(),day,false);
                         confrimationText.setText("Ny produkt tillagd");
-                    } catch (IOException e) {exceptionInfo.setText(e.getMessage()+"Hoppborgssfail");
+                    } catch (IOException e) {exceptionInfo.setText((e.getMessage()+"Hoppborgssfail"));
                     }
                 }
                 prodNameField.clear();prodDescriptField.clear();dayPriceField.clear();exceptionInfo.setText(" ");
-                rentalService.getInventory().getItemList().stream().forEach(System.out::println); // istället för forEachLoop
+                rentalService.getInventory().getItemList().stream().forEach(System.out::println);
+                System.out.println("Nedan obsList");
+                rentalService.getInventory().getItemsObsList().stream().forEach(System.out::println);
         });
         searchBtnUpd.setOnAction(actionEvent -> {
             Item foundProd = rentalService.searchItemByNameReturnItem(updateProd.getText());

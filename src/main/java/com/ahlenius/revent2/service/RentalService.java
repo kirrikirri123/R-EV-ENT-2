@@ -101,7 +101,7 @@ public class RentalService {
             System.out.println("Items laddad från Json till lista. ");}
         catch (IOException e){throw new IOException("Fel uppstod vid uppladdning av Items-data från fil.");}}
 
-    public void defaultList() { // För testning.
+    /*public void defaultList() { // För testning.
         try{
         newBouncyItem("Kungliga slottet"," Stor hoppborg,för max 15 barn",1000, false);
         newBouncyItem("Slott"," Liten hoppborg, för max 7 barn",450, true);
@@ -109,7 +109,7 @@ public class RentalService {
         newMascotItem("Nallebjörn"," Kramgo, lurvig brunbjörndräkt", 200,"Året om");
         newMascotItem("Tomten"," Premium tomtedräkt. Kvalitetskläder naturligt skägg. Inga skor medföljer.", 1000,"Jul");
     } catch (IOException ex) { System.out.println(ex.getMessage());}}
-
+*/
     //______________________________________________________________________
     //Uthyrningsmetoder
     public LocalDate createDateOfRent(String YYYYMMDD) throws DateTimeParseException {
