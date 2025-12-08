@@ -10,6 +10,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 
 import java.io.IOException;
+import java.util.Optional;
 
 public class ProductView {
     // Här läggs allt som har med produkterna att göra. Foto-info, boka osv.
@@ -142,15 +143,15 @@ public class ProductView {
         Alert confrUpdProd = new Alert(Alert.AlertType.CONFIRMATION);
         ButtonType yesBtn = new ButtonType("Ja");
         ButtonType noBtn = new ButtonType("Avbryt");
-        Button btnYES = (Button)confrUpdProd.getDialogPane().lookupButton(yesBtn);
-        Button btnNO = (Button)confrUpdProd.getDialogPane().lookupButton(noBtn);
+        //Button btnYES = (Button)confrUpdProd.getDialogPane().lookupButton(yesBtn);
+        //Button btnNO = (Button)confrUpdProd.getDialogPane().lookupButton(noBtn);
         confrUpdProd.getButtonTypes().setAll(yesBtn,noBtn);
         confrUpdProd.setTitle("Redigera produkt - Validering");
         confrUpdProd.setHeaderText("Vill du redigera en produkt?");
 
         updateProdPane.setSpacing(5);
         updateProdPane.setAlignment(Pos.CENTER);
-        updateProdPane.getChildren().addAll(headerUpd,updateProdLabel,updateProd,searchBtnUpd);
+        updateProdPane.getChildren().addAll(headerUpd,updateProdLabel,updateProd,searchBtnUpd,updProdInfo);
 
         //Knappar Layout
         products.setOnAction(actionEvent -> {
@@ -184,21 +185,14 @@ public class ProductView {
         searchBtnUpd.setOnAction(actionEvent -> {
             Item foundProd = rentalService.searchItemByNameReturnItem(updateProd.getText());
             confrUpdProd.setContentText("Hittade produkten - " + foundProd.getName() + ". Stämmer det?");
-            confrUpdProd.show();
-            btnYES.setOnAction(actionE -> {
-                updProdInfo.setText("Medlem bekräftad. Laddar sida för uppdatering av medlemsinfo."); // startar men gör inget.
-                confrUpdProd.close();
-            });
-            btnNO.setOnAction(aEvent -> { // Knappar i medlems
-                updateProd.clear();
+            Optional<ButtonType> userResult = confrUpdProd.showAndWait();
+            if(userResult.isPresent()) {
+                if (userResult.get() == yesBtn) {
+                    updProdInfo.setText("Medlem bekräftad. Laddar sida för uppdatering av medlemsinfo.");}
+                else if(userResult.get() == noBtn) {  updateProd.clear();
                 searchBtnUpd.setText("Sök");
                 confrUpdProd.close();
-            });
-
-
-        });
-
-
+            }}});
 
         // Vänsterfält
         VBox leftField = new VBox();

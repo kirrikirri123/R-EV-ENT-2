@@ -15,7 +15,7 @@ import javafx.beans.property.SimpleStringProperty;
         @JsonSubTypes.Type(value = MascotCostume.class, name = "MascotCostume")
 })
 
-abstract public class Item {
+public abstract class Item {
     protected SimpleStringProperty name= new SimpleStringProperty();
     protected SimpleStringProperty description = new SimpleStringProperty();
     protected SimpleDoubleProperty dayPrice= new SimpleDoubleProperty();
