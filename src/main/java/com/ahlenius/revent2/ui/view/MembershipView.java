@@ -250,7 +250,7 @@ public class MembershipView {
             membershipService.updateMemberStatus(tempMember,updUserStatusCombo.getValue());}
             try {
                 membershipService.listToJson();
-                confrmUpdText.setText("Efter uppdatering:\n"+ tempMember + "," +tempMember.getMemberStatus());
+                confrmUpdText.setText("Efter uppdatering:\n"+ tempMember);
             } catch (IOException e) {confrmUpdText.setText(e.getMessage());}
         });
         removeMemBtn.setOnAction(actionEvet -> {

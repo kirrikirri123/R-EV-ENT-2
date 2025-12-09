@@ -26,7 +26,7 @@ public class ProductView {
     private Label confrimationText= new Label();
     private Label exceptionInfo= new Label();
     private Label updProdInfo = new Label();
-
+    private Item tempItem;
 
     public ProductView(){}
 
@@ -185,12 +185,12 @@ public class ProductView {
         updateProdVbox.setAlignment(Pos.CENTER);
         updateProdVbox.getChildren().addAll(update2ndView,validateProd,updProdPane);
 
-        Alert confRemoveMem = new Alert(Alert.AlertType.CONFIRMATION);
-        ButtonType removeBtn = new ButtonType("Avsluta");
+        Alert confRemoveProd = new Alert(Alert.AlertType.CONFIRMATION);
+        ButtonType removeBtn = new ButtonType("Radera");
         ButtonType noRemoveBtn = new ButtonType("Avbryt");
-        confRemoveMem.getButtonTypes().setAll(removeBtn,noRemoveBtn);
-        confRemoveMem.setTitle("Avsluta Medlemskap");
-        confRemoveMem.setHeaderText("Vill du ta bort medlem ur register?");
+        confRemoveProd.getButtonTypes().setAll(removeBtn,noRemoveBtn);
+        confRemoveProd.setTitle("Radera produkt");
+        confRemoveProd.setHeaderText("Vill radera produkten?");
 
         //Knappar Layout
         products.setOnAction(actionEvent -> {
@@ -222,8 +222,8 @@ public class ProductView {
 
         });
         searchBtnUpd.setOnAction(actionEvent -> {
-            Item foundProd = rentalService.searchItemByNameReturnItem(updateProd.getText());
-            confrUpdProd.setContentText("Hittade produkten - " + foundProd.getName() + ".\n Stämmer det?");
+            tempItem = rentalService.searchItemByNameReturnItem(updateProd.getText());
+            confrUpdProd.setContentText("Hittade produkten - " + tempItem.getName() + ".\n Stämmer det?");
             Optional<ButtonType> userResult = confrUpdProd.showAndWait();
             if(userResult.isPresent()) {
                 if (userResult.get() == yesBtn) {
@@ -234,16 +234,34 @@ public class ProductView {
                 searchBtnUpd.setText("Sök");
             }}});
         confBtn.setOnAction(actionEvent -> {
-            // ta in prodinfo och editera
-            //bekräfta till använder
-            //spara i fil
-        });
+            if(!updProdNameField.getText().isEmpty()){
+                rentalService.updateProdName(tempItem, updProdNameField.getText());
+                if(!updDayPriceField.getText().isEmpty()){
+                    rentalService.updateDayPrice(tempItem, updDayPriceField.getText());
+                    if(!updProdDescripField.getText().isEmpty()) {
+                        rentalService.updateProdDescrip(tempItem, updProdDescripField.getText());
+                        try {
+                            rentalService.listToJson();
+                            confrmUpdText.setText("Efter uppdatering:\n"+ tempItem);
+                        } catch (IOException e) {confrmUpdText.setText(e.getMessage());}
 
+
+        }}}});
 
         removeProdBtn.setOnAction(actionEvent -> {
-            // avluta
-            // clona från memberview
-            // bekärfta användare.
+                        confRemoveProd.setContentText("Vill du radera "+ tempItem.getName() +" ?"); // tillägg senare om det påverkar uthyrning + kostnad kan man dra en chech här innan.
+            Optional<ButtonType> userRemoveResult = confRemoveProd.showAndWait();
+            if(userRemoveResult.isPresent()){
+                if(userRemoveResult.get() ==removeBtn){
+                    try {
+                        rentalService.removeItem(tempItem); System.out.println(tempItem + "Raderad");
+                        rentalService.listToJson(); // behövs denna??
+                        confrmUpdText.setText(tempItem.getName() + " är raderad.");
+                    } catch (IOException e) { confrmUpdText.setText(e.getMessage());}
+                }else{
+                    confrmUpdText.setText("Avbröt radering av produkt.");
+                }
+            }
         });
 
 

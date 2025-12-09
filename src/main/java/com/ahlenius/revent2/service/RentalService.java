@@ -38,7 +38,7 @@ public class RentalService {
     // _______________________________________________________________________
 // Produkt metoder
 
-    public List<Item> searchItemByName(String prod) {
+    public List<Item> searchItemByNameReturnList(String prod) {
         List<Item> foundI = new ArrayList<>();
         for (Item i : getInventory().getItemList()) {
             if (i.getName().equalsIgnoreCase(prod)) {
@@ -61,18 +61,23 @@ public class RentalService {
                 indexItem = i;}}
         return indexItem; }
 
-    public void removeItemFromList(String prod, Scanner scan) {//TODO Obs ! Finns utskfiter i scanner konsoll. Gör om till flera metoder. En sök. En validering. En Remove. En bekröfta Remove.
-        List<Item> removeI = searchItemByName(prod); //listan som returneras sparas i denna lista.
-        if(removeI.isEmpty()){System.out.println("Hittade ingen matchning."); return;} // Lägga som exception?
-        for (Item item : removeI){
-            System.out.println("Hittade produkten: " + item.getName() + ", " + item.getDescription() + "." +
-                    " Ska produkten tas bort från listan? JA / NEJ");
+    public void updateProdName(Item item, String prodName){
+        item.setName(prodName); // null varning
+    }
+    public void updateProdDescrip(Item item,String prodDescr){
+        item.setDescription(prodDescr); // null varning
+    }
 
-            String removeUser = scan.nextLine();
-            if (removeUser.equalsIgnoreCase("ja")){
-                getInventory().getItemList().removeAll(removeI); // använd getInventory.remove();
-                System.out.println(" Produkt borttagen.");}
-        }}
+    public void updateDayPrice(Item item, String newDayPrice){
+        double dayPrice = Double.parseDouble(newDayPrice);
+        item.setDayPrice(dayPrice); // null varning
+    }
+
+
+    public void removeItem(Item item){
+    getInventory().remove(item);
+    }
+
     public void newMascotItem(String name, String description, double day, String season) throws IOException {
         addItemToList(new MascotCostume(name, description, day, season));
         listToJson();

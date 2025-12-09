@@ -1,6 +1,11 @@
 [ {
-  "name" : "Sten",
-  "description" : "Gråstens-färgad, lite mossa i bakkant",
-  "dayPrice" : 375.0,
+  "name" : "Ljuset i ditt liv",
+  "description" : "Får folk att stanna upp. Svår att dansa i.",
+  "dayPrice" : 750.0,
+  "season" : "Året runt"
+}, {
+  "name" : "Vargen",
+  "description" : "Grön, ovanlig kryptonit varg",
+  "dayPrice" : 1575.0,
   "season" : "Året runt"
 } ]
