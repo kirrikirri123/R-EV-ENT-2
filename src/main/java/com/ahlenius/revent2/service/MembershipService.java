@@ -83,16 +83,10 @@ public class MembershipService {
     return foundMemInfo; }
 
 
-    public void removeMember(String nameOrId, Scanner scan){ //TODO Obs! Finns utskrift och scanner i konsoll
-        List<Member> foundMatches = searchMemberByNameIdReturnList(nameOrId);
-        if(foundMatches.isEmpty()){System.out.println("Hittade ingen matchning."); return;} // lägg exceptions
-        for(Member m : foundMatches)
-        {System.out.println("Hittade "+m.getName()+" med ID: "+ m.getId()+ ". Ska "+ m.getName()+" tas bort från listan? JA / NEJ");
-            String removeUser = scan.nextLine();
-            if(removeUser.equalsIgnoreCase("ja")){
-                foundMatches.forEach(getMemberRegistry().getMemberRegistryList()::remove); // Ändrad till funktion med ::
-                System.out.println("Medlem borttagen.");
-            }else{System.out.println("Avbryter borttagning.");}}}
+    public void removeMember(Member member) {
+        getMemberRegistry().getMemberRegistryList().remove(member);
+    }
+
 
     public List<Rental> getMemberHistory(Member member)throws NoHistoryFoundException{
          if(member.getHistoryMember().isEmpty()){ throw new NoHistoryFoundException("Finns ingen historik på vald medlem.");}

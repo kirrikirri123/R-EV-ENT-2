@@ -1,7 +1,6 @@
 [ {
-  "itemType" : "MascotCostume",
-  "name" : "Varg",
-  "description" : "svart",
-  "dayPrice" : 520.0,
+  "name" : "Stor Borg",
+  "description" : "Max 15 vuxna",
+  "dayPrice" : 7500.0,
   "indoorUse" : false
 } ]

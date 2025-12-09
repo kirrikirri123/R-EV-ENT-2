@@ -177,10 +177,8 @@ public class ProductView {
                     } catch (IOException e) {exceptionInfo.setText((e.getMessage()+"Hoppborgssfail"));
                     }
                 }
-                prodNameField.clear();prodDescriptField.clear();dayPriceField.clear();exceptionInfo.setText(" ");
-                rentalService.getInventory().getItemList().stream().forEach(System.out::println);
-                System.out.println("Nedan obsList");
-                rentalService.getInventory().getItemsObsList().stream().forEach(System.out::println);
+                prodNameField.clear();prodDescriptField.clear();dayPriceField.clear();exceptionInfo.setText("");
+
         });
         searchBtnUpd.setOnAction(actionEvent -> {
             Item foundProd = rentalService.searchItemByNameReturnItem(updateProd.getText());
