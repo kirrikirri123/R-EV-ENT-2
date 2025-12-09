@@ -1,6 +1,6 @@
 [ {
-  "name" : "Stor Borg",
-  "description" : "Max 15 vuxna",
-  "dayPrice" : 7500.0,
-  "indoorUse" : false
+  "name" : "Sten",
+  "description" : "Gråstens-färgad, lite mossa i bakkant",
+  "dayPrice" : 375.0,
+  "season" : "Året runt"
 } ]

@@ -151,6 +151,47 @@ public class ProductView {
         updateProdPane.setAlignment(Pos.CENTER);
         updateProdPane.getChildren().addAll(headerUpd,updateProdLabel,updateProd,searchBtnUpd,updProdInfo);
 
+        // Steg 2 uppdatera produkt.
+        VBox updateProdVbox= new VBox();
+        Label update2ndView = new Label("Redigering av produktinformation");
+        Label validateProd = new Label();
+        Label updName = new Label(" Ändra produktnamn: ");
+        Label updDescript = new Label("Uppdatera beskrivning: ");
+        Label updDayPrice = new Label("Uppdatera dagshyra: ");
+        TextField updProdNameField = new TextField();
+        updProdNameField.maxWidth(225);
+        TextField updProdDescripField = new TextField();
+        updProdDescripField.maxWidth(225);
+        TextField updDayPriceField = new TextField();
+        Button confBtn = new Button(" Bekräfta ändring ");
+        Button removeProdBtn = new Button("Ta bort produkt");
+        Label confrmUpdText = new Label();
+        Label updMemExceptionInfo = new Label();
+        GridPane updProdPane = new GridPane();
+        updProdPane.setHgap(5);
+        updProdPane.setVgap(5);
+        updProdPane.setAlignment(Pos.CENTER);
+        updProdPane.add(updName,0,0);
+        updProdPane.add(updProdNameField,1,0);
+        updProdPane.add(updDescript,0,2);
+        updProdPane.add(updProdDescripField,1,2);
+        updProdPane.add(updDayPrice,0,3);
+        updProdPane.add(updDayPriceField,1,3);
+        updProdPane.add(confBtn,2,4);
+        updProdPane.add(confrmUpdText,1,4);
+        updProdPane.add(updMemExceptionInfo,1,5);
+        updProdPane.add (removeProdBtn,1,6);
+        updateProdVbox.setSpacing(15);
+        updateProdVbox.setAlignment(Pos.CENTER);
+        updateProdVbox.getChildren().addAll(update2ndView,validateProd,updProdPane);
+
+        Alert confRemoveMem = new Alert(Alert.AlertType.CONFIRMATION);
+        ButtonType removeBtn = new ButtonType("Avsluta");
+        ButtonType noRemoveBtn = new ButtonType("Avbryt");
+        confRemoveMem.getButtonTypes().setAll(removeBtn,noRemoveBtn);
+        confRemoveMem.setTitle("Avsluta Medlemskap");
+        confRemoveMem.setHeaderText("Vill du ta bort medlem ur register?");
+
         //Knappar Layout
         products.setOnAction(actionEvent -> {
             productPane.setCenter(itemView);
@@ -182,15 +223,29 @@ public class ProductView {
         });
         searchBtnUpd.setOnAction(actionEvent -> {
             Item foundProd = rentalService.searchItemByNameReturnItem(updateProd.getText());
-            confrUpdProd.setContentText("Hittade produkten - " + foundProd.getName() + ". Stämmer det?");
+            confrUpdProd.setContentText("Hittade produkten - " + foundProd.getName() + ".\n Stämmer det?");
             Optional<ButtonType> userResult = confrUpdProd.showAndWait();
             if(userResult.isPresent()) {
                 if (userResult.get() == yesBtn) {
-                    updProdInfo.setText("Medlem bekräftad. Laddar sida för uppdatering av medlemsinfo.");}
+                    updProdInfo.setText("Produkt bekräftad. Laddar sida för uppdatering.");
+                productPane.setCenter(updateProdVbox);
+                }
                 else if(userResult.get() == noBtn) {  updateProd.clear();
                 searchBtnUpd.setText("Sök");
-                confrUpdProd.close();
             }}});
+        confBtn.setOnAction(actionEvent -> {
+            // ta in prodinfo och editera
+            //bekräfta till använder
+            //spara i fil
+        });
+
+
+        removeProdBtn.setOnAction(actionEvent -> {
+            // avluta
+            // clona från memberview
+            // bekärfta användare.
+        });
+
 
         // Vänsterfält
         VBox leftField = new VBox();
