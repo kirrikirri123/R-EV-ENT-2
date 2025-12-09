@@ -8,7 +8,6 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
-
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Optional;
@@ -30,6 +29,7 @@ public class MembershipView {
     private String searchBtnString = "Sök";
     private final Button OKBTN = new Button("OK");
     private Label exceptionInfo = new Label();
+    private Member tempMember;
 
 
     public MembershipView(){}
@@ -111,14 +111,12 @@ public class MembershipView {
         updateMemPane.setSpacing(5);
         updateMemPane.setAlignment(Pos.CENTER);
         updateMemPane.getChildren().addAll(headerUpdate,updateMemLabel,updateMember,searchBtnUpd,updateMemInfo);
-
-        Alert confrUpdMem = new Alert(Alert.AlertType.CONFIRMATION);
-        ButtonType yesBtn = new ButtonType("Ja");
-        ButtonType noBtn = new ButtonType("Avbryt");
-        confrUpdMem.getButtonTypes().setAll(yesBtn,noBtn);
-        confrUpdMem.setTitle("Uppdatera medlem - Validering");
-        confrUpdMem.setHeaderText("Vill du uppdatera medlem?");
-
+          Alert confrUpdMem = new Alert(Alert.AlertType.CONFIRMATION);
+            ButtonType yesBtn = new ButtonType("Ja");
+            ButtonType noBtn = new ButtonType("Avbryt");
+            confrUpdMem.getButtonTypes().setAll(yesBtn,noBtn);
+            confrUpdMem.setTitle("Uppdatera medlem - Validering");
+            confrUpdMem.setHeaderText("Vill du uppdatera medlem?");
 
             // Steg 2 uppdatera medlem.
         VBox updateMemVbox= new VBox();
@@ -173,7 +171,7 @@ public class MembershipView {
         });
         updateMem.setOnAction(actionEvent -> {
             memberPane.setCenter(updateMemPane);
-            searchBtnUpd.setText(searchBtnString); updateMember.clear(); updateMemInfo.setText("");
+            searchBtnUpd.setText(searchBtnString); updateMember.clear(); updateMemInfo.setText("");confrmUpdText.setText("");
         });
         historyMem.setOnAction(actionEvent -> {
             memberPane.setCenter(memHistoryPane);
@@ -226,6 +224,7 @@ public class MembershipView {
                             TimeUnit.MILLISECONDS.sleep(1000);
                                        } catch (InterruptedException e) {System.out.println("Fel uppstod vid sleep");}
                         memberPane.setCenter(updateMemVbox);
+                        tempMember = foundMem;
                         validatedMem.setText("Vald medlem : "+ foundMem.getName());
                         updUserNameField.setPromptText(foundMem.getName());
                         updUserPhoneField.setPromptText(foundMem.getPhone());
@@ -233,7 +232,19 @@ public class MembershipView {
                 } catch (NullPointerException e) { updateMemInfo.setText(e.getMessage()); searchBtnUpd.setText(searchBtnString);}});
             //Uppdatera mot register
         confBtn.setOnAction(actionEvent -> {
-            // Ta in värden och sätt mot medlemmen. Bekräfta ändring mot användare. Gå tillbaka till nån medlemsvy - sök?
+            //"Ändrar tempMember till bla bla ?"
+            if(!updUserNameField.getText().isEmpty()){
+            membershipService.updateMemberName(tempMember, updUserNameField.getText());}
+            if(!updUserPhoneField.getText().isEmpty()){
+            membershipService.updateMemberPhone(tempMember,updUserPhoneField.getText());}
+            if(!updUserStatusCombo.getValue().equals(tempMember.getMemberStatus())){
+            membershipService.updateMemberStatus(tempMember,updUserStatusCombo.getValue());}
+            try {
+                membershipService.listToJson();
+                confrmUpdText.setText("Info efter uppdatering :"+ tempMember + "," +tempMember.getMemberStatus());
+            } catch (IOException e) {confrmUpdText.setText(e.getMessage());          }
+
+            // Sleep?  + Gå tillbaka till nån medlemsvy - sök?
         });
 
 

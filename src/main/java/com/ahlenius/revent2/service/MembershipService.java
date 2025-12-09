@@ -46,7 +46,7 @@ public class MembershipService {
         mapper.enable(SerializationFeature.INDENT_OUTPUT);
         mapper.writeValue(new File("members.json"),memberRegistry.getMemberRegistryList());
         System.out.println("Member-listan är sparad i fil");}// bekräftelse i konsoll
-    catch (IOException e){ throw new IOException("Fel uppstsod vid sparande av Member-data till fil.");}}
+    catch (IOException e){ throw new IOException("Fel uppstsod vid sparande av medlemsinfo till fil.");}}
 
     public void loadJsonToArrayList() throws IOException{
     try{
@@ -54,7 +54,7 @@ public class MembershipService {
         System.out.println("Laddat fil i temporär lista.");
        memberRegistry.addList(fromFile);
         System.out.println("Members laddad från Json till lista.");}
-    catch (IOException e){throw new IOException("Fel uppstod vid uppladdning av data från fil.");}}
+    catch (IOException e){throw new IOException("Fel uppstod vid uppladdning av medlemsinfo från fil.");}}
 
 // Söka ändra medlem.
     public List<Member> searchMemberByNameIdReturnList(String nameOrPhone) throws NullPointerException {
@@ -103,53 +103,21 @@ public class MembershipService {
             {throw new NullPointerException("Listan är tom.");}
         for (Member m: getMemberRegistry().getMemberRegistryList()){ System.out.println(m);}}
 
-    public void findAndUpdateMember(String nameOrId, Scanner scan){ // TODO Obs ! Finns uskrift och scanner i konsoll
-        List<Member> foundMatches = searchMemberByNameIdReturnList(nameOrId);
-        if(foundMatches.isEmpty()){System.out.println("Hittade ingen matchning."); return;}
-
-        for(Member m : foundMatches)
-        {System.out.println("Hittade "+m.getName()+" med ID: "+ m.getId()+ ".");
-            System.out.println("Ska profilen uppdateras?\n -  Om felaktigt ange X ! -");
-            System.out.println("Vad vill du uppdatera? \n Ange : [N] Namn [M] Medlemsstatus");
-            String userChoiceChange = scan.nextLine();
-            if(userChoiceChange.equalsIgnoreCase("N")) {
-                System.out.println("Skriv in den nya namnet:");
-                String memberFname = scan.next() + " ";
-                String memberLname = scan.next();
-                scan.nextLine(); //cleaningcrew
-                updateMemberName(m, memberFname + " " + memberLname);
-                System.out.println("Medlem uppdaterad!");
-            }else if (userChoiceChange.equalsIgnoreCase("M")){
-                System.out.println( "Om privatperson ange P. Om förening ange F.");
-                String memberStatus = scan.nextLine();
-                updateMemberStatus(m,memberStatus);
-                System.out.println("Medlem uppdaterad!");
-            }else {System.out.println("Avbryter uppdatering av medlem.");}
-        }}
-
     public void updateMemberName(Member member,String newName){
         member.setName(newName); }
 
+    public void updateMemberPhone(Member member, String phone){
+        member.setPhone(phone);
+    }
     public void updateMemberStatus(Member member, String status) {
-        if (status.equalsIgnoreCase("P")) {
+        if (status.equalsIgnoreCase("Privatperson")) {
             member.setMemberStatus("Privat");
-        } else if (status.equalsIgnoreCase("F")) {
+        } else if (status.equalsIgnoreCase("Förening")) {
             member.setMemberStatus("Förening");
         }
     }
 
-   /* public void defaultList() { // För testning.
-        try {
-            newMember("112", "Pelle Polis", "090669966", "Privat");
-            newMember("123", "Björn Varg", "095037417", "Privat");
-            newMember("920618", "Kickan Karlsson", "095014841", "Privat");
-            newMember("970517", "Kickan Knäppsson", "091077993", "Privat");
-            newMember("1", "Marta Mus", "0950-10832", "Privat");
-            newMember("123456", "Ersboda Pingisföreningsklubb", "0950-12363", "Förening");
-        } catch (InvalidMemberInfoInputException | InvalidNameInputException | InvalidPhoneInputException e) {
-            System.out.println("Fel i testlistan"+ e.getMessage());
-        }catch (IOException ex){System.out.println("Fel vid sparande i Json");}
-    }*/
+
 }
 
 
