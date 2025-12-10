@@ -19,7 +19,6 @@ public class Member {
         this.phone.set(phone);
         this.memberStatus.set(memberStatus);
     }
-
     public String getId() {
         return id.get();
     }

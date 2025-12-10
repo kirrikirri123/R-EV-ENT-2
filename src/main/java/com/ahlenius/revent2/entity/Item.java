@@ -1,10 +1,21 @@
 package com.ahlenius.revent2.entity;
 
+import com.fasterxml.jackson.annotation.JsonSubTypes;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleStringProperty;
 
+@JsonTypeInfo(
+        use = JsonTypeInfo.Id.NAME,
+        include = JsonTypeInfo.As.PROPERTY,
+        property = "type")
 
-public class Item {
+@JsonSubTypes({
+        @JsonSubTypes.Type(value = BouncyCastle.class, name = "BouncyCastle"),
+        @JsonSubTypes.Type(value = MascotCostume.class, name = "MascotCostume")
+})
+
+public abstract class Item {
     protected SimpleStringProperty name= new SimpleStringProperty();
     protected SimpleStringProperty description = new SimpleStringProperty();
     protected SimpleDoubleProperty dayPrice= new SimpleDoubleProperty();

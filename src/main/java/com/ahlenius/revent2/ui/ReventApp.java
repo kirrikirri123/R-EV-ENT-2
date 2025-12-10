@@ -37,9 +37,8 @@ public class ReventApp extends Application {
 
         rentalService.defaultList();
 
-
-        start = new Scene(startView.getStartView(),500,450);
-        main = new Scene(mainView.getMainView(),825,800);
+       start = new Scene(startView.getStartView(),500,450);
+       main = new Scene(mainView.getMainView(),825,800);
        start.getStylesheets().add("/com/ahlenius/revent2/revent_style.css");
        main.getStylesheets().add("/com/ahlenius/revent2/revent_style.css");
         stage.setScene(start);
@@ -56,7 +55,6 @@ public class ReventApp extends Application {
                  rentalService.loadJsonToArrayList();
              } catch (IOException e) {System.out.println("Fel vid synkning från Json-fil."+ e.getMessage());             }
          });
-
           }
     public void changeScene(Stage stage,Scene scene){
         stage.setScene(scene);

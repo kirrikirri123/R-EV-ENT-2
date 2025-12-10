@@ -5,7 +5,6 @@ import com.ahlenius.revent2.repository.Inventory;
 import com.ahlenius.revent2.repository.RentalRegistry;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
-
 import java.io.File;
 import java.io.IOException;
 import java.time.LocalDate;
@@ -15,7 +14,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
-
 
 public class RentalService {
     //Hanterar Item-funktioner kopplade till uthyrning.
@@ -75,21 +73,17 @@ public class RentalService {
                 getInventory().getItemList().removeAll(removeI); // använd getInventory.remove();
                 System.out.println(" Produkt borttagen.");}
         }}
-
     public void newMascotItem(String name, String description, double day, String season) throws IOException {
-        Item item = new MascotCostume(name, description, day, season);
-        addItemToList(item);
+        addItemToList(new MascotCostume(name, description, day, season));
         listToJson();
     }
-
     public void newBouncyItem(String name, String description, double day, boolean indoor) throws IOException {
-        Item item = new BouncyCastle(name, description, day, indoor);
-        addItemToList(item);
+        addItemToList(new BouncyCastle(name, description, day, indoor));
         listToJson();
     }
     public void addItemToList(Item item) {
-        getInventory().add(item);
-        System.out.println(item.getName() + "är sparad i listan.");
+        inventory.add(item);
+        System.out.println(item.getName() + " är sparad i listan.");
     }
 
     public void listToJson() throws IOException {
@@ -97,7 +91,7 @@ public class RentalService {
             mapper.enable(SerializationFeature.INDENT_OUTPUT);
             mapper.writeValue(new File("items.json"),inventory.getItemList());
             System.out.println("Listan är sparad i fil");}// bekräftelse i konsoll
-        catch (IOException e){ throw new IOException("Fel uppstsod vid sparande till fil.");}}
+        catch (IOException e){ throw new IOException("Fel uppstsod vid sparande av Items till fil.");}}
 
     public void loadJsonToArrayList() throws IOException{
         try{
@@ -105,11 +99,9 @@ public class RentalService {
             System.out.println("Item-data laddat i temporär lista.");
             inventory.addList(fromFile);
             System.out.println("Items laddad från Json till lista. ");}
-        catch (IOException e){throw new IOException("Fel uppstod vid uppladdning av data från fil.");}}
+        catch (IOException e){throw new IOException("Fel uppstod vid uppladdning av Items-data från fil.");}}
 
-
-
-   public void defaultList() { // För testning.
+    public void defaultList() { // För testning.
         try{
         newBouncyItem("Kungliga slottet"," Stor hoppborg,för max 15 barn",1000, false);
         newBouncyItem("Slott"," Liten hoppborg, för max 7 barn",450, true);

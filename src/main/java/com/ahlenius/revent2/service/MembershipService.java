@@ -45,8 +45,8 @@ public class MembershipService {
     try {
         mapper.enable(SerializationFeature.INDENT_OUTPUT);
         mapper.writeValue(new File("members.json"),memberRegistry.getMemberRegistryList());
-        System.out.println("Listan är sparad i fil");}// bekräftelse i konsoll
-    catch (IOException e){ throw new IOException("Fel uppstsod vid sparande till fil.");}}
+        System.out.println("Member-listan är sparad i fil");}// bekräftelse i konsoll
+    catch (IOException e){ throw new IOException("Fel uppstsod vid sparande av Member-data till fil.");}}
 
     public void loadJsonToArrayList() throws IOException{
     try{
