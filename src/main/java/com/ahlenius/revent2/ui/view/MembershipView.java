@@ -203,7 +203,7 @@ public class MembershipView {
             if(searchMember.getText().isEmpty()){confirmationSearchMem.setText("För att söka fyll i namn eller telefonummer.");}
             else {
              confirmationSearchMem.setText(" ");
-            searchBtnMem.setText("Söker medlem...");// Lägga en sleep och sen återställa knapp till "Sök. Så syns det att den "gör nått"
+            searchBtnMem.setText("Söker medlem..."); // Lägga en sleep och sen återställa knapp till "Sök. Så syns det att den "gör nått"
             try {
                 ArrayList<String> foundMem= membershipService.checkMemberlistReturnFormatedStringList(searchMember.getText());
                 foundMem.stream().forEach(s-> builder.append(s).append("\n"));
@@ -241,7 +241,6 @@ public class MembershipView {
                 } catch (NullPointerException e) { updateMemInfo.setText(e.getMessage()); searchBtnUpd.setText(searchBtnString);}});
             //Uppdatera mot register
         confBtn.setOnAction(actionEvent -> {
-            //"Ändrar tempMember till bla bla ?"
             if(!updUserNameField.getText().isEmpty()){
             membershipService.updateMemberName(tempMember, updUserNameField.getText());}
             if(!updUserPhoneField.getText().isEmpty()){

@@ -3,7 +3,6 @@ package com.ahlenius.revent2.ui.controller;
 import com.ahlenius.revent2.ui.view.*;
 
 public class ButtonController {
-    // Här försöker vi lägga actions för knappar.
     private StartView startView = new StartView();
     private MainView mainView = new MainView();
     private MembershipView membershipView = new MembershipView();
@@ -61,6 +60,11 @@ public class ButtonController {
             productView.getProductPane().setCenter(productView.getNewProdBox());
         });
 
+        mainView.getViewAccesibleProd().setOnAction(actionEvent -> {
+            mainView.getMainView().setCenter(productView.getProductPane());
+            rentalView.getRentalPane().setCenter(rentalView.getProdViewBox());
+        });
+
         // Uthyrningsknappar i meny
         mainView.getAccesibleProd().setOnAction(actionEvent -> {
                     mainView.getMainView().setCenter(rentalView.getRentalPane());
@@ -84,7 +88,10 @@ public class ButtonController {
             historyView.getHistoryPane().setCenter(historyView.getMemberHistoryBox());
         });
 
-
+        // Ekonomiknappar i meny
+        mainView.getRevenue().setOnAction(actionEvent -> {
+            mainView.getMainView().setCenter(economyView.getEconomyPane());
+        });
 
     }
 }

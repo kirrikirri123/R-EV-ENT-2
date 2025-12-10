@@ -45,13 +45,14 @@ public class RentalService {
                 foundI.add(i);} }
         return foundI;
     }
-    public Item searchItemByNameReturnItem(String prod) {
+    public Item searchItemByNameReturnItem(String prod) throws NullPointerException {
         Item foundItem = null;
         for (Item it : getInventory().getItemList()) {
             if (it.getName().equalsIgnoreCase(prod)) {
                 foundItem = it;
             }
         }
+        if(foundItem == null){throw new NullPointerException("Hittade ingen matchande produkt");}
         return foundItem;}
 
     public int searchItemGetListIndex(String prod){
