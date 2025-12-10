@@ -37,7 +37,7 @@ public class MembershipService {
         addMemberList(member); }}
 
     public void addMemberList(Member member) throws IOException {
-        getMemberRegistry().add(member); // måste man ha getter här inne??
+        getMemberRegistry().add(member);
         System.out.println(member.getName() + " är sparad i listan.");
         listToJson();} //bekräftelse i konsoll
 
@@ -53,7 +53,7 @@ public class MembershipService {
         List<Member> fromFile = Arrays.asList(mapper.readValue(new File("members.json"),Member[].class));
         System.out.println("Laddat fil i temporär lista.");
        memberRegistry.addList(fromFile);
-        System.out.println("Sparad från Json till Lista. Observable list?");}
+        System.out.println("Members laddad från Json till lista.");}
     catch (IOException e){throw new IOException("Fel uppstod vid uppladdning av data från fil.");}}
 
 // Söka ändra medlem.

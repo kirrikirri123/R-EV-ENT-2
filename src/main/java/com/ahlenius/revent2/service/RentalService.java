@@ -3,19 +3,25 @@ package com.ahlenius.revent2.service;
 import com.ahlenius.revent2.entity.*;
 import com.ahlenius.revent2.repository.Inventory;
 import com.ahlenius.revent2.repository.RentalRegistry;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
 
+import java.io.File;
+import java.io.IOException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
-import java.util.concurrent.TimeUnit;
+
 
 public class RentalService {
     //Hanterar Item-funktioner kopplade till uthyrning.
     private Inventory inventory;
     private RentalRegistry rentalRegistry;
+    ObjectMapper mapper = new ObjectMapper();
 
     public RentalService (){}
 
@@ -33,9 +39,7 @@ public class RentalService {
 
     // _______________________________________________________________________
 // Produkt metoder
-    public void addItemToList(Item item) {
-        getInventory().add(item);
-    }
+
     public List<Item> searchItemByName(String prod) {
         List<Item> foundI = new ArrayList<>();
         for (Item i : getInventory().getItemList()) {
@@ -51,19 +55,6 @@ public class RentalService {
             }
         }
         return foundItem;}
-
-    public void checkListPrintItemsFound(String prod) { // TODO Obs! Uskrift i konsoll . Onödigt krånglig då Itemslist är en ArrayList? Borde vara streams.
-        List<Item> foundMatches = searchItemByName(prod);
-        if (foundMatches.size() >= 2) {
-            System.out.println("Hittade flera matchningar.");
-            for (int i = 0; i < foundMatches.size(); i++) {
-                System.out.println("Nr." + i + foundMatches.get(i).getName());} // Måste fixa metod för att välja mellan dessa val?
-        } else if (foundMatches.isEmpty()) {
-            System.out.println("Hittade ingen matchning.");
-        } else {
-            for (Item item : foundMatches) {
-                System.out.println("Hittade " + item.getName() + " med dagspris: " + item.getDayPrice());
-            }}}
 
     public int searchItemGetListIndex(String prod){
         int indexItem=0;
@@ -83,38 +74,49 @@ public class RentalService {
             if (removeUser.equalsIgnoreCase("ja")){
                 getInventory().getItemList().removeAll(removeI); // använd getInventory.remove();
                 System.out.println(" Produkt borttagen.");}
-            System.out.println(" Se aktuell lista:");printItemList();
         }}
 
-    public void newMascotItem(String name, String description, double day, String season) {
+    public void newMascotItem(String name, String description, double day, String season) throws IOException {
         Item item = new MascotCostume(name, description, day, season);
         addItemToList(item);
+        listToJson();
     }
 
-    public void newBouncyItem(String name, String description, double day, boolean indoor) {
+    public void newBouncyItem(String name, String description, double day, boolean indoor) throws IOException {
         Item item = new BouncyCastle(name, description, day, indoor);
         addItemToList(item);
+        listToJson();
+    }
+    public void addItemToList(Item item) {
+        getInventory().add(item);
+        System.out.println(item.getName() + "är sparad i listan.");
     }
 
-    public void printItemList(){ //TODO Obs finns utskrift i konsoll  Kasta vidare exception? Hur använda denna i JavaFX?
-        if(getInventory().getItemList().isEmpty()){System.out.println("Inga produkter att visa.");}
-        for(Item item:getInventory().getItemList()){
-            System.out.println(item);
-            try{
-                TimeUnit.MILLISECONDS.sleep(500);
-            } catch (InterruptedException e) {System.out.println("Utskriften avbröts. Prova igen lite senare.");
-            }
-        }
-    }
+    public void listToJson() throws IOException {
+        try {
+            mapper.enable(SerializationFeature.INDENT_OUTPUT);
+            mapper.writeValue(new File("items.json"),inventory.getItemList());
+            System.out.println("Listan är sparad i fil");}// bekräftelse i konsoll
+        catch (IOException e){ throw new IOException("Fel uppstsod vid sparande till fil.");}}
+
+    public void loadJsonToArrayList() throws IOException{
+        try{
+            List<Item> fromFile = Arrays.asList(mapper.readValue(new File("items.json"),Item[].class));
+            System.out.println("Item-data laddat i temporär lista.");
+            inventory.addList(fromFile);
+            System.out.println("Items laddad från Json till lista. ");}
+        catch (IOException e){throw new IOException("Fel uppstod vid uppladdning av data från fil.");}}
 
 
-    public void defaultList() { // För testning.
+
+   public void defaultList() { // För testning.
+        try{
         newBouncyItem("Kungliga slottet"," Stor hoppborg,för max 15 barn",1000, false);
         newBouncyItem("Slott"," Liten hoppborg, för max 7 barn",450, true);
         newBouncyItem("UltimateXtreme"," Maxad hoppupplevelse, för max 8 vuxna",3500, false);
         newMascotItem("Nallebjörn"," Kramgo, lurvig brunbjörndräkt", 200,"Året om");
         newMascotItem("Tomten"," Premium tomtedräkt. Kvalitetskläder naturligt skägg. Inga skor medföljer.", 1000,"Jul");
-    }
+    } catch (IOException ex) { System.out.println(ex.getMessage());}}
 
     //______________________________________________________________________
     //Uthyrningsmetoder
@@ -128,66 +130,50 @@ public class RentalService {
         return rental;
     }
 
-    public Rental newRental(Item rentalItem, int rentDays) { // Blir default dagens datum.
-        Rental rental = new Rental(rentalItem, rentDays);
+    public Rental newRental(Member rentingMember,Item rentalItem, int rentDays) { // Blir default dagens datum.
+        Rental rental = new Rental(rentingMember,rentalItem, rentDays);
         return rental;
     }
-    //önska antal
-    public int rentDaysChoice(Scanner scan) { // TODO Obs! Finns utskrift och scanner i konsoll.
-        System.out.println("Hur många dagar önskas hyra?");
-        int days = scan.nextInt();
-        return days;    }
+
     // byt antal
-    /*
+
     public void changeRentDays(Member member, int x) {
-        //getRentalRegistry().getRentalList().get(member).setRentDays(x); Ändrad Lista från Rental till List<Rental>
+        getRentalRegistry().getRentalList().get(getRentalRegistry().getRentalList().indexOf(member)).setRentDays(x); // Ändra till streams?
     }
     //visa valt antal
     public int rentalCountDays(Member member) {
-        //return getRentalRegistry().getRentalList().get(member).getRentDays(); Ändrat Lista från Rental till List<Rental>
+        return  getRentalRegistry().getRentalList().get(getRentalRegistry().getRentalList().indexOf(member)).getRentDays();  // Ändra till streams?
     }
 
     public double returnRentalDayPrice(Member member) {
-        return getRentalRegistry().getRentalList().get(member).getRentalItem().getDayPrice();
+        return  getRentalRegistry().getRentalList().get(getRentalRegistry().getRentalList().indexOf(member)).getRentalItem().getDayPrice();// Ändra till streams?
     }
 
     public String returnRentalItemName(Member member) {
-        return getRentalRegistry().getRentalList().get(member).getRentalItem().getName();
+        return  getRentalRegistry().getRentalList().get(getRentalRegistry().getRentalList().indexOf(member)).getRentalItem().getName();// Ändra till streams?
     }
-
 
     public String userChooseDate(String dateStartString){
         return dateStartString.replace(' ','-');}
 
-    public void rentalsToList(Member member, Rental rentalItem) {
-        getRentalRegistry().getRentalList().put(member, rentalItem);
-        addHistory(rentalItem, member);
+    public void rentalsToList(Rental rentalItem) {
+        getRentalRegistry().add(rentalItem);
+        addHistory(rentalItem,rentalItem.getRentingMember());
     }
 
     public void addHistory(Rental rentalItem, Member member) {
         member.getHistoryMember().add(rentalItem);
     }
 
-    public void newRentAddRentListAndMemHistory(Item rentalItem, int rentDays, Member member) {
-        rentalsToList(member, newRental(rentalItem, rentDays));
-        // kan man göra hela kedjan i denna metod?
-    }
-
-    public void printRentalsList() { //TODO Exception för inge uythyrningar
-        if (getRentalRegistry().getRentalList().isEmpty()){System.out.println("Inga uthyrningar gjorda.");}
-        for(Map.Entry<Member, Rental> entry :getRentalRegistry().getRentalList().entrySet()) {
-            System.out.println(entry.getKey() + " - "+ entry.getValue());
-        }}
-
     public void countActualDays(String stopDate, Member member){ // här finns risk att det är ett förstort tal i long när de konverteras till int.
         LocalDate stopRent = createDateOfRent(stopDate);
-        LocalDate theStartOfRent = getRentalRegistry().getRentalList().get(member).getStartOfRent();
+        LocalDate theStartOfRent = getRentalRegistry().getRentalList().get(getRentalRegistry().getRentalList().indexOf(member)).getStartOfRent(); //  Ändrad dör att funka mot List istället fölr map okänt i praktiken.
         long actualDaysLong = stopRent.toEpochDay() - theStartOfRent.toEpochDay();
         int actualDays =(int) actualDaysLong;
         changeRentDays(member,actualDays);
     }
 
-    public void sumRentalsList() {
+    /*public void sumRentalsList() { // Ekonomi att se över vid senare tillfälle.
         System.out.println("Hyrestransaktioner idag: ");
         double sum=0;
         for (Map.Entry<Member, Rental> entry : getRentalRegistry().getRentalList().entrySet()) {
@@ -197,6 +183,8 @@ public class RentalService {
                     ". Dagspris: " + entry.getValue().getRentalItem().getDayPrice()+ "kr. Hyrestid i dagar: "+ entry.getValue().getRentDays()
                     + ". Beräknad intäkt på uthyrningen bortsett från ev.rabatter: "+price+ " kr.");
         }System.out.println("Totala intäkter på affärer gjorda idag beräknas bli: "+ sum + "kr ex. moms.");}
+*/
+
 
     public double calculateDay(double dayPrice,int days) {
         double price = dayPrice * days;
@@ -206,7 +194,7 @@ public class RentalService {
 
     public double priceMonth(double dayPrice,double days) {
         return (days/30)*((dayPrice*30)*0.7);
-    }*/
+    }
 
 }
 
