@@ -35,7 +35,7 @@ public class ReventApp extends Application {
 
         stage.setTitle("R-EV-ENT - Re-Invent your event - Just rent!");
 
-        rentalService.defaultList();
+        //rentalService.defaultList();
 
        start = new Scene(startView.getStartView(),500,450);
        main = new Scene(mainView.getMainView(),825,800);

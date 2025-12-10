@@ -53,6 +53,6 @@ public class Member {
 
     @Override
     public String toString() {
-        return "Id-nummer: "+ this.id.getValue() + "\nNamn: "+ this.name.getValue() +"\nTelefonnummer:  "+ phone.getValue();
+        return "Id-nummer: "+ this.id.getValue() + "\nNamn: "+ this.name.getValue() +"\nTelefonnummer:  "+ phone.getValue()+"\n Status :"+ memberStatus.getValue();
     }}
 

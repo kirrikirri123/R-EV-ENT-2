@@ -8,9 +8,10 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
-
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Optional;
+import java.util.concurrent.TimeUnit;
 
 public class MembershipView {
     // Här kommer under meny men olika alternativ till medlemskapshantering.
@@ -28,6 +29,7 @@ public class MembershipView {
     private String searchBtnString = "Sök";
     private final Button OKBTN = new Button("OK");
     private Label exceptionInfo = new Label();
+    private Member tempMember;
 
 
     public MembershipView(){}
@@ -106,23 +108,51 @@ public class MembershipView {
         updateMember.setMaxWidth(250);
         updateMember.setPromptText("Tex. Bosse Bengtsson eller 0950 14841");
         Button searchBtnUpd = new Button(searchBtnString);
-
-        Alert confrUpdMem = new Alert(Alert.AlertType.CONFIRMATION);
-        ButtonType yesBtn = new ButtonType("Ja");
-        ButtonType noBtn = new ButtonType("Avbryt");
-        Button btnYES = (Button)confrUpdMem.getDialogPane().lookupButton(yesBtn);
-        Button btnNO = (Button)confrUpdMem.getDialogPane().lookupButton(noBtn);
-        confrUpdMem.getButtonTypes().setAll(yesBtn,noBtn);
-        confrUpdMem.setTitle("Uppdatera medlem - Validering");
-        confrUpdMem.setHeaderText("Vill du uppdatera medlem?");
-
         updateMemPane.setSpacing(5);
         updateMemPane.setAlignment(Pos.CENTER);
         updateMemPane.getChildren().addAll(headerUpdate,updateMemLabel,updateMember,searchBtnUpd,updateMemInfo);
+          Alert confrUpdMem = new Alert(Alert.AlertType.CONFIRMATION);
+            ButtonType yesBtn = new ButtonType("Ja");
+            ButtonType noBtn = new ButtonType("Avbryt");
+            confrUpdMem.getButtonTypes().setAll(yesBtn,noBtn);
+            confrUpdMem.setTitle("Uppdatera medlem - Validering");
+            confrUpdMem.setHeaderText("Vill du uppdatera medlem?");
+
             // Steg 2 uppdatera medlem.
         VBox updateMemVbox= new VBox();
-
-
+        Label update2ndView = new Label("Redigering av medlemsinformation");
+        Label validatedMem = new Label();
+        Label updName = new Label(" Ändra stavning i namn : ");
+        Label updPhone = new Label("Ändra telefonnummer : ");
+        Label updStatus = new Label("Välj korrekt medlemsstatus ");
+        TextField updUserNameField = new TextField();
+        userName.maxWidth(225);
+        TextField updUserPhoneField = new TextField();
+        userPhone.maxWidth(225);
+        ComboBox<String>updUserStatusCombo = new ComboBox<>();
+        String privateIndividual = "Privatperson";
+        String society = "Förening";
+        updUserStatusCombo.getItems().addAll(privateIndividual,society);
+        updUserStatusCombo.maxWidth(225);
+        Button confBtn = new Button(" Bekräftar ändring ");
+        Label confrmUpdText = new Label();
+        Label updMemExceptionInfo = new Label();
+        GridPane updMemPane = new GridPane();
+        updMemPane.setHgap(5);
+        updMemPane.setVgap(5);
+        updMemPane.setAlignment(Pos.CENTER);
+        updMemPane.add(updName,0,0);
+        updMemPane.add(updUserNameField,1,0);
+        updMemPane.add(updPhone,0,2);
+        updMemPane.add(updUserPhoneField,1,2);
+        updMemPane.add(updStatus,0,3);
+        updMemPane.add(updUserStatusCombo,1,3);
+        updMemPane.add(confBtn,2,4);
+        updMemPane.add(confrmUpdText,1,5);
+        updMemPane.add(updMemExceptionInfo,1,6);
+        updateMemVbox.setSpacing(15);
+        updateMemVbox.setAlignment(Pos.CENTER);
+        updateMemVbox.getChildren().addAll(update2ndView,validatedMem,updMemPane);
 
 
         // Vänsterfält
@@ -141,7 +171,7 @@ public class MembershipView {
         });
         updateMem.setOnAction(actionEvent -> {
             memberPane.setCenter(updateMemPane);
-            searchBtnUpd.setText(searchBtnString); updateMember.clear(); updateMemInfo.setText("");
+            searchBtnUpd.setText(searchBtnString); updateMember.clear(); updateMemInfo.setText("");confrmUpdText.setText("");
         });
         historyMem.setOnAction(actionEvent -> {
             memberPane.setCenter(memHistoryPane);
@@ -149,16 +179,17 @@ public class MembershipView {
         });
 
         // Knappar funktioner
+        //Ny medlem -OK
         OKBTN.setOnAction(actionEvent -> {
             try{
             membershipService.newMember(userId.getText(), userName.getText(), userPhone.getText(), "Privat");
-                confrimationText.setText("Ny medlem skapad.");
+                confrimationText.setText("Ny medlem skapad.");  // syns inte länger.
                 userId.clear();userName.clear();userPhone.clear();exceptionInfo.setText(" ");
             } catch (InvalidMemberInfoInputException | InvalidNameInputException | InvalidPhoneInputException |
             IOException e) {
                 exceptionInfo.setText(e.getMessage());}
             });
-
+        //Vanlig sök
         searchBtnMem.setOnAction(actionEvent -> { // Nånting gör så att det tidigare sökningar syns i resultatet. även om ett exception kommer emellan.
             if(searchMember.getText().isEmpty()){confirmationSearchMem.setText("För att söka fyll i namn eller telefonummer.");}
             else {
@@ -170,7 +201,7 @@ public class MembershipView {
                 confirmationSearchMem.setText(builder.toString());
                 searchBtnMem.setText(searchBtnString); searchMember.clear(); foundMem.clear();
             } catch (NullPointerException ex) { confirmationSearchMem.setText(ex.getMessage());searchBtnMem.setText(searchBtnString); }}});
-
+        //Historik
         searchBtnHist.setOnAction(actionEvent -> {
             searchBtnHist.setText("Söker medlem...");// Lägga en sleep och sen återställa knapp till "Sök."
             try{
@@ -179,24 +210,43 @@ public class MembershipView {
                 searchBtnHist.setText(searchBtnString); memberHistory.clear();
             } catch (NullPointerException|NoHistoryFoundException ex){exceptionInfoHistory.setText(ex.getMessage()); searchBtnHist.setText(searchBtnString);}
         });
-
+        // Uppdatera
         searchBtnUpd.setOnAction(actionEvent -> {
-            searchBtnUpd.setText("Söker medlem...");// Lägga en sleep och sen återställa knapp till "Sök."
-            try{
+            searchBtnUpd.setText("Söker medlem...");
+              try{
                 Member foundMem = membershipService.searchMemberByNameOrPhoneReturnMember(updateMember.getText());
                 confrUpdMem.setContentText("Hittade medlem " + foundMem.getName() + ". Stämmer det?");
-                confrUpdMem.show();
-                btnYES.setOnAction(actionE -> {
-                    updateMemInfo.setText("Medlem bekräftad. Laddar sida för uppdatering av medlemsinfo."); // startar men gör inget.
-                    confrUpdMem.close();
-                });
-                btnNO.setOnAction(aEvent -> { // Knappar i medlems
-                    updateMember.clear();
-                    searchBtnUpd.setText(searchBtnString);
-                    confrUpdMem.close();
-                });
-            } catch (NullPointerException e) { updateMemInfo.setText(e.getMessage()); searchBtnUpd.setText(searchBtnString);}
+                  Optional<ButtonType> userResult = confrUpdMem.showAndWait();
+                   if(userResult.isPresent()){
+                        if(userResult.get() == yesBtn) {
+                        updateMemInfo.setText("Medlem bekräftad. Laddar sida för uppdatering av medlemsinfo.");// detta skrivs aldrig ut
+                        try {
+                            TimeUnit.MILLISECONDS.sleep(1000);
+                                       } catch (InterruptedException e) {System.out.println("Fel uppstod vid sleep");}
+                        memberPane.setCenter(updateMemVbox);
+                        tempMember = foundMem;
+                        validatedMem.setText("Vald medlem : "+ foundMem.getName());
+                        updUserNameField.setPromptText(foundMem.getName());
+                        updUserPhoneField.setPromptText(foundMem.getPhone());
+                        }else if(userResult.get() == noBtn) {updateMember.clear(); searchBtnUpd.setText(searchBtnString); confrUpdMem.close();}}
+                } catch (NullPointerException e) { updateMemInfo.setText(e.getMessage()); searchBtnUpd.setText(searchBtnString);}});
+            //Uppdatera mot register
+        confBtn.setOnAction(actionEvent -> {
+            //"Ändrar tempMember till bla bla ?"
+            if(!updUserNameField.getText().isEmpty()){
+            membershipService.updateMemberName(tempMember, updUserNameField.getText());}
+            if(!updUserPhoneField.getText().isEmpty()){
+            membershipService.updateMemberPhone(tempMember,updUserPhoneField.getText());}
+            if(!updUserStatusCombo.getValue().equals(tempMember.getMemberStatus())){
+            membershipService.updateMemberStatus(tempMember,updUserStatusCombo.getValue());}
+            try {
+                membershipService.listToJson();
+                confrmUpdText.setText("Info efter uppdatering :"+ tempMember + "," +tempMember.getMemberStatus());
+            } catch (IOException e) {confrmUpdText.setText(e.getMessage());          }
+
+            // Sleep?  + Gå tillbaka till nån medlemsvy - sök?
         });
+
 
          // Layout MembershipView
         memberPane.setCenter(gridPaneNewMem);

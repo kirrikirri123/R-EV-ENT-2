@@ -143,8 +143,6 @@ public class ProductView {
         Alert confrUpdProd = new Alert(Alert.AlertType.CONFIRMATION);
         ButtonType yesBtn = new ButtonType("Ja");
         ButtonType noBtn = new ButtonType("Avbryt");
-        //Button btnYES = (Button)confrUpdProd.getDialogPane().lookupButton(yesBtn);
-        //Button btnNO = (Button)confrUpdProd.getDialogPane().lookupButton(noBtn);
         confrUpdProd.getButtonTypes().setAll(yesBtn,noBtn);
         confrUpdProd.setTitle("Redigera produkt - Validering");
         confrUpdProd.setHeaderText("Vill du redigera en produkt?");
@@ -163,8 +161,8 @@ public class ProductView {
         editProd.setOnAction(actionEvent -> {
             productPane.setCenter(updateProdPane);
         });
-        // Knappar funktion
 
+        // Knappar funktion
         OKBTN.setOnAction(actionEvent -> {
              double day = Double.parseDouble(dayPriceField.getText());
                 if(itemTypeCombo.getValue().equals(costume)){
@@ -176,11 +174,13 @@ public class ProductView {
                     try {
                         rentalService.newBouncyItem(prodNameField.getText(),prodDescriptField.getText(),day,false);
                         confrimationText.setText("Ny produkt tillagd");
-                    } catch (IOException e) {exceptionInfo.setText(e.getMessage()+"Hoppborgssfail");
+                    } catch (IOException e) {exceptionInfo.setText((e.getMessage()+"Hoppborgssfail"));
                     }
                 }
                 prodNameField.clear();prodDescriptField.clear();dayPriceField.clear();exceptionInfo.setText(" ");
-                rentalService.getInventory().getItemList().stream().forEach(System.out::println); // istället för forEachLoop
+                rentalService.getInventory().getItemList().stream().forEach(System.out::println);
+                System.out.println("Nedan obsList");
+                rentalService.getInventory().getItemsObsList().stream().forEach(System.out::println);
         });
         searchBtnUpd.setOnAction(actionEvent -> {
             Item foundProd = rentalService.searchItemByNameReturnItem(updateProd.getText());
