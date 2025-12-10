@@ -27,6 +27,7 @@ public class ProductView {
     private Label confrimationText= new Label();
     private Label exceptionInfo= new Label();
     private Label updProdInfo = new Label();
+    private Item foundItem;
     private Item tempItem;
 
     public ProductView(){}
@@ -230,12 +231,13 @@ public class ProductView {
         });
         searchBtnUpd.setOnAction(actionEvent -> {
            try {
-               tempItem = rentalService.searchItemByNameReturnItem(updateProd.getText()); // ändra till som det är i member för bättre felhantering.
+               foundItem = rentalService.searchItemByNameReturnItem(updateProd.getText());
            } catch (NullPointerException e) {updProdInfo.setText("Hittade ingen matchande produkt.");           }
                confrUpdProd.setContentText("Hittade produkten - " + tempItem.getName() + ".\n Stämmer det?");
             Optional<ButtonType> userResult = confrUpdProd.showAndWait();
             if(userResult.isPresent()) {
                 if (userResult.get() == yesBtn) {
+                    foundItem = tempItem;
                     updProdInfo.setText("Produkt bekräftad. Laddar sida för uppdatering.");
                 productPane.setCenter(updateProdVbox);
                 validatedProd.setText("Vald produkt :"+ tempItem.getName());
