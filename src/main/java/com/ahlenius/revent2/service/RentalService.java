@@ -126,7 +126,7 @@ public class RentalService {
         LocalDate datetOfRent = LocalDate.parse(YYYYMMDD, styleDate);
         return datetOfRent;    }
 
-    public Rental newRental(Member memberRenting, Item rentalItem, int rentDays, String startOfRent) throws IOException  { // Datum YYYY-MM-DD
+    public Rental newRental(Member memberRenting, Item rentalItem, int rentDays, String startOfRent) throws IOException, DateTimeParseException  { // Datum YYYY-MM-DD
         Rental rental = new Rental(memberRenting,rentalItem, rentDays, startOfRent);
         rentalsToList(rental);
         rentalistToJson();

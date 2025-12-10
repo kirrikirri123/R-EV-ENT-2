@@ -20,7 +20,7 @@ public class Rental {
 
     public Rental() {}
 
-    public Rental(Member rentingMember,Item rentalItem, int rentDays, String startOfRent) {
+    public Rental(Member rentingMember,Item rentalItem, int rentDays, String startOfRent) throws DateTimeParseException {
         this.rentingMember.set(rentingMember);
         this.rentalItem.set(rentalItem);
         this.rentDays.set(rentDays);

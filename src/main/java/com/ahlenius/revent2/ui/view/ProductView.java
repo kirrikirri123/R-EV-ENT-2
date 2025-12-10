@@ -121,13 +121,13 @@ public class ProductView {
         dayPriceField.setMaxWidth(250);
         GridPane newProdPane =new GridPane();
         newProdPane.add(itemTypeL,0,0);
-        newProdPane.add(itemTypeCombo,2,0);
+        newProdPane.add(itemTypeCombo,1,0);
         newProdPane.add(prodName,0,1);
-        newProdPane.add(prodNameField,2,1);
+        newProdPane.add(prodNameField,1,1);
         newProdPane.add(prodDescript,0,2);
-        newProdPane.add(prodDescriptField,2,2);
+        newProdPane.add(prodDescriptField,1,2);
         newProdPane.add(dayPrice,0,3);
-        newProdPane.add(dayPriceField,2,3);
+        newProdPane.add(dayPriceField,1,3);
         newProdPane.add(OKBTN,3,4);
         newProdPane.add(confrimationText,1,5);
         newProdPane.add(exceptionInfo,1,6);
@@ -233,12 +233,12 @@ public class ProductView {
         searchBtnUpd.setOnAction(actionEvent -> {
            try {
                foundItem = rentalService.searchItemByNameReturnItem(updateProd.getText());
+               confrUpdProd.setContentText("Hittade produkten - " + foundItem.getName() + ".\n Stämmer det?");
            } catch (NullPointerException e) {updProdInfo.setText("Hittade ingen matchande produkt.");           }
-               confrUpdProd.setContentText("Hittade produkten - " + tempItem.getName() + ".\n Stämmer det?");
             Optional<ButtonType> userResult = confrUpdProd.showAndWait();
             if(userResult.isPresent()) {
                 if (userResult.get() == yesBtn) {
-                    foundItem = tempItem;
+                    foundItem = tempItem; // nullpointer
                     updProdInfo.setText("Produkt bekräftad. Laddar sida för uppdatering.");
                 productPane.setCenter(updateProdVbox);
                 validatedProd.setText("Vald produkt :"+ tempItem.getName());

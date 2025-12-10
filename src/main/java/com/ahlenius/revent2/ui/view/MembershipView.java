@@ -237,6 +237,7 @@ public class MembershipView {
                         validatedMem.setText("Vald medlem : "+ foundMem.getName());
                         updUserNameField.setPromptText(foundMem.getName());
                         updUserPhoneField.setPromptText(foundMem.getPhone());
+
                         }else if(userResult.get() == noBtn) {updateMember.clear(); searchBtnUpd.setText(searchBtnString); confrUpdMem.close();}}
                 } catch (NullPointerException e) { updateMemInfo.setText(e.getMessage()); searchBtnUpd.setText(searchBtnString);}});
             //Uppdatera mot register
@@ -250,6 +251,7 @@ public class MembershipView {
             try {
                 membershipService.listToJson();
                 confrmUpdText.setText("Efter uppdatering:\n"+ tempMember);
+                updUserNameField.clear(); updUserPhoneField.clear(); tempMember= null; validatedMem.setText("");
             } catch (IOException e) {confrmUpdText.setText(e.getMessage());}
         });
         removeMemBtn.setOnAction(actionEvet -> {
