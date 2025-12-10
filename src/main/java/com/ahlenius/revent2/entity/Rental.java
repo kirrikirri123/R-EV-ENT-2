@@ -1,6 +1,6 @@
 package com.ahlenius.revent2.entity;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleIntegerProperty;
@@ -15,7 +15,7 @@ public class Rental {
     private SimpleObjectProperty<Item> rentalItem = new SimpleObjectProperty<>();
     private SimpleIntegerProperty rentDays = new SimpleIntegerProperty();
     @JsonIgnore
-    private SimpleObjectProperty<LocalDate> startOfRent = new SimpleObjectProperty<>();
+    private SimpleObjectProperty<LocalDate> startOfRent = new SimpleObjectProperty<>(); // vad göra om inget datum sätts, blir knas mot Json?
     private SimpleBooleanProperty returned = new SimpleBooleanProperty();
 
     public Rental() {}
@@ -74,6 +74,6 @@ public class Rental {
 
     @Override
     public String toString() {
-        return "Medlem: "+ rentingMember.getValue().getName();
+        return "Medlem: "+ rentingMember.getValue().getName()+ ".\nHyr: "+ rentalItem.getValue().getName() +  "\nStart: "+ startOfRent.getValue()+". Planerad hyrestid:"+ rentDays.getValue() + " dagar." ;
     }
 }

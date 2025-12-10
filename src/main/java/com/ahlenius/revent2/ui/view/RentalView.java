@@ -80,6 +80,8 @@ public class RentalView {
         Label daysOfRent = new Label("Hur många dagar önskas hyra?");
         TextField rentalMemField = new TextField();
         TextField daysOfRentField = new TextField();
+        daysOfRentField.setPromptText("tex. 5");
+        daysOfRentField.setMaxWidth(250);
         rentalMemField.setMaxWidth(250);
         rentalMemField.setPromptText("tex. Kickan Kristersson");
         ComboBox<Member> memberComboBox =new ComboBox<>(membershipService.getMemberRegistry().convertMemberSetToObsList());
@@ -134,8 +136,9 @@ public class RentalView {
                 foundRentingMem = membershipService.searchMemberByNameOrPhoneReturnMember(rentalMemField.getText());
             } catch (NullPointerException e) { exceptionInfo.setText(e.getMessage() + ". Namnet behöver ha den exakta stavningen.");         }
             try{
-                rentalService.newRental(foundRentingMem, availableItem.getValue(),days,fromDateField.getText());
-                confrimationText.setText("Ny uthyrning skapad.");
+                Rental newestRental = rentalService.newRental(foundRentingMem, availableItem.getValue(),days,fromDateField.getText());
+                confrimationText.setText("Ny uthyrning skapad.\n"+ newestRental);
+                rentalMemField.clear();daysOfRentField.clear();fromDateField.clear();exceptionInfo.setText(" ");
             } catch (IOException e) { exceptionInfo.setText(e.getMessage());}
         });
 
