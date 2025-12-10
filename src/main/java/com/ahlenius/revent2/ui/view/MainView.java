@@ -27,11 +27,13 @@ public class MainView {
     private MenuItem products;
     private MenuItem newProducts;
     private MenuItem editProduct;
+    private MenuItem viewAccesibleProd;
     private MenuItem accesibleProd;
     private MenuItem newRental;
     private MenuItem endRental;
     private MenuItem rentalHistory;
     private MenuItem memberhistory;
+    private MenuItem revenue;
 
 
     public MainView() {
@@ -58,17 +60,20 @@ public class MainView {
         products = new MenuItem("Galleri");
         newProducts = new MenuItem("Ny produkt");
         editProduct = new MenuItem("Redigera produkt");
-        productMenu.getItems().addAll(products, newProducts, editProduct);
+        viewAccesibleProd = new MenuItem("Aktuella produkter");
+        productMenu.getItems().addAll(products, newProducts, editProduct,viewAccesibleProd);
         Menu rentalMenu = new Menu("Uthyrning");
         accesibleProd = new MenuItem("Aktuella produkter");
         newRental = new MenuItem("Ny uthyrning");
         endRental = new MenuItem("Avsluta uthyrning");
         rentalMenu.getItems().addAll(accesibleProd,newRental, endRental);
         Menu history = new Menu("Historik");
-        rentalHistory = new MenuItem("Uthyrnignshistorik");
+        rentalHistory = new MenuItem("Uthyrningshistorik");
         memberhistory = new MenuItem("Medlemsspecifik");
         history.getItems().addAll(rentalHistory, memberhistory);
         Menu economyMenu = new Menu("Ekonomi");
+        revenue = new MenuItem("Intäkter");
+        economyMenu.getItems().addAll(revenue);
 
         menuHeader.getMenus().addAll(startMenu, memberMenu, productMenu, rentalMenu, history, economyMenu);
         menuHeader.setPadding(new Insets(2, 10, 2, 200));
@@ -152,5 +157,11 @@ public class MainView {
     }
     public MenuItem getAccesibleProd() {
         return accesibleProd;
+    }
+    public MenuItem getRevenue() {
+        return revenue;
+    }
+    public MenuItem getViewAccesibleProd() {
+        return viewAccesibleProd;
     }
 }
