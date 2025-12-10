@@ -24,7 +24,7 @@ public class ReventApp extends Application {
     MainView mainView = new MainView();
     MembershipView membershipView = new MembershipView(memberService);
     ProductView productView = new ProductView(rentalService);
-    RentalView rentalView = new RentalView(rentalService);
+    RentalView rentalView = new RentalView(rentalService,memberService);
     HistoryView historyView = new HistoryView(rentalService);
     EconomyView economyView = new EconomyView();
     ButtonController buttonController= new ButtonController(startView,mainView,membershipView,productView,rentalView,economyView,historyView);
@@ -35,7 +35,8 @@ public class ReventApp extends Application {
 
         stage.setTitle("R-EV-ENT - Re-Invent your event - Just rent!");
 
-        //rentalService.defaultList();
+        rentalService.defaultList();
+        rentalService.defaultRentals();
 
        start = new Scene(startView.getStartView(),500,450);
        main = new Scene(mainView.getMainView(),825,800);
@@ -48,12 +49,13 @@ public class ReventApp extends Application {
         mainView.getQuitBtn().setOnAction(actionEvent -> {
             stage.close();
         });
-         startView.getImageStart().setOnMouseClicked(mouseEvent -> { // Flytta denna till buttoncontroller?
+         startView.getImageStart().setOnMouseClicked(mouseEvent -> { // Flytta denna till buttoncontroller alt. flytta metodanrop till konstruktor?
          changeScene(stage,main);
              try {
-                 memberService.loadJsonToArrayList(); // Skulle man haft ett interface som "hanterar" Json??
+                 memberService.loadJsonToArrayList();
+                 rentalService.loadRentalJsonToArrayList();
                  rentalService.loadJsonToArrayList();
-             } catch (IOException e) {System.out.println("Fel vid synkning från Json-fil."+ e.getMessage());             }
+             } catch (IOException e) {System.out.println(e.getMessage());             }
          });
           }
     public void changeScene(Stage stage,Scene scene){

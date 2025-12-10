@@ -1,7 +1,9 @@
 package com.ahlenius.revent2.entity;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 
+@JsonInclude
 @JsonTypeName("MascotCostume")
 public class MascotCostume extends Item {
     private String season; // se om detta stör ObservableList

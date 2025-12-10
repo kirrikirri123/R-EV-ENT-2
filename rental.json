@@ -1,0 +1,103 @@
+[ {
+  "rentingMember" : {
+    "id" : "921618",
+    "name" : "Kristina",
+    "phone" : "090154816",
+    "memberStatus" : "Privat",
+    "historyMember" : [ "Blåhuset, Hyresstart: 2025-12-10" ]
+  },
+  "rentalItem" : {
+    "type" : "com.ahlenius.revent2.entity.BouncyCastle",
+    "name" : "Blåhuset",
+    "description" : "Blått",
+    "dayPrice" : 1582.0,
+    "indoorUse" : true
+  },
+  "rentDays" : 10,
+  "returned" : false
+}, {
+  "rentingMember" : {
+    "id" : "921619",
+    "name" : "Christina",
+    "phone" : "090154817",
+    "memberStatus" : "Privat",
+    "historyMember" : [ "Rödahuset, Hyresstart: 2025-12-10" ]
+  },
+  "rentalItem" : {
+    "type" : "com.ahlenius.revent2.entity.BouncyCastle",
+    "name" : "Rödahuset",
+    "description" : "Rött",
+    "dayPrice" : 1502.0,
+    "indoorUse" : true
+  },
+  "rentDays" : 5,
+  "returned" : false
+}, {
+  "rentingMember" : {
+    "id" : "921618",
+    "name" : "Kristina",
+    "phone" : "090154816",
+    "memberStatus" : "Privat",
+    "historyMember" : [ "Blåhuset, Hyresstart: 2025-12-10" ]
+  },
+  "rentalItem" : {
+    "type" : "com.ahlenius.revent2.entity.BouncyCastle",
+    "name" : "Blåhuset",
+    "description" : "Blått",
+    "dayPrice" : 1582.0,
+    "indoorUse" : true
+  },
+  "rentDays" : 10,
+  "returned" : false
+}, {
+  "rentingMember" : {
+    "id" : "921619",
+    "name" : "Christina",
+    "phone" : "090154817",
+    "memberStatus" : "Privat",
+    "historyMember" : [ "Rödahuset, Hyresstart: 2025-12-10" ]
+  },
+  "rentalItem" : {
+    "type" : "com.ahlenius.revent2.entity.BouncyCastle",
+    "name" : "Rödahuset",
+    "description" : "Rött",
+    "dayPrice" : 1502.0,
+    "indoorUse" : true
+  },
+  "rentDays" : 5,
+  "returned" : false
+}, {
+  "rentingMember" : {
+    "id" : "112",
+    "name" : "Pelle Polis",
+    "phone" : "090669966",
+    "memberStatus" : "Privat",
+    "historyMember" : [ "Slott, Hyresstart: 2025-12-10", "Slott, Hyresstart: 2025-12-11" ]
+  },
+  "rentalItem" : {
+    "type" : "com.ahlenius.revent2.entity.BouncyCastle",
+    "name" : "Slott",
+    "description" : " Liten hoppborg, för max 7 barn",
+    "dayPrice" : 450.0,
+    "indoorUse" : true
+  },
+  "rentDays" : 10,
+  "returned" : false
+}, {
+  "rentingMember" : {
+    "id" : "112",
+    "name" : "Pelle Polis",
+    "phone" : "090669966",
+    "memberStatus" : "Privat",
+    "historyMember" : [ "Slott, Hyresstart: 2025-12-10", "Slott, Hyresstart: 2025-12-11" ]
+  },
+  "rentalItem" : {
+    "type" : "com.ahlenius.revent2.entity.BouncyCastle",
+    "name" : "Slott",
+    "description" : " Liten hoppborg, för max 7 barn",
+    "dayPrice" : 450.0,
+    "indoorUse" : true
+  },
+  "rentDays" : 10,
+  "returned" : false
+} ]

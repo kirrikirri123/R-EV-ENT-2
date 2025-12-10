@@ -1,5 +1,6 @@
 package com.ahlenius.revent2.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import javafx.beans.property.SimpleStringProperty;
 
 import java.util.LinkedList;
@@ -10,14 +11,14 @@ public class Member {
     private SimpleStringProperty name= new SimpleStringProperty();
     private SimpleStringProperty phone= new SimpleStringProperty();
     private SimpleStringProperty memberStatus= new SimpleStringProperty(); //private eller society
-    private List<Rental> historyMember = new LinkedList<>();
+    private List<String> historyMember = new LinkedList<>();
 
     public Member (){}
     public Member (String id, String name,String phone, String memberStatus) {
         this.id.set(id);
         this.name.set(name);
         this.phone.set(phone);
-        this.memberStatus.set(memberStatus);
+       this.memberStatus.set(memberStatus);
     }
     public String getId() {
         return id.get();
@@ -41,7 +42,7 @@ public class Member {
     public void setMemberStatus(String memberStatus) {
         this.memberStatus.set(memberStatus);
     }
-    public List<Rental> getHistoryMember() {
+    public List<String> getHistoryMember() {
         return historyMember;
     }
     public String getPhone() {

@@ -22,7 +22,7 @@ public class ProductView {
     private Button products;
     private Button newProd;
     private Button editProd;
-    private Button viewAccesibleProd = new Button("Aktuella produkter");
+    private Button viewAccesibleProdBtn = new Button("Aktuella produkter");
     private final Button OKBTN = new Button("OK");
     private Label confrimationText= new Label();
     private Label exceptionInfo= new Label();
@@ -32,6 +32,9 @@ public class ProductView {
 
     public ProductView(){}
 
+    public Button getViewAccesibleProdBtn() {
+        return viewAccesibleProdBtn;
+    }
     public ProductView(RentalService rentalService){
         this.rentalService = rentalService;
         // GalleriVY
@@ -208,8 +211,6 @@ public class ProductView {
             searchBtnUpd.setText("Sök"); updateProd.clear(); updateProdLabel.setText("");confrmUpdText.setText("");
         });
 
-       // viewAccesibleProd.setOnAction(actionEvent ->{
-            //productPane.setCenter();});
 
         // Knappar funktion
         OKBTN.setOnAction(actionEvent -> {
@@ -279,7 +280,7 @@ public class ProductView {
         VBox leftField = new VBox();
         leftField.setPadding(new Insets(15,15,5,10));
         leftField.setSpacing(10);
-        leftField.getChildren().addAll(products,newProd,editProd,viewAccesibleProd);
+        leftField.getChildren().addAll(products,newProd,editProd,viewAccesibleProdBtn);
 
         // Layout ProductView
         productPane.setCenter(itemView);
@@ -297,4 +298,6 @@ public class ProductView {
     }
     public BorderPane getProductPane(){
      return productPane;}
+
+
 }

@@ -16,7 +16,7 @@ import javafx.beans.property.SimpleStringProperty;
 })
 
 public abstract class Item {
-    protected SimpleStringProperty name= new SimpleStringProperty();
+    protected SimpleStringProperty name = new SimpleStringProperty();
     protected SimpleStringProperty description = new SimpleStringProperty();
     protected SimpleDoubleProperty dayPrice= new SimpleDoubleProperty();
 

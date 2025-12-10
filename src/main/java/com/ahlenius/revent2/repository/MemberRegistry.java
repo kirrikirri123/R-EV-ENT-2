@@ -2,6 +2,7 @@ package com.ahlenius.revent2.repository;
 
 import com.ahlenius.revent2.entity.Member;
 import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.collections.ObservableSet;
 
 import java.util.HashSet;
@@ -30,9 +31,16 @@ public class MemberRegistry {
         memberRegObsList.remove(member);
     }
 
+
     public void addList(List<Member> tempMember){
         memberRegistryList.addAll(tempMember);
         memberRegObsList.addAll(tempMember);
+    }
+
+    public ObservableList<Member> convertMemberSetToObsList(){
+        ObservableList<Member> tempObsMemList = FXCollections.observableArrayList();
+        tempObsMemList.addAll(memberRegObsList);
+                return tempObsMemList;
     }
 
 }

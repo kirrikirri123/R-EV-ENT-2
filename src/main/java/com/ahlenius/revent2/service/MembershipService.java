@@ -1,7 +1,6 @@
 package com.ahlenius.revent2.service;
 
 import com.ahlenius.revent2.entity.Member;
-import com.ahlenius.revent2.entity.Rental;
 import com.ahlenius.revent2.exceptions.*;
 import com.ahlenius.revent2.repository.MemberRegistry;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -82,16 +81,12 @@ public class MembershipService {
         for(Member m : foundMatches){j++; foundMemInfo.add( j + ".\n " + m.toString());}
     return foundMemInfo; }
 
+    public List<String> getMemberHistory(Member member)throws NoHistoryFoundException {
+        if (member.getHistoryMember().isEmpty()) {
+            throw new NoHistoryFoundException("Finns ingen historik på vald medlem.");
+        } return member.getHistoryMember();
 
-    public void removeMember(Member member) {
-        getMemberRegistry().getMemberRegistryList().remove(member);
     }
-
-
-    public List<Rental> getMemberHistory(Member member)throws NoHistoryFoundException{
-         if(member.getHistoryMember().isEmpty()){ throw new NoHistoryFoundException("Finns ingen historik på vald medlem.");}
-         return member.getHistoryMember();} //returnerar riktiga listan
-
     public void printMemberReg() throws NullPointerException {
         if (getMemberRegistry().getMemberRegistryList().isEmpty())
             {throw new NullPointerException("Listan är tom.");}

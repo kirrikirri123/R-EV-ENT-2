@@ -1,8 +1,10 @@
 package com.ahlenius.revent2.entity;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonTypeName;
-    @JsonTypeName("BouncyCastle")
 
+@JsonInclude
+@JsonTypeName("BouncyCastle")
 public class BouncyCastle extends Item {
      private boolean indoorUse; // se om detta stör ObservableList
 

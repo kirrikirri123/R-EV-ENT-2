@@ -206,7 +206,7 @@ public class MembershipView {
             searchBtnMem.setText("Söker medlem..."); // Lägga en sleep och sen återställa knapp till "Sök. Så syns det att den "gör nått"
             try {
                 ArrayList<String> foundMem= membershipService.checkMemberlistReturnFormatedStringList(searchMember.getText());
-                foundMem.stream().forEach(s-> builder.append(s).append("\n"));
+                foundMem.stream().forEach(s-> builder.append(s).append("\n")); // Göör troligast så hisotriken finns kvar.
                 confirmationSearchMem.setText(builder.toString());
                 searchBtnMem.setText(searchBtnString); searchMember.clear(); foundMem.clear();
             } catch (NullPointerException ex) { confirmationSearchMem.setText(ex.getMessage());searchBtnMem.setText(searchBtnString); }}});
@@ -258,7 +258,7 @@ public class MembershipView {
             if(userRemoveResult.isPresent()){
                 if(userRemoveResult.get() ==removeBtn){
                     try {
-                    membershipService.removeMember(tempMember);
+                    membershipService.getMemberRegistry().remove(tempMember);
                     membershipService.listToJson(); // behövs denna??
                     confrmUpdText.setText(tempMember.getName() + "s medlemskap är avslutat.");
                     } catch (IOException e) { confrmUpdText.setText(e.getMessage());}

@@ -3,6 +3,7 @@ package com.ahlenius.revent2.service;
 import com.ahlenius.revent2.entity.*;
 import com.ahlenius.revent2.repository.Inventory;
 import com.ahlenius.revent2.repository.RentalRegistry;
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import java.io.File;
@@ -13,7 +14,6 @@ import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Scanner;
 
 public class RentalService {
     //Hanterar Item-funktioner kopplade till uthyrning.
@@ -37,7 +37,6 @@ public class RentalService {
 
     // _______________________________________________________________________
 // Produkt metoder
-
     public List<Item> searchItemByNameReturnList(String prod) {
         List<Item> foundI = new ArrayList<>();
         for (Item i : getInventory().getItemList()) {
@@ -73,12 +72,9 @@ public class RentalService {
         double dayPrice = Double.parseDouble(newDayPrice);
         item.setDayPrice(dayPrice); // null varning
     }
-
-
     public void removeItem(Item item){
     getInventory().remove(item);
     }
-
     public void newMascotItem(String name, String description, double day, String season) throws IOException {
         addItemToList(new MascotCostume(name, description, day, season));
         listToJson();
@@ -101,13 +97,13 @@ public class RentalService {
 
     public void loadJsonToArrayList() throws IOException{
         try{
-            List<Item> fromFile = Arrays.asList(mapper.readValue(new File("items.json"),Item[].class));
+            List<Item> fromFile = mapper.readValue(new File("items.json"), new TypeReference<List<Item>>(){});
             System.out.println("Item-data laddat i temporär lista.");
             inventory.addList(fromFile);
             System.out.println("Items laddad från Json till lista. ");}
         catch (IOException e){throw new IOException("Fel uppstod vid uppladdning av Items-data från fil.");}}
 
-    /*public void defaultList() { // För testning.
+    public void defaultList() { // För testning.
         try{
         newBouncyItem("Kungliga slottet"," Stor hoppborg,för max 15 barn",1000, false);
         newBouncyItem("Slott"," Liten hoppborg, för max 7 barn",450, true);
@@ -115,7 +111,14 @@ public class RentalService {
         newMascotItem("Nallebjörn"," Kramgo, lurvig brunbjörndräkt", 200,"Året om");
         newMascotItem("Tomten"," Premium tomtedräkt. Kvalitetskläder naturligt skägg. Inga skor medföljer.", 1000,"Jul");
     } catch (IOException ex) { System.out.println(ex.getMessage());}}
-*/
+
+    public void defaultRentals() { // för test
+        try {
+            newRental(new Member("921618", "Kristina", "090154816", "Privat"), new BouncyCastle("Blåhuset", "Blått", 1582, true), 10);
+            newRental(new Member("921619", "Christina", "090154817", "Privat"), new BouncyCastle("Rödahuset", "Rött", 1502, true), 5);
+        } catch (IOException e) { System.out.println(e.getMessage());
+        }
+    }
     //______________________________________________________________________
     //Uthyrningsmetoder
     public LocalDate createDateOfRent(String YYYYMMDD) throws DateTimeParseException {
@@ -123,15 +126,42 @@ public class RentalService {
         LocalDate datetOfRent = LocalDate.parse(YYYYMMDD, styleDate);
         return datetOfRent;    }
 
-    public Rental newRental(Member memberRenting, Item rentalItem, int rentDays, String startOfRent) { // Datum YYYY-MM-DD
+    public void newRental(Member memberRenting, Item rentalItem, int rentDays, String startOfRent) throws IOException  { // Datum YYYY-MM-DD
         Rental rental = new Rental(memberRenting,rentalItem, rentDays, startOfRent);
-        return rental;
+        rentalsToList(rental);
+        rentalistToJson();
     }
 
-    public Rental newRental(Member rentingMember,Item rentalItem, int rentDays) { // Blir default dagens datum.
+    public void newRental(Member rentingMember,Item rentalItem, int rentDays) throws IOException { // Blir default dagens datum.
         Rental rental = new Rental(rentingMember,rentalItem, rentDays);
-        return rental;
+        rentalsToList(rental);
+        rentalistToJson();
     }
+
+    public void rentalsToList(Rental rentalItem) {
+        getRentalRegistry().add(rentalItem);
+        addHistory(rentalItem,rentalItem.getRentingMember());
+    }
+
+    public void addHistory(Rental rentalItem, Member member) {
+        String infoToHistory = rentalItem.getRentalItem().getName() +", Hyresstart: "+ rentalItem.getStartOfRent();
+        member.getHistoryMember().add(infoToHistory);
+    }
+
+    public void rentalistToJson() throws IOException {
+        try {
+            mapper.enable(SerializationFeature.INDENT_OUTPUT);
+            mapper.writeValue(new File("rental.json"),rentalRegistry.getRentalList());
+            System.out.println("Rental-listan är sparad i fil");}// bekräftelse i konsoll
+        catch (IOException e){ throw new IOException("Fel uppstsod vid sparande av uthyrningsinfo till fil.");}}
+
+    public void loadRentalJsonToArrayList() throws IOException{
+        try{
+            List<Rental> fromFile = Arrays.asList(mapper.readValue(new File("rental.json"),Rental[].class));
+            System.out.println("Laddat fil i temporär lista.");
+            rentalRegistry.addList(fromFile);
+            System.out.println("Rentals laddad från Json till lista.");}
+        catch (IOException e){throw new IOException("Fel uppstod vid uppladdning av uthyrningsinfo från fil.");}}
 
     // byt antal
 
@@ -154,14 +184,7 @@ public class RentalService {
     public String userChooseDate(String dateStartString){
         return dateStartString.replace(' ','-');}
 
-    public void rentalsToList(Rental rentalItem) {
-        getRentalRegistry().add(rentalItem);
-        addHistory(rentalItem,rentalItem.getRentingMember());
-    }
 
-    public void addHistory(Rental rentalItem, Member member) {
-        member.getHistoryMember().add(rentalItem);
-    }
 
     public void countActualDays(String stopDate, Member member){ // här finns risk att det är ett förstort tal i long när de konverteras till int.
         LocalDate stopRent = createDateOfRent(stopDate);
