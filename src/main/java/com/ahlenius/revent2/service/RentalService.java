@@ -185,7 +185,6 @@ public class RentalService {
         return dateStartString.replace(' ','-');}
 
 
-
     public void countActualDays(String stopDate, Member member){ // här finns risk att det är ett förstort tal i long när de konverteras till int.
         LocalDate stopRent = createDateOfRent(stopDate);
         LocalDate theStartOfRent = getRentalRegistry().getRentalList().get(getRentalRegistry().getRentalList().indexOf(member)).getStartOfRent(); //  Ändrad dör att funka mot List istället fölr map okänt i praktiken.
@@ -194,18 +193,16 @@ public class RentalService {
         changeRentDays(member,actualDays);
     }
 
-    /*public void sumRentalsList() { // Ekonomi att se över vid senare tillfälle.
+    public void sumRentalsList() { // Ekonomi att se över vid senare tillfälle.
         System.out.println("Hyrestransaktioner idag: ");
         double sum=0;
-        for (Map.Entry<Member, Rental> entry : getRentalRegistry().getRentalList().entrySet()) {
-            double price = calculateDay(entry.getValue().getRentalItem().getDayPrice(),entry.getValue().getRentDays());//OBS! Tar inte in pricepolicy.
+        for (Rental rent : getRentalRegistry().getRentalList()) {
+            double price = calculateDay(rent.getRentalItem().getDayPrice(),rent.getRentDays());//OBS! Tar inte in pricepolicy.
             sum +=price;
-            System.out.println(entry.getKey()+ " Produkt: "+ entry.getValue().getRentalItem().getName() +
-                    ". Dagspris: " + entry.getValue().getRentalItem().getDayPrice()+ "kr. Hyrestid i dagar: "+ entry.getValue().getRentDays()
+            System.out.println(rent.getRentingMember().getName() + " Produkt: "+ rent.getRentalItem().getName() +
+                    ". Dagspris: " + rent.getRentalItem().getDayPrice()+ "kr. Hyrestid i dagar: "+ rent.getRentDays()
                     + ". Beräknad intäkt på uthyrningen bortsett från ev.rabatter: "+price+ " kr.");
         }System.out.println("Totala intäkter på affärer gjorda idag beräknas bli: "+ sum + "kr ex. moms.");}
-*/
-
 
     public double calculateDay(double dayPrice,int days) {
         double price = dayPrice * days;

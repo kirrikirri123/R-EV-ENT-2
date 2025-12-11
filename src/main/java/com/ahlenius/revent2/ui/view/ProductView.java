@@ -27,7 +27,6 @@ public class ProductView {
     private Label confrimationText= new Label();
     private Label exceptionInfo= new Label();
     private Label updProdInfo = new Label();
-    private Item foundItem;
     private Item tempItem;
 
     public ProductView(){}
@@ -41,7 +40,7 @@ public class ProductView {
         products = new Button("Galleri");
         VBox item1 = new VBox();
         Label headerGallery = new Label("Ett urval av produkter");
-        headerGallery.setPrefSize(400,35);
+        headerGallery.setPrefSize(750,55);
         item1.setAlignment(Pos.CENTER);
         item1.setSpacing(10);
         item1.setMaxWidth(250);
@@ -129,14 +128,14 @@ public class ProductView {
         newProdPane.add(dayPrice,0,3);
         newProdPane.add(dayPriceField,1,3);
         newProdPane.add(OKBTN,3,4);
-        newProdPane.add(confrimationText,1,5);
-        newProdPane.add(exceptionInfo,1,6);
+        newProdPane.add(confrimationText,0,5);
+        newProdPane.add(exceptionInfo,0,6);
         newProdPane.setVgap(5);
         newProdPane.setHgap(5);
         newProdPane.setAlignment(Pos.CENTER);
         newProdBox.getChildren().addAll(headerNewProd,newProdPane);
 
-        // Redigera produktVY
+        // Redigera ProduktVy
         editProd = new Button("Redigera produkt");
         Label headerUpd = new Label("Redigera produkt");
         Label validatedProd = new Label();
@@ -161,7 +160,6 @@ public class ProductView {
         // Steg 2 uppdatera produkt.
         VBox updateProdVbox= new VBox();
         Label update2ndView = new Label("Redigering av produktinformation");
-        Label validateProd = new Label();
         Label updName = new Label(" Ändra produktnamn: ");
         Label updDescript = new Label("Uppdatera beskrivning: ");
         Label updDayPrice = new Label("Uppdatera dagshyra: ");
@@ -185,12 +183,12 @@ public class ProductView {
         updProdPane.add(updDayPrice,0,3);
         updProdPane.add(updDayPriceField,1,3);
         updProdPane.add(confBtn,2,4);
-        updProdPane.add(confrmUpdText,1,4);
+        updProdPane.add(confrmUpdText,0,4);
         updProdPane.add(updMemExceptionInfo,1,5);
         updProdPane.add (removeProdBtn,1,6);
         updateProdVbox.setSpacing(15);
         updateProdVbox.setAlignment(Pos.CENTER);
-        updateProdVbox.getChildren().addAll(update2ndView,validateProd,updProdPane);
+        updateProdVbox.getChildren().addAll(update2ndView,validatedProd,updProdPane);
 
         Alert confRemoveProd = new Alert(Alert.AlertType.CONFIRMATION);
         ButtonType removeBtn = new ButtonType("Radera");
@@ -211,7 +209,6 @@ public class ProductView {
             searchBtnUpd.setText("Sök"); updateProd.clear(); updateProdLabel.setText("");confrmUpdText.setText("");
         });
 
-
         // Knappar funktion
         OKBTN.setOnAction(actionEvent -> {
              double day = Double.parseDouble(dayPriceField.getText());
@@ -226,28 +223,27 @@ public class ProductView {
                         confrimationText.setText("Ny produkt tillagd");
                     } catch (IOException e) {exceptionInfo.setText((e.getMessage()+"Hoppborgssfail"));
                     }
-                }
-                prodNameField.clear();prodDescriptField.clear();dayPriceField.clear();exceptionInfo.setText("");
-
+                } prodNameField.clear();prodDescriptField.clear();dayPriceField.clear();exceptionInfo.setText("");
         });
+        //Uppdatera produkt
         searchBtnUpd.setOnAction(actionEvent -> {
            try {
-               foundItem = rentalService.searchItemByNameReturnItem(updateProd.getText());
+              Item foundItem = rentalService.searchItemByNameReturnItem(updateProd.getText());
                confrUpdProd.setContentText("Hittade produkten - " + foundItem.getName() + ".\n Stämmer det?");
-           } catch (NullPointerException e) {updProdInfo.setText("Hittade ingen matchande produkt.");           }
             Optional<ButtonType> userResult = confrUpdProd.showAndWait();
             if(userResult.isPresent()) {
                 if (userResult.get() == yesBtn) {
-                    foundItem = tempItem; // nullpointer
+                    tempItem = foundItem;
                     updProdInfo.setText("Produkt bekräftad. Laddar sida för uppdatering.");
                 productPane.setCenter(updateProdVbox);
-                validatedProd.setText("Vald produkt :"+ tempItem.getName());
+                validatedProd.setText("Vald produkt: "+ tempItem.getName());
                 updProdNameField.setPromptText(tempItem.getName());
                 updProdDescripField.setPromptText(tempItem.getDescription());
-                 }
-                else if(userResult.get() == noBtn) {  updateProd.clear();
-                searchBtnUpd.setText("Sök");
-            }}});
+
+                }else if(userResult.get() == noBtn) {  updateProd.clear();
+                searchBtnUpd.setText("Sök"); }}
+                } catch (NullPointerException e) {updProdInfo.setText(e.getMessage());}});
+
         confBtn.setOnAction(actionEvent -> {
             if(!updProdNameField.getText().isEmpty()){
                 rentalService.updateProdName(tempItem, updProdNameField.getText());
@@ -265,7 +261,7 @@ public class ProductView {
             confRemoveProd.setContentText("Vill du radera "+ tempItem.getName() +" ?"); // tillägg senare om det påverkar uthyrning + kostnad kan man dra en chech här innan.
             Optional<ButtonType> userRemoveResult = confRemoveProd.showAndWait();
             if(userRemoveResult.isPresent()){
-                if(userRemoveResult.get() ==removeBtn){
+                if(userRemoveResult.get() == removeBtn){
                     try {
                         rentalService.removeItem(tempItem); System.out.println(tempItem + "Raderad");
                         rentalService.listToJson(); // behövs denna??

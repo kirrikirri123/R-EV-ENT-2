@@ -5,8 +5,8 @@
   "indoorUse" : false
 }, {
   "name" : "Slott",
-  "description" : " Liten hoppborg, för max 7 barn",
-  "dayPrice" : 450.0,
+  "description" : "Liten hoppborg",
+  "dayPrice" : 158.0,
   "indoorUse" : true
 }, {
   "name" : "UltimateXtreme",
