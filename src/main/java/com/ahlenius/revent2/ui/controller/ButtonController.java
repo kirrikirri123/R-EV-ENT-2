@@ -12,14 +12,14 @@ public class ButtonController {
     private HistoryView historyView = new HistoryView();
 
 
-    public ButtonController(StartView startView, MainView mainview, MembershipView membershipView,ProductView productView,RentalView rentalView,EconomyView economyView,HistoryView historyView) {
-        this.startView = startView;
-        this.mainView = mainview;
-        this.membershipView = membershipView;
-        this.productView = productView;
-        this.rentalView = rentalView;
-        this.economyView = economyView;
-        this.historyView = new HistoryView();
+    public ButtonController(StartView start, MainView main, MembershipView membership,ProductView product,RentalView rental,EconomyView economy,HistoryView history) {
+        this.startView = start;
+        this.mainView = main;
+        this.membershipView = membership;
+        this.productView = product;
+        this.rentalView = rental;
+        this.economyView = economy;
+        this.historyView = history;
 
 
         // Medlemsknappar i meny.
@@ -33,12 +33,10 @@ public class ButtonController {
             membershipView.getMemberPane().setCenter(membershipView.getMemHistoryPane());
 
         });
-
         mainView.getSearchMem().setOnAction(actionEvent -> {
             mainView.getMainView().setCenter(membershipView.getMemberPane());
             membershipView.getMemberPane().setCenter(membershipView.getSearchMemPane());
         });
-
         mainView.getUpdateMem().setOnAction(actionEvent -> {
             mainView.getMainView().setCenter(membershipView.getMemberPane());
             membershipView.getMemberPane().setCenter(membershipView.getUpdateMemPane());
@@ -61,28 +59,39 @@ public class ButtonController {
         });
 
         mainView.getViewAccesibleProd().setOnAction(actionEvent -> {
-            mainView.getMainView().setCenter(productView.getProductPane());
+            mainView.getMainView().setCenter(rentalView.getRentalPane());
+            rentalView.getRentalPane().setCenter(rentalView.getProdViewBox());
+        });
+
+         // - ProduktView funktioner
+        productView.getViewAccesibleProdBtn().setOnAction(actionEvent ->{
+            mainView.getMainView().setCenter(rentalView.getRentalPane());
             rentalView.getRentalPane().setCenter(rentalView.getProdViewBox());
         });
 
         // Uthyrningsknappar i meny
+
         mainView.getAccesibleProd().setOnAction(actionEvent -> {
                     mainView.getMainView().setCenter(rentalView.getRentalPane());
                     rentalView.getRentalPane().setCenter(rentalView.getProdViewBox());
-                });
+        });
+
         mainView.getNewRental().setOnAction(actionEvent -> {
             mainView.getMainView().setCenter(rentalView.getRentalPane());
             rentalView.getRentalPane().setCenter(rentalView.getNewRentalBox());
         });
+
         mainView.getEndRental().setOnAction(actionEvent -> {
             mainView.getMainView().setCenter(rentalView.getRentalPane());
             rentalView.getRentalPane().setCenter(rentalView.getEndRentalBox());
         });
+
         // Historyknappar i meny
         mainView.getRentalHistory().setOnAction(actionEvent -> {
             mainView.getMainView().setCenter(historyView.getHistoryPane());
             historyView.getHistoryPane().setCenter(historyView.getHistoryViewBox());
         });
+
         mainView.getMemberhistory().setOnAction(actionEvent -> {
             mainView.getMainView().setCenter(historyView.getHistoryPane());
             historyView.getHistoryPane().setCenter(historyView.getMemberHistoryBox());

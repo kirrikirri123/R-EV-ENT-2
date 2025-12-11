@@ -150,8 +150,8 @@ public class MembershipView {
         updMemPane.add(updStatus,0,3);
         updMemPane.add(updUserStatusCombo,1,3);
         updMemPane.add(confBtn,2,4);
-        updMemPane.add(confrmUpdText,1,5);
-        updMemPane.add(updMemExceptionInfo,1,6);
+        updMemPane.add(confrmUpdText,0,5);
+        updMemPane.add(updMemExceptionInfo,0,6);
         updMemPane.add (removeMemBtn,1,7);
         updateMemVbox.setSpacing(15);
         updateMemVbox.setAlignment(Pos.CENTER);
@@ -192,7 +192,7 @@ public class MembershipView {
         OKBTN.setOnAction(actionEvent -> {
             try{
             membershipService.newMember(userId.getText(), userName.getText(), userPhone.getText(), "Privat");
-                confrimationText.setText("Ny medlem skapad.");  // syns inte länger.
+                confrimationText.setText("Ny medlem skapad.");
                 userId.clear();userName.clear();userPhone.clear();exceptionInfo.setText(" ");
             } catch (InvalidMemberInfoInputException | InvalidNameInputException | InvalidPhoneInputException |
             IOException e) {
@@ -206,7 +206,7 @@ public class MembershipView {
             searchBtnMem.setText("Söker medlem..."); // Lägga en sleep och sen återställa knapp till "Sök. Så syns det att den "gör nått"
             try {
                 ArrayList<String> foundMem= membershipService.checkMemberlistReturnFormatedStringList(searchMember.getText());
-                foundMem.stream().forEach(s-> builder.append(s).append("\n"));
+                foundMem.stream().forEach(s-> builder.append(s).append("\n")); // Göör troligast så hisotriken finns kvar.
                 confirmationSearchMem.setText(builder.toString());
                 searchBtnMem.setText(searchBtnString); searchMember.clear(); foundMem.clear();
             } catch (NullPointerException ex) { confirmationSearchMem.setText(ex.getMessage());searchBtnMem.setText(searchBtnString); }}});
@@ -219,7 +219,7 @@ public class MembershipView {
                 searchBtnHist.setText(searchBtnString); memberHistory.clear();
             } catch (NullPointerException|NoHistoryFoundException ex){exceptionInfoHistory.setText(ex.getMessage()); searchBtnHist.setText(searchBtnString);}
         });
-        // Uppdatera
+        // Uppdatera medlemsinfo
         searchBtnUpd.setOnAction(actionEvent -> {
             searchBtnUpd.setText("Söker medlem...");
               try{
@@ -235,11 +235,12 @@ public class MembershipView {
                         memberPane.setCenter(updateMemVbox);
                         tempMember = foundMem;
                         validatedMem.setText("Vald medlem : "+ foundMem.getName());
-                        updUserNameField.setPromptText(foundMem.getName());
-                        updUserPhoneField.setPromptText(foundMem.getPhone());
+                        updUserNameField.setText(foundMem.getName());
+                        updUserPhoneField.setText(foundMem.getPhone());
+                        updUserStatusCombo.setValue(foundMem.getMemberStatus());
                         }else if(userResult.get() == noBtn) {updateMember.clear(); searchBtnUpd.setText(searchBtnString); confrUpdMem.close();}}
                 } catch (NullPointerException e) { updateMemInfo.setText(e.getMessage()); searchBtnUpd.setText(searchBtnString);}});
-            //Uppdatera mot register
+            //Uppdatera ändringar mot register
         confBtn.setOnAction(actionEvent -> {
             if(!updUserNameField.getText().isEmpty()){
             membershipService.updateMemberName(tempMember, updUserNameField.getText());}
@@ -250,15 +251,17 @@ public class MembershipView {
             try {
                 membershipService.listToJson();
                 confrmUpdText.setText("Efter uppdatering:\n"+ tempMember);
+                updUserNameField.clear(); updUserPhoneField.clear(); tempMember= null; validatedMem.setText("");
             } catch (IOException e) {confrmUpdText.setText(e.getMessage());}
         });
+        // Avsluta medlemskap
         removeMemBtn.setOnAction(actionEvet -> {
             confRemoveMem.setContentText("Vill du avsluta "+ tempMember.getName() + "s medemskap?"); // tillägg senare om det påverkar uthyrning + kostnad kan man dra en chech här innan.
             Optional<ButtonType> userRemoveResult = confRemoveMem.showAndWait();
             if(userRemoveResult.isPresent()){
                 if(userRemoveResult.get() ==removeBtn){
                     try {
-                    membershipService.removeMember(tempMember);
+                    membershipService.getMemberRegistry().remove(tempMember);
                     membershipService.listToJson(); // behövs denna??
                     confrmUpdText.setText(tempMember.getName() + "s medlemskap är avslutat.");
                     } catch (IOException e) { confrmUpdText.setText(e.getMessage());}

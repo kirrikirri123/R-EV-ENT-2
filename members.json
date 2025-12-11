@@ -1,7 +1,19 @@
 [ {
-  "id" : "18891209",
-  "name" : "Björn Sovis",
-  "phone" : "07011111111",
+  "id" : "123",
+  "name" : "Björn Varg",
+  "phone" : "095037417",
+  "memberStatus" : "Privat",
+  "historyMember" : [ ]
+}, {
+  "id" : "19971205",
+  "name" : "Malin Mört",
+  "phone" : "090457165",
+  "memberStatus" : "Privat",
+  "historyMember" : [ ]
+}, {
+  "id" : "7701231568",
+  "name" : "Jarmo Knutsson",
+  "phone" : "095015948",
   "memberStatus" : "Privat",
   "historyMember" : [ ]
 }, {
@@ -11,15 +23,15 @@
   "memberStatus" : "Privat",
   "historyMember" : [ ]
 }, {
-  "id" : "880518",
-  "name" : "Bung Lang",
-  "phone" : "090657812",
+  "id" : "1",
+  "name" : "Marta Mus",
+  "phone" : "0950-10832",
   "memberStatus" : "Privat",
   "historyMember" : [ ]
 }, {
-  "id" : "12584564",
-  "name" : "Varg Björnsson",
-  "phone" : "07011224455",
+  "id" : "970517",
+  "name" : "Kickan Knäppsson",
+  "phone" : "091077993",
   "memberStatus" : "Privat",
   "historyMember" : [ ]
 }, {
@@ -29,21 +41,9 @@
   "memberStatus" : "Privat",
   "historyMember" : [ ]
 }, {
-  "id" : "112",
-  "name" : "Pelle Polis",
-  "phone" : "090669966",
-  "memberStatus" : "Privat",
-  "historyMember" : [ ]
-}, {
-  "id" : "123",
-  "name" : "Björn Varg",
-  "phone" : "095037417",
-  "memberStatus" : "Privat",
-  "historyMember" : [ ]
-}, {
-  "id" : "970517",
-  "name" : "Kickan Knäppsson",
-  "phone" : "091077993",
+  "id" : "1901-12-24",
+  "name" : "Petter Nicklas",
+  "phone" : "0736677889",
   "memberStatus" : "Privat",
   "historyMember" : [ ]
 }, {
@@ -59,15 +59,27 @@
   "memberStatus" : "Privat",
   "historyMember" : [ ]
 }, {
-  "id" : "7701231568",
-  "name" : "Jarmo Knutsson",
-  "phone" : "095015948",
+  "id" : "112",
+  "name" : "Pelle Polis",
+  "phone" : "090669966",
   "memberStatus" : "Privat",
   "historyMember" : [ ]
 }, {
-  "id" : "1",
-  "name" : "Marta Mus",
-  "phone" : "0950-10832",
+  "id" : "18891209",
+  "name" : "Björn Sovis",
+  "phone" : "07011111111",
   "memberStatus" : "Privat",
+  "historyMember" : [ ]
+}, {
+  "id" : "880518",
+  "name" : "Bung Lang",
+  "phone" : "090657812",
+  "memberStatus" : "Privat",
+  "historyMember" : [ ]
+}, {
+  "id" : "12584564",
+  "name" : "Varg Björnssons vänner",
+  "phone" : "0703215487",
+  "memberStatus" : "Förening",
   "historyMember" : [ ]
 } ]

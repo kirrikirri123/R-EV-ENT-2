@@ -1,0 +1,19 @@
+[ {
+  "rentingMember" : {
+    "id" : "18891209",
+    "name" : "Björn Sovis",
+    "phone" : "07011111111",
+    "memberStatus" : "Privat",
+    "historyMember" : [ "UltimateXtreme, Hyresstart: 2025-12-11" ]
+  },
+  "rentalItem" : {
+    "type" : "BouncyCastle",
+    "name" : "UltimateXtreme",
+    "description" : " Maxad hoppupplevelse, för max 8 vuxna",
+    "dayPrice" : 3500.0,
+    "available" : true,
+    "indoorUse" : false
+  },
+  "rentDays" : 2,
+  "returned" : false
+} ]
