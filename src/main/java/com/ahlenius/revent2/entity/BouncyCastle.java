@@ -11,8 +11,8 @@ public class BouncyCastle extends Item {
     public BouncyCastle(){
     }
 
-    public BouncyCastle(String name,String description,double day,boolean indoorUse){
-        super(name, description, day);
+    public BouncyCastle(String name,String description,double day,boolean available, boolean indoorUse){
+        super(name, description,day,available);
         this.indoorUse = indoorUse;
     }
 

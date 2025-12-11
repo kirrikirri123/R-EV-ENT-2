@@ -75,12 +75,12 @@ public class RentalService {
     public void removeItem(Item item){
     getInventory().remove(item);
     }
-    public void newMascotItem(String name, String description, double day, String season) throws IOException {
-        addItemToList(new MascotCostume(name, description, day, season));
+    public void newMascotItem(String name, String description, double day,boolean available, String season) throws IOException {
+        addItemToList(new MascotCostume(name, description, day,available, season));
         listToJson();
     }
-    public void newBouncyItem(String name, String description, double day, boolean indoor) throws IOException {
-        addItemToList(new BouncyCastle(name, description, day, indoor));
+    public void newBouncyItem(String name, String description, double day,boolean available, boolean indoor) throws IOException {
+        addItemToList(new BouncyCastle(name, description, day,available, indoor));
         listToJson();
     }
     public void addItemToList(Item item) {
@@ -105,21 +105,13 @@ public class RentalService {
 
     public void defaultList() { // För testning.
         try{
-        newBouncyItem("Kungliga slottet"," Stor hoppborg,för max 15 barn",1000, false);
-        newBouncyItem("Slott"," Liten hoppborg, för max 7 barn",450, true);
-        newBouncyItem("UltimateXtreme"," Maxad hoppupplevelse, för max 8 vuxna",3500, false);
-        newMascotItem("Nallebjörn"," Kramgo, lurvig brunbjörndräkt", 200,"Året om");
-        newMascotItem("Tomten"," Premium tomtedräkt. Kvalitetskläder naturligt skägg. Inga skor medföljer.", 1000,"Jul");
+        newBouncyItem("Kungliga slottet"," Stor hoppborg,för max 15 barn",1000,true, false);
+        newBouncyItem("Slott"," Liten hoppborg, för max 7 barn",450,true, true);
+        newBouncyItem("UltimateXtreme"," Maxad hoppupplevelse, för max 8 vuxna",3500,true, false);
+        newMascotItem("Nallebjörn"," Kramgo, lurvig brunbjörndräkt", 200,true,"Året om");
+        newMascotItem("Tomten"," Premium tomtedräkt. Kvalitetskläder naturligt skägg. Inga skor medföljer.", 1000,true,"Jul");
     } catch (IOException ex) { System.out.println(ex.getMessage());}}
 
-    public void defaultRentals() { // för test
-        try {
-            newRental(new Member("921618", "Kristina", "090154816", "Privat"), new BouncyCastle("Blåhuset", "Blått", 1582, true), 10);
-            newRental(new Member("921619", "Christina", "090154817", "Privat"), new BouncyCastle("Rödahuset", "Rött", 1502, true), 5);
-        } catch (IOException e) { System.out.println(e.getMessage());
-        }
-    }
-    //______________________________________________________________________
     //Uthyrningsmetoder
     public LocalDate createDateOfRent(String YYYYMMDD) throws DateTimeParseException {
         DateTimeFormatter styleDate = DateTimeFormatter.ofPattern("yyyy-MM-dd");
@@ -131,12 +123,6 @@ public class RentalService {
         rentalsToList(rental);
         rentalistToJson();
     return rental;}
-
-    public void newRental(Member rentingMember,Item rentalItem, int rentDays) throws IOException { // Blir default dagens datum.
-        Rental rental = new Rental(rentingMember,rentalItem, rentDays);
-        rentalsToList(rental);
-        rentalistToJson();
-    }
 
     public void rentalsToList(Rental rentalItem) {
         getRentalRegistry().add(rentalItem);
@@ -177,9 +163,7 @@ public class RentalService {
         return  getRentalRegistry().getRentalList().get(getRentalRegistry().getRentalList().indexOf(member)).getRentalItem().getDayPrice();// Ändra till streams?
     }
 
-    public String returnRentalItemName(Member member) {
-        return  getRentalRegistry().getRentalList().get(getRentalRegistry().getRentalList().indexOf(member)).getRentalItem().getName();// Ändra till streams?
-    }
+
 
     public String userChooseDate(String dateStartString){
         return dateStartString.replace(' ','-');}
@@ -187,7 +171,7 @@ public class RentalService {
 
     public void countActualDays(String stopDate, Member member){ // här finns risk att det är ett förstort tal i long när de konverteras till int.
         LocalDate stopRent = createDateOfRent(stopDate);
-        LocalDate theStartOfRent = getRentalRegistry().getRentalList().get(getRentalRegistry().getRentalList().indexOf(member)).getStartOfRent(); //  Ändrad dör att funka mot List istället fölr map okänt i praktiken.
+        LocalDate theStartOfRent = getRentalRegistry().getRentalList().get(getRentalRegistry().getRentalList().indexOf(member)).getStartOfRent(); //  Ändrad bör att funka mot List istället för map okänt i praktiken.
         long actualDaysLong = stopRent.toEpochDay() - theStartOfRent.toEpochDay();
         int actualDays =(int) actualDaysLong;
         changeRentDays(member,actualDays);

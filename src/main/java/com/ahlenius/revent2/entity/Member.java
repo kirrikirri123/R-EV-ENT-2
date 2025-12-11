@@ -1,8 +1,6 @@
 package com.ahlenius.revent2.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import javafx.beans.property.SimpleStringProperty;
-
 import java.util.LinkedList;
 import java.util.List;
 

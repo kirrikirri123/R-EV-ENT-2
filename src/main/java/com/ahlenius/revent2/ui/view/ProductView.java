@@ -184,8 +184,8 @@ public class ProductView {
         updProdPane.add(updDayPriceField,1,3);
         updProdPane.add(confBtn,2,4);
         updProdPane.add(confrmUpdText,0,4);
-        updProdPane.add(updMemExceptionInfo,1,5);
-        updProdPane.add (removeProdBtn,1,6);
+        updProdPane.add(updMemExceptionInfo,1,6);
+        updProdPane.add (removeProdBtn,1,7);
         updateProdVbox.setSpacing(15);
         updateProdVbox.setAlignment(Pos.CENTER);
         updateProdVbox.getChildren().addAll(update2ndView,validatedProd,updProdPane);
@@ -213,13 +213,13 @@ public class ProductView {
         OKBTN.setOnAction(actionEvent -> {
              double day = Double.parseDouble(dayPriceField.getText());
                 if(itemTypeCombo.getValue().equals(costume)){
-                    try { rentalService.newMascotItem(prodNameField.getText(),prodDescriptField.getText(),day,"Året runt");
+                    try { rentalService.newMascotItem(prodNameField.getText(),prodDescriptField.getText(),day,true,"Året runt");
                         confrimationText.setText("Ny produkt tillagd");
                     } catch (IOException e) {exceptionInfo.setText(e.getMessage()+"Dräktproblem");}
                     }
                 if(itemTypeCombo.getValue().equals(bouncyC)){
                     try {
-                        rentalService.newBouncyItem(prodNameField.getText(),prodDescriptField.getText(),day,false);
+                        rentalService.newBouncyItem(prodNameField.getText(),prodDescriptField.getText(),day,true,false);
                         confrimationText.setText("Ny produkt tillagd");
                     } catch (IOException e) {exceptionInfo.setText((e.getMessage()+"Hoppborgssfail"));
                     }
@@ -237,23 +237,25 @@ public class ProductView {
                     updProdInfo.setText("Produkt bekräftad. Laddar sida för uppdatering.");
                 productPane.setCenter(updateProdVbox);
                 validatedProd.setText("Vald produkt: "+ tempItem.getName());
-                updProdNameField.setPromptText(tempItem.getName());
-                updProdDescripField.setPromptText(tempItem.getDescription());
+                updProdNameField.setText(tempItem.getName());
+                updProdDescripField.setText(tempItem.getDescription());
+                updDayPriceField.setText(String.valueOf(tempItem.getDayPrice()));
 
                 }else if(userResult.get() == noBtn) {  updateProd.clear();
                 searchBtnUpd.setText("Sök"); }}
                 } catch (NullPointerException e) {updProdInfo.setText(e.getMessage());}});
 
         confBtn.setOnAction(actionEvent -> {
-            if(!updProdNameField.getText().isEmpty()){
-                rentalService.updateProdName(tempItem, updProdNameField.getText());
-                if(!updDayPriceField.getText().isEmpty()){
+            if(!updProdNameField.getText().isEmpty()) {
+                rentalService.updateProdName(tempItem, updProdNameField.getText()); // Lägga in exceptions i metod att fånga här.
+              if(!updDayPriceField.getText().isEmpty()){
                     rentalService.updateDayPrice(tempItem, updDayPriceField.getText());
                     if(!updProdDescripField.getText().isEmpty()) {
                         rentalService.updateProdDescrip(tempItem, updProdDescripField.getText());
                         try {
                             rentalService.listToJson();
                             confrmUpdText.setText("Efter uppdatering:\n"+ tempItem);
+                            updProdNameField.clear();updDayPriceField.clear(); updProdDescripField.clear(); tempItem= null; validatedProd.setText("");
                         } catch (IOException e) {confrmUpdText.setText(e.getMessage());}
         }}}});
 

@@ -11,8 +11,8 @@ public class MascotCostume extends Item {
 
     public MascotCostume(){
     }
-    public MascotCostume(String name,String description,double day,String season){
-        super(name, description, day);
+    public MascotCostume(String name,String description,double day,boolean available,String season){
+        super(name, description, day,available);
         this.season = season;}
 
     public String getSeason(){

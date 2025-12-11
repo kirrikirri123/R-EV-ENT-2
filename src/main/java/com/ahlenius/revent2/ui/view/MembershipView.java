@@ -235,9 +235,9 @@ public class MembershipView {
                         memberPane.setCenter(updateMemVbox);
                         tempMember = foundMem;
                         validatedMem.setText("Vald medlem : "+ foundMem.getName());
-                        updUserNameField.setPromptText(foundMem.getName());
-                        updUserPhoneField.setPromptText(foundMem.getPhone());
-
+                        updUserNameField.setText(foundMem.getName());
+                        updUserPhoneField.setText(foundMem.getPhone());
+                        updUserStatusCombo.setValue(foundMem.getMemberStatus());
                         }else if(userResult.get() == noBtn) {updateMember.clear(); searchBtnUpd.setText(searchBtnString); confrUpdMem.close();}}
                 } catch (NullPointerException e) { updateMemInfo.setText(e.getMessage()); searchBtnUpd.setText(searchBtnString);}});
             //Uppdatera ändringar mot register

@@ -1,35 +1,19 @@
 [ {
   "rentingMember" : {
-    "id" : "921618",
-    "name" : "Kristina",
-    "phone" : "090154816",
+    "id" : "18891209",
+    "name" : "Björn Sovis",
+    "phone" : "07011111111",
     "memberStatus" : "Privat",
-    "historyMember" : [ "Blåhuset, Hyresstart: 2025-12-11" ]
+    "historyMember" : [ "UltimateXtreme, Hyresstart: 2025-12-11" ]
   },
   "rentalItem" : {
     "type" : "BouncyCastle",
-    "name" : "Blåhuset",
-    "description" : "Blått",
-    "dayPrice" : 1582.0,
-    "indoorUse" : true
+    "name" : "UltimateXtreme",
+    "description" : " Maxad hoppupplevelse, för max 8 vuxna",
+    "dayPrice" : 3500.0,
+    "available" : true,
+    "indoorUse" : false
   },
-  "rentDays" : 10,
-  "returned" : false
-}, {
-  "rentingMember" : {
-    "id" : "921619",
-    "name" : "Christina",
-    "phone" : "090154817",
-    "memberStatus" : "Privat",
-    "historyMember" : [ "Rödahuset, Hyresstart: 2025-12-11" ]
-  },
-  "rentalItem" : {
-    "type" : "BouncyCastle",
-    "name" : "Rödahuset",
-    "description" : "Rött",
-    "dayPrice" : 1502.0,
-    "indoorUse" : true
-  },
-  "rentDays" : 5,
+  "rentDays" : 2,
   "returned" : false
 } ]

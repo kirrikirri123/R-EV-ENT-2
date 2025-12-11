@@ -34,9 +34,14 @@ public class ReventApp extends Application {
     public void start(Stage stage) throws Exception {
 
         stage.setTitle("R-EV-ENT - Re-Invent your event - Just rent!");
-
+        //Ladda in listor
         rentalService.defaultList();
-        rentalService.defaultRentals();
+        try {
+            memberService.loadJsonToArrayList();
+            rentalService.loadRentalJsonToArrayList();
+            rentalService.loadJsonToArrayList();
+        } catch (IOException e) {System.out.println(e.getMessage());}
+
 
        start = new Scene(startView.getStartView(),500,450);
        main = new Scene(mainView.getMainView(),825,800);
@@ -50,13 +55,7 @@ public class ReventApp extends Application {
             stage.close();
         });
          startView.getImageStart().setOnMouseClicked(mouseEvent -> { // Flytta denna till buttoncontroller alt. flytta metodanrop till konstruktor?
-         changeScene(stage,main);
-             try {
-                 memberService.loadJsonToArrayList();
-                 rentalService.loadRentalJsonToArrayList();
-                 rentalService.loadJsonToArrayList();
-             } catch (IOException e) {System.out.println(e.getMessage());             }
-         });
+         changeScene(stage,main);});
           }
     public void changeScene(Stage stage,Scene scene){
         stage.setScene(scene);
