@@ -4,6 +4,7 @@ import com.ahlenius.revent2.entity.*;
 import com.ahlenius.revent2.repository.Inventory;
 import com.ahlenius.revent2.repository.MemberRegistry;
 import com.ahlenius.revent2.repository.RentalRegistry;
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.databind.jsontype.NamedType;
@@ -46,7 +47,7 @@ public class JsonService {
 
     public void loadItemJsonToArrayList() throws IOException{
         try{
-            List<Item> fromFile =  Arrays.asList(mapper.readValue(new File("items.json"),Item[].class));
+            List<Item> fromFile = Arrays.asList(mapper.readValue(new File("items.json"),Item[].class));
             System.out.println("Item-data laddat i temporär lista.");
             inventory.addList(fromFile);
             System.out.println("Items laddad från Json till lista. ");}
@@ -61,7 +62,7 @@ public class JsonService {
 
     public void loadRentalJsonToArrayList() throws IOException{
         try{
-            List<Rental> fromFile = Arrays.asList(mapper.readValue(new File("rental.json"),Rental[].class));
+            List<Rental> fromFile = Arrays.asList(mapper.readValue(new File("rental.json"), Rental[].class));
             System.out.println("Laddat fil i temporär lista.");
             rentalRegistry.addList(fromFile);
             System.out.println("Rentals laddad från Json till lista.");}

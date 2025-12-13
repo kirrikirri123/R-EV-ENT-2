@@ -35,7 +35,7 @@ public abstract class Item {
     public String getName() {
         return name.get();
     }
-    @JsonProperty("name")
+    @JsonProperty("available")
     public void setAvailable(boolean available){
         this.available.set(available);
     }
@@ -43,7 +43,7 @@ public abstract class Item {
     public boolean isAvailable(){
         return available.get();
     }
-    @JsonProperty("available")
+    @JsonProperty("name")
     public void setName(String name) {
         this.name.set(name);
     }

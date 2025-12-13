@@ -4,17 +4,36 @@
     "name" : "Kickan Knäppsson",
     "phone" : "091077993",
     "memberStatus" : "Privat",
-    "historyMember" : [ "Lucia, Hyresstart: 2025-12-13" ]
+    "historyMember" : [ "Julgran, Hyresstart: 2025-12-25" ]
   },
   "rentalItem" : {
-    "type" : "BouncyCastle",
+    "type" : "MascotCostume",
+    "name" : "Julgran",
+    "description" : "Grön spretig",
+    "dayPrice" : 250.0,
     "available" : true,
-    "name" : "Lucia",
-    "description" : "Ljudkrona, Vitdräkt, traditionell. Exklusiv!",
-    "dayPrice" : 750.0,
-    "indoorUse" : false
+    "season" : "Året runt"
   },
   "rentDays" : 5,
-  "startOfRent" : "2025-12-13",
+  "startOfRent" : "2025-12-25",
+  "returned" : false
+}, {
+  "rentingMember" : {
+    "id" : "123",
+    "name" : "Björn Varg",
+    "phone" : "095037417",
+    "memberStatus" : "Privat",
+    "historyMember" : [ "Mjölkpaket, Hyresstart: 2025-12-20" ]
+  },
+  "rentalItem" : {
+    "type" : "MascotCostume",
+    "name" : "Mjölkpaket",
+    "description" : "Fyrkantig, Tetrig, avtagbar kork",
+    "dayPrice" : 540.0,
+    "available" : true,
+    "season" : "Året runt"
+  },
+  "rentDays" : 2,
+  "startOfRent" : "2025-12-20",
   "returned" : false
 } ]

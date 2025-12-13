@@ -41,10 +41,12 @@ public class ReventApp extends Application {
        // rentalService.defaultList();
         try {
             jsonService.loadMemberJsonToArrayList();
+        } catch (IOException e) {System.out.println(e.getMessage());}
+        try {
             jsonService.loadItemJsonToArrayList(); // Funkar ej
+        } catch (IOException e) {System.out.println(e.getMessage());}
+        try{
             jsonService.loadRentalJsonToArrayList(); // Funkar ej
-
-
         } catch (IOException e) {System.out.println(e.getMessage());}
 
        start = new Scene(startView.getStartView(),500,450);
