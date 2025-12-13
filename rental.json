@@ -1,1 +1,20 @@
-[ ]
+[ {
+  "rentingMember" : {
+    "id" : "970517",
+    "name" : "Kickan Knäppsson",
+    "phone" : "091077993",
+    "memberStatus" : "Privat",
+    "historyMember" : [ "Lucia, Hyresstart: 2025-12-13" ]
+  },
+  "rentalItem" : {
+    "type" : "BouncyCastle",
+    "available" : true,
+    "name" : "Lucia",
+    "description" : "Ljudkrona, Vitdräkt, traditionell. Exklusiv!",
+    "dayPrice" : 750.0,
+    "indoorUse" : false
+  },
+  "rentDays" : 5,
+  "startOfRent" : "2025-12-13",
+  "returned" : false
+} ]

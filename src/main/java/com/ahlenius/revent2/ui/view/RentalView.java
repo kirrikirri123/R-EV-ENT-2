@@ -3,10 +3,7 @@ package com.ahlenius.revent2.ui.view;
 import com.ahlenius.revent2.entity.Item;
 import com.ahlenius.revent2.entity.Member;
 import com.ahlenius.revent2.entity.Rental;
-import com.ahlenius.revent2.exceptions.InvalidMemberInfoInputException;
-import com.ahlenius.revent2.exceptions.InvalidNameInputException;
-import com.ahlenius.revent2.exceptions.InvalidPhoneInputException;
-import com.ahlenius.revent2.exceptions.NoMemberFoundException;
+import com.ahlenius.revent2.exceptions.*;
 import com.ahlenius.revent2.service.MembershipService;
 import com.ahlenius.revent2.service.RentalService;
 import javafx.geometry.Insets;
@@ -188,6 +185,7 @@ public class RentalView {
             if(foundRentingMem != null){
             try {
                 Rental newestRental = rentalService.newRental(foundRentingMem, availableItem.getValue(),days,String.valueOf(dateStart));
+               // Borde man ha en Alert för att bekräfta bokning, typ medlem hyr itemname  from - datum?
                 newestRental.getRentalItem().setAvailable(false);
                 confrimationText.setText("Ny uthyrning skapad.\n" + newestRental);
                 newestRental.getRentalItem().setAvailable(false);
@@ -195,8 +193,8 @@ public class RentalView {
                 daysOfRentField.clear();
                 fromDateField.clear();
                 exceptionInfo.setText("");
-            } catch (IOException | DateTimeParseException e) {
-                exceptionInfo.setText("Problem med inläsning av datum.");
+            } catch (IOException | InvalidAmountRentingDaysException | InvalidDateChoiceException |
+                     InvalidRentalInfoInputException e) {exceptionInfo.setText(e.getMessage());
             }
         }});
         // Avsluta uthyrning
@@ -216,7 +214,7 @@ public class RentalView {
         confEndRentBtn.setOnAction(actionE -> {
             tempRental.setReturned(true);
             tempRental.getRentalItem().setAvailable(true);
-            try {
+            try { // Ändra fel hanteringen HÄR !!!!!
                 LocalDate dateStopRent = rentalService.userChooseDate(endDateField.getText());
                 rentalService.countActualDays(dateStopRent,tempRental.getRentingMember());
                 rentalPane.setCenter(finnishedRentingBox);

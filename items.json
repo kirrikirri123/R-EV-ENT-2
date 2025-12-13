@@ -28,10 +28,4 @@
   "description" : " Premium tomtedräkt. Kvalitetskläder naturligt skägg. Inga skor medföljer.",
   "dayPrice" : 1000.0,
   "season" : "Jul"
-}, {
-  "available" : true,
-  "name" : "Bugg",
-  "description" : "jävligt",
-  "dayPrice" : 1478.0,
-  "indoorUse" : false
 } ]

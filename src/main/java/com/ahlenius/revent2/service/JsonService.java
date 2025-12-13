@@ -1,14 +1,14 @@
 package com.ahlenius.revent2.service;
 
-import com.ahlenius.revent2.entity.Item;
-import com.ahlenius.revent2.entity.Member;
-import com.ahlenius.revent2.entity.Rental;
+import com.ahlenius.revent2.entity.*;
 import com.ahlenius.revent2.repository.Inventory;
 import com.ahlenius.revent2.repository.MemberRegistry;
 import com.ahlenius.revent2.repository.RentalRegistry;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
-
+import com.fasterxml.jackson.databind.jsontype.NamedType;
+import com.fasterxml.jackson.databind.module.SimpleModule;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import java.io.File;
 import java.io.IOException;
 import java.util.Arrays;
@@ -27,15 +27,21 @@ public class JsonService {
         this.inventory = inventory;
         this.rentalRegistry = rentalRegistry;
         this.memberRegistry = memberRegistry;
+        //Lägger mapper "hur ska de sparas i konstruktorn istället för i metoderna där det är mer "vad".
+        mapper.registerModule(new JavaTimeModule());
+        mapper.registerSubtypes(
+                new NamedType(BouncyCastle.class,"BouncyCastle"),
+                new NamedType(MascotCostume.class,"MascotCostume"));
+        mapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
+        mapper.enable(SerializationFeature.INDENT_OUTPUT);
     }
 
  // dessa metoder kan nog göras till en generell!
 
     public void itemlistToJson() throws IOException {
         try {
-            mapper.enable(SerializationFeature.INDENT_OUTPUT);
             mapper.writeValue(new File("items.json"),inventory.getItemList());
-            System.out.println("Listan är sparad i fil");}// bekräftelse i konsoll
+            System.out.println("Listan är sparad i fil");}
         catch (IOException e){ throw new IOException("Fel uppstsod vid sparande av Items till fil.");}}
 
     public void loadItemJsonToArrayList() throws IOException{
@@ -49,10 +55,9 @@ public class JsonService {
 
     public void rentalistToJson() throws IOException {
         try {
-            mapper.enable(SerializationFeature.INDENT_OUTPUT);
             mapper.writeValue(new File("rental.json"),rentalRegistry.getRentalList());
-            System.out.println("Rental-listan är sparad i fil");}// bekräftelse i konsoll
-        catch (IOException e){ throw new IOException("Fel uppstsod vid sparande av uthyrningsinfo till fil.");}}
+            System.out.println("Rental-listan är sparad i fil");}
+        catch (IOException e){ throw new IOException("Fel uppstod vid sparande av uthyrningsinfo till fil.");}}
 
     public void loadRentalJsonToArrayList() throws IOException{
         try{
@@ -65,9 +70,8 @@ public class JsonService {
 
     public void memberlistToJson() throws IOException {
         try {
-            mapper.enable(SerializationFeature.INDENT_OUTPUT);
             mapper.writeValue(new File("members.json"),memberRegistry.getMemberRegistryList());
-            System.out.println("Member-listan är sparad i fil");}// bekräftelse i konsoll
+            System.out.println("Member-listan är sparad i fil");}
         catch (IOException e){ throw new IOException("Fel uppstsod vid sparande av medlemsinfo till fil.");}}
 
     public void loadMemberJsonToArrayList() throws IOException{

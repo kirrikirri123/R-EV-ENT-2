@@ -38,11 +38,12 @@ public class ReventApp extends Application {
 
         stage.setTitle("R-EV-ENT - Re-Invent your event - Just rent!");
         //Ladda in listor
-        rentalService.defaultList();
+       // rentalService.defaultList();
         try {
             jsonService.loadMemberJsonToArrayList();
-            jsonService.loadRentalJsonToArrayList();
-            jsonService.loadItemJsonToArrayList();
+            jsonService.loadItemJsonToArrayList(); // Funkar ej
+            jsonService.loadRentalJsonToArrayList(); // Funkar ej
+
 
         } catch (IOException e) {System.out.println(e.getMessage());}
 

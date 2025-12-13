@@ -1,13 +1,18 @@
 package com.ahlenius.revent2.service;
 
 import com.ahlenius.revent2.entity.*;
+import com.ahlenius.revent2.exceptions.InvalidAmountRentingDaysException;
+import com.ahlenius.revent2.exceptions.InvalidDateChoiceException;
+import com.ahlenius.revent2.exceptions.InvalidRentalInfoInputException;
 import com.ahlenius.revent2.repository.Inventory;
 import com.ahlenius.revent2.repository.RentalRegistry;
 
 import java.io.IOException;
 import java.time.LocalDate;
+import java.time.chrono.ChronoLocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
+import java.time.temporal.TemporalAccessor;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -102,15 +107,25 @@ public class RentalService {
         LocalDate datetOfRent = LocalDate.parse(YYYYMMDD, styleDate);
         return datetOfRent;    }
 
-    public Rental newRental(Member memberRenting, Item rentalItem, int rentDays, String startOfRent) throws IOException, DateTimeParseException  { // Datum YYYY-MM-DD
-        Rental rental = new Rental(memberRenting,rentalItem, rentDays, startOfRent);
-        rentalsToList(rental);
-        jsonService.rentalistToJson();
+    public Rental newRental(Member memberRenting, Item rentalItem, int rentDays, String startOfRent)
+            throws IOException, InvalidAmountRentingDaysException, InvalidDateChoiceException,InvalidRentalInfoInputException {
+        Rental rental = null;
+        if(rentDays>183||rentDays<1)
+        {throw new InvalidAmountRentingDaysException("Stämmer hyresdagarna? Minst 1 dag. Max 6 månader");}
+        if (startOfRent.startsWith("19")||startOfRent.startsWith("2024"))
+        {throw new InvalidDateChoiceException("Startdatum ej godkänt.");}
+        if(memberRenting == null||rentalItem == null||startOfRent.isEmpty())
+        {throw new InvalidRentalInfoInputException("Fyll i alla fält för att göra en uthyrning");
+        } else {
+            rental = new Rental(memberRenting, rentalItem, rentDays, startOfRent);
+           try{ rentalsToList(rental);} catch (IOException e) { System.out.println("Problem uppstod när uthyrnings skulle sparas.");           }
+        }
     return rental;}
 
-    public void rentalsToList(Rental rentalItem) {
+    public void rentalsToList(Rental rentalItem) throws IOException{
         getRentalRegistry().add(rentalItem);
         addHistory(rentalItem,rentalItem.getRentingMember());
+        jsonService.rentalistToJson();
     }
 
     public void addHistory(Rental rentalItem, Member member) {
