@@ -8,7 +8,6 @@ import java.io.IOException;
 import java.util.*;
 
 public class MembershipService {
-    // Hanterar memberfunktioner. Medlemsrabatter? Ta isf in PI och S objekten hit istället?
     private MemberRegistry memberRegistry;
     private JsonService jsonService;
 
@@ -21,6 +20,7 @@ public class MembershipService {
     public MemberRegistry getMemberRegistry() {
         return memberRegistry;
     }
+
 // Skapa spara, ladda medlem.
     public void newMember(String id, String name,String phone, String memberStatus)
             throws InvalidMemberInfoInputException, InvalidPhoneInputException, InvalidNameInputException, IOException {

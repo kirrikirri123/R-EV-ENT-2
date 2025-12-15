@@ -4,17 +4,74 @@
     "name" : "Kickan Knäppsson",
     "phone" : "091077993",
     "memberStatus" : "Privat",
-    "historyMember" : [ "Lucia, Hyresstart: 2025-12-13" ]
+    "historyMember" : [ "Julgran, Hyresstart: 2025-12-25" ]
+  },
+  "rentalItem" : {
+    "type" : "MascotCostume",
+    "name" : "Julgran",
+    "description" : "Grön spretig",
+    "dayPrice" : 250.0,
+    "available" : true,
+    "season" : "Året runt"
+  },
+  "rentDays" : 6,
+  "startOfRent" : "2025-12-25",
+  "returned" : true
+}, {
+  "rentingMember" : {
+    "id" : "123",
+    "name" : "Björn Varg",
+    "phone" : "095037417",
+    "memberStatus" : "Privat",
+    "historyMember" : [ "Mjölkpaket, Hyresstart: 2025-12-20" ]
+  },
+  "rentalItem" : {
+    "type" : "MascotCostume",
+    "name" : "Mjölkpaket",
+    "description" : "Fyrkantig, Tetrig, avtagbar kork",
+    "dayPrice" : 540.0,
+    "available" : true,
+    "season" : "Året runt"
+  },
+  "rentDays" : 11,
+  "startOfRent" : "2025-12-20",
+  "returned" : true
+}, {
+  "rentingMember" : {
+    "id" : "123",
+    "name" : "Björn Varg",
+    "phone" : "095037417",
+    "memberStatus" : "Privat",
+    "historyMember" : [ "Såpbubbla, Hyresstart: 2025-12-14" ]
   },
   "rentalItem" : {
     "type" : "BouncyCastle",
+    "name" : "Såpbubbla",
+    "description" : "Rund, Max 3 barn",
+    "dayPrice" : 1570.0,
     "available" : true,
-    "name" : "Lucia",
-    "description" : "Ljudkrona, Vitdräkt, traditionell. Exklusiv!",
-    "dayPrice" : 750.0,
     "indoorUse" : false
   },
-  "rentDays" : 5,
-  "startOfRent" : "2025-12-13",
-  "returned" : false
+  "rentDays" : 2,
+  "startOfRent" : "2025-12-14",
+  "returned" : true
+}, {
+  "rentingMember" : {
+    "id" : "920618",
+    "name" : "Kickan Karlsson",
+    "phone" : "095014841",
+    "memberStatus" : "Privat",
+    "historyMember" : [ "Stubbe, Hyresstart: 2025-12-15" ]
+  },
+  "rentalItem" : {
+    "type" : "MascotCostume",
+    "name" : "Stubbe",
+    "description" : "Träig, Stadig. Endast stående",
+    "dayPrice" : 125.0,
+    "available" : true,
+    "season" : "Året runt"
+  },
+  "rentDays" : 16,
+  "startOfRent" : "2025-12-15",
+  "returned" : true
 } ]

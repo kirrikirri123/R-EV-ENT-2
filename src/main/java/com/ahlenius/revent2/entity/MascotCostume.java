@@ -6,7 +6,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 import javafx.beans.property.SimpleStringProperty;
 
 
-@JsonTypeName("MascotCostume")
+//@JsonTypeName("MascotCostume")
 public class MascotCostume extends Item {
     private SimpleStringProperty season = new SimpleStringProperty(); // se om detta stör ObservableList
 

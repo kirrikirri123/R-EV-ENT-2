@@ -26,8 +26,8 @@ public class ReventApp extends Application {
     StartView startView = new StartView();
     MainView mainView = new MainView();
     MembershipView membershipView = new MembershipView(memberService);
-    ProductView productView = new ProductView(rentalService);
-    RentalView rentalView = new RentalView(rentalService,memberService);
+    ProductView productView = new ProductView(rentalService,jsonService);
+    RentalView rentalView = new RentalView(rentalService,memberService, jsonService);
     HistoryView historyView = new HistoryView(rentalService);
     EconomyView economyView = new EconomyView();
     ButtonController buttonController= new ButtonController(startView,mainView,membershipView,productView,rentalView,economyView,historyView);
@@ -41,10 +41,12 @@ public class ReventApp extends Application {
        // rentalService.defaultList();
         try {
             jsonService.loadMemberJsonToArrayList();
+        } catch (IOException e) {System.out.println(e.getMessage());}
+        try {
             jsonService.loadItemJsonToArrayList(); // Funkar ej
-            jsonService.loadRentalJsonToArrayList(); // Funkar ej
-
-
+        } catch (IOException e) {System.out.println(e.getMessage());}
+        try{
+            jsonService.loadRentalJsonToArrayList();
         } catch (IOException e) {System.out.println(e.getMessage());}
 
        start = new Scene(startView.getStartView(),500,450);

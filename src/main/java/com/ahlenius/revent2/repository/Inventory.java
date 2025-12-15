@@ -24,11 +24,11 @@ public class Inventory {
     }
      public void add(Item item){
         itemList.add(item);
-        itemsObsList.add(item);
+       itemsObsList.add(item);
      }
      public void remove(Item item){
         itemList.remove(item);
-        itemsObsList.remove(item);
+       itemsObsList.remove(item);
      }
     public void addList(List<Item> tempItems){
         itemList.addAll(tempItems);
