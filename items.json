@@ -1,13 +1,13 @@
 [ {
-  "name" : "Julgran",
-  "description" : "Grön spretig",
-  "dayPrice" : 250.0,
+  "name" : "Såpbubbla",
+  "description" : "Rund, Max 3 barn",
+  "dayPrice" : 1570.0,
   "available" : true,
-  "season" : "Året runt"
+  "indoorUse" : false
 }, {
-  "name" : "Mjölkpaket",
-  "description" : "Fyrkantig, Tetrig, avtagbar kork",
-  "dayPrice" : 540.0,
+  "name" : "Stubbe",
+  "description" : "Träig, Stadig. Endast stående",
+  "dayPrice" : 125.0,
   "available" : true,
   "season" : "Året runt"
 } ]

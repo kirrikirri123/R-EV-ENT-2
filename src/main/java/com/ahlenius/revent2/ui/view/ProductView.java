@@ -15,8 +15,8 @@ import java.util.Optional;
 
 public class ProductView {
     // Här läggs allt som har med produkterna att göra. Foto-info, boka osv.
-    private RentalService rentalService; // när behöver man göra new?
-    private JsonService jsonService; // när behöver man new? när måste man ta in i konstruktor??
+    private RentalService rentalService;
+    private JsonService jsonService;
     private BorderPane productPane = new BorderPane();
     private FlowPane itemView = new FlowPane();
     private VBox newProdBox = new VBox();
@@ -36,9 +36,11 @@ public class ProductView {
     public Button getViewAccesibleProdBtn() {
         return viewAccesibleProdBtn;
     }
-    public ProductView(RentalService rentalService){
+    public ProductView(RentalService rentalService,JsonService jsonService){
         this.rentalService = rentalService;
-        // GalleriVY
+        this.jsonService = jsonService;
+
+                // GalleriVY
         products = new Button("Galleri");
         VBox item1 = new VBox();
         Label headerGallery = new Label("Ett urval av produkter");
@@ -215,7 +217,8 @@ public class ProductView {
         OKBTN.setOnAction(actionEvent -> {
              double day = Double.parseDouble(dayPriceField.getText());
                 if(itemTypeCombo.getValue().equals(costume)){
-                    try { rentalService.newMascotItem(prodNameField.getText(),prodDescriptField.getText(),day,true,"Året runt");
+                    try {
+                        rentalService.newMascotItem(prodNameField.getText(),prodDescriptField.getText(),day,true,"Året runt");
                         confrimationText.setText("Ny produkt tillagd");
                     } catch (IOException e) {exceptionInfo.setText(e.getMessage()+"Dräktproblem");}
                     }
@@ -255,7 +258,7 @@ public class ProductView {
                     if(!updProdDescripField.getText().isEmpty()) {
                         rentalService.updateProdDescrip(tempItem, updProdDescripField.getText());
                         try {
-                            jsonService.rentalistToJson();
+                            jsonService.itemlistToJson();
                             confrmUpdText.setText("Efter uppdatering:\n"+ tempItem);
                             updProdNameField.clear();updDayPriceField.clear(); updProdDescripField.clear(); tempItem= null; validatedProd.setText("");
                         } catch (IOException e) {confrmUpdText.setText(e.getMessage());}
@@ -268,8 +271,7 @@ public class ProductView {
                 if(userRemoveResult.get() == removeBtn){
                     try {
                         rentalService.removeItem(tempItem); System.out.println(tempItem + "Raderad");
-                        jsonService.rentalistToJson(); // behövs denna??
-                        confrmUpdText.setText(tempItem.getName() + " är raderad.");
+                          confrmUpdText.setText(tempItem.getName() + " är raderad.");
                     } catch (IOException e) { confrmUpdText.setText(e.getMessage());}
                 }else{
                     confrmUpdText.setText("Avbröt radering av produkt.");

@@ -75,8 +75,9 @@ public class RentalService {
         double dayPrice = Double.parseDouble(newDayPrice);
         item.setDayPrice(dayPrice); // null varning
     }
-    public void removeItem(Item item){
+    public void removeItem(Item item)throws IOException{
     getInventory().remove(item);
+        jsonService.itemlistToJson();
     }
     public void newMascotItem(String name, String description, double day,boolean available, String season) throws IOException {
         addItemToList(new MascotCostume(name, description, day,available, season));
@@ -90,8 +91,6 @@ public class RentalService {
         inventory.add(item);
         System.out.println(item.getName() + " är sparad i listan.");
     }
-
-
     public void defaultList() { // För testning.
         try{
         newBouncyItem("Kungliga slottet"," Stor hoppborg,för max 15 barn",1000,true, false);
@@ -127,13 +126,10 @@ public class RentalService {
         addHistory(rentalItem,rentalItem.getRentingMember());
         jsonService.rentalistToJson();
     }
-
     public void addHistory(Rental rentalItem, Member member) {
         String infoToHistory = rentalItem.getRentalItem().getName() +", Hyresstart: "+ rentalItem.getStartOfRent();
         member.getHistoryMember().add(infoToHistory);
     }
-
-
     // byt antal
     public void changeRentDays(Member member, int x) {
         getRentalRegistry().getRentalList().get(getRentalRegistry().getRentalList().indexOf(member)).setRentDays(x); // Ändra till streams?
@@ -143,11 +139,9 @@ public class RentalService {
     public int rentalCountDays(Member member) {
         return  getRentalRegistry().getRentalList().get(getRentalRegistry().getRentalList().indexOf(member)).getRentDays();  // Ändra till streams?
     }
-
     public double returnRentalDayPrice(Member member) {
         return  getRentalRegistry().getRentalList().get(getRentalRegistry().getRentalList().indexOf(member)).getRentalItem().getDayPrice();// Ändra till streams?
     }
-
     public LocalDate userChooseDate(String dateStartString){
         String date=dateStartString.replace(' ','-');
         return createDateOfRent(date);}

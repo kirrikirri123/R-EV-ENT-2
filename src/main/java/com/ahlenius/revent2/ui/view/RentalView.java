@@ -4,6 +4,7 @@ import com.ahlenius.revent2.entity.Item;
 import com.ahlenius.revent2.entity.Member;
 import com.ahlenius.revent2.entity.Rental;
 import com.ahlenius.revent2.exceptions.*;
+import com.ahlenius.revent2.service.JsonService;
 import com.ahlenius.revent2.service.MembershipService;
 import com.ahlenius.revent2.service.RentalService;
 import javafx.geometry.Insets;
@@ -41,7 +42,7 @@ public class RentalView {
 
     public RentalView(){}
 
-    public RentalView (RentalService rentalService,MembershipService membershipService) {
+    public RentalView (RentalService rentalService, MembershipService membershipService) {
         this.rentalService = rentalService;
         this.membershipService = membershipService;
 

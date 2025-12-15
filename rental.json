@@ -36,4 +36,23 @@
   "rentDays" : 2,
   "startOfRent" : "2025-12-20",
   "returned" : false
+}, {
+  "rentingMember" : {
+    "id" : "123",
+    "name" : "Björn Varg",
+    "phone" : "095037417",
+    "memberStatus" : "Privat",
+    "historyMember" : [ "Såpbubbla, Hyresstart: 2025-12-14" ]
+  },
+  "rentalItem" : {
+    "type" : "BouncyCastle",
+    "name" : "Såpbubbla",
+    "description" : "Rund, Max 3 barn",
+    "dayPrice" : 1570.0,
+    "available" : true,
+    "indoorUse" : false
+  },
+  "rentDays" : 5,
+  "startOfRent" : "2025-12-14",
+  "returned" : false
 } ]

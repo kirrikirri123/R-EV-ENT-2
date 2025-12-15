@@ -4,8 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import javafx.beans.property.SimpleBooleanProperty;
 
-
-@JsonTypeName("BouncyCastle")
+//@JsonTypeName("BouncyCastle")
 public class BouncyCastle extends Item {
      private SimpleBooleanProperty indoorUse = new SimpleBooleanProperty();
 
