@@ -27,6 +27,7 @@ public class RentalView {
     //Här hanteras bokning och återlämning
     private RentalService rentalService;
     private MembershipService membershipService;
+    private JsonService jsonService;
     private BorderPane rentalPane = new BorderPane();
     private VBox prodViewBox = new VBox();
     private VBox newRentalBox = new VBox();
@@ -42,9 +43,10 @@ public class RentalView {
 
     public RentalView(){}
 
-    public RentalView (RentalService rentalService, MembershipService membershipService) {
+    public RentalView (RentalService rentalService, MembershipService membershipService, JsonService jsonService) {
         this.rentalService = rentalService;
         this.membershipService = membershipService;
+        this.jsonService = jsonService;
 
         // Vänstrafältet
         VBox leftBox = new VBox();
@@ -87,7 +89,7 @@ public class RentalView {
         daysOfRentField.setMaxWidth(250);
         rentalMemField.setMaxWidth(250);
         rentalMemField.setPromptText("tex. Kickan Kristersson");
-        ComboBox<Member> memberComboBox = new ComboBox<>(membershipService.getMemberRegistry().convertMemberSetToObsList());
+        ComboBox<Member> memberComboBox = new ComboBox<>(membershipService.getMemberRegistry().convertMemberSetToObsList()); // visar inget
         ComboBox<Item> availableItem = new ComboBox<>(rentalService.getInventory().getItemsObsList());
         availableItem.setMaxWidth(250);
         TextField fromDateField = new TextField();
@@ -116,9 +118,9 @@ public class RentalView {
         endRentalBox.setSpacing(10);
         endRentalBox.setPadding(new Insets(35, 15, 15, 15));
         Label rentalChoice = new Label("Välj bland aktuella uthyrningar: ");
-        ComboBox<Rental> rentingMemberComboBox = new ComboBox<>(rentalService.getRentalRegistry().getRentalObsList());
+        ComboBox<Rental> rentingMemberComboBox = new ComboBox<>(rentalService.getRentalRegistry().getRentalObsList()); // hur ska man sortera denna så bara dem med returned false är med?? Streams i metod?
         memberComboBox.getItems().addAll();
-        Button confirmRentMem = new Button("Välj medlem");
+        Button confirmRentMem = new Button("Välj uthyrning");
         endRentalBox.getChildren().addAll(headerCloseRental, rentalChoice, rentingMemberComboBox, confirmRentMem);
 
         Alert confEndRent = new Alert(Alert.AlertType.CONFIRMATION);
@@ -145,12 +147,21 @@ public class RentalView {
         VBox finnishedRentingBox = new VBox();
         finnishedRentingBox.setSpacing(10);
         finnishedRentingBox.setAlignment(Pos.CENTER);
-        Label headerRentingInfo = new Label("Urhyrning avslutat");
-        Label rentingDays = new Label("dagar");
-        Label rentingCost = new Label("Totalkostnad");
+        Label headerRentingInfo = new Label("Uthyrning avslutad.");
+        GridPane rentingSumPane= new GridPane();
+        rentingSumPane.setHgap(7);
+        rentingSumPane.setVgap(7);
+        rentingSumPane.setAlignment(Pos.CENTER);
+        Label rentingDays = new Label("Dagar uthyrd: ");
+        Label rentingCost = new Label("Totalkostnad: ");
+        Label rentalDays = new Label("0");
+        Label rentalCostSum = new Label("kr");
+        rentingSumPane.add(rentingDays, 0,0);
+        rentingSumPane.add(rentingCost,0,1);
+        rentingSumPane.add(rentalDays,1,0);
+        rentingSumPane.add(rentalCostSum,1,1);
 
-        finnishedRentingBox.getChildren().addAll(headerRentingInfo,rentingDays,rentingCost);
-
+        finnishedRentingBox.getChildren().addAll(headerRentingInfo,rentingSumPane);
 
         // Knappar Layout
         viewProd.setOnAction(actionEvent -> {
@@ -186,7 +197,6 @@ public class RentalView {
             if(foundRentingMem != null){
             try {
                 Rental newestRental = rentalService.newRental(foundRentingMem, availableItem.getValue(),days,String.valueOf(dateStart));
-               // Borde man ha en Alert för att bekräfta bokning, typ medlem hyr itemname  from - datum?
                 newestRental.getRentalItem().setAvailable(false);
                 confrimationText.setText("Ny uthyrning skapad.\n" + newestRental);
                 newestRental.getRentalItem().setAvailable(false);
@@ -198,6 +208,7 @@ public class RentalView {
                      InvalidRentalInfoInputException e) {exceptionInfo.setText(e.getMessage());
             }
         }});
+
         // Avsluta uthyrning
         confirmRentMem.setOnAction(actionEvent -> {
             tempRental = rentingMemberComboBox.getValue();
@@ -215,14 +226,17 @@ public class RentalView {
         confEndRentBtn.setOnAction(actionE -> {
             tempRental.setReturned(true);
             tempRental.getRentalItem().setAvailable(true);
-            try { // Ändra fel hanteringen HÄR !!!!!
-                LocalDate dateStopRent = rentalService.userChooseDate(endDateField.getText());
-                rentalService.countActualDays(dateStopRent,tempRental.getRentingMember());
+                LocalDate dateStopRent = rentalService.userChooseDate(endDateField.getText()); // Nån exception här så att det stoppar ett felaktigt datum intryck?
+                rentalService.countActualDays(dateStopRent,tempRental);
                 rentalPane.setCenter(finnishedRentingBox);
-            } catch (Exception e) {
-                exceptionEndRent.setText("Fel vid ihopräknande av dagar.");
-            }
-
+                String days = String.valueOf(rentalService.rentalCountDays(tempRental));
+                String price = rentalService.pricePolicyCalc(tempRental);
+               rentalDays.setText(days);
+               rentalCostSum.setText(price);
+            try{
+                jsonService.rentalistToJson();
+                }catch(IOException e){System.out.println("Feluppstod vid sparande till uthyrningsfil.");}
+            tempRental = null;
         });
 
         // Layout RentalPane

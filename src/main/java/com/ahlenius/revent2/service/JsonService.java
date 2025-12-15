@@ -19,14 +19,12 @@ public class JsonService {
     RentalRegistry rentalRegistry;
     MemberRegistry memberRegistry;
 
-
     public JsonService(Inventory inventory,RentalRegistry rentalRegistry, MemberRegistry memberRegistry){
         this.inventory = inventory;
         this.rentalRegistry = rentalRegistry;
         this.memberRegistry = memberRegistry;
         this.mapper = mapperConstructConfig();
     }
-
 
     private ObjectMapper mapperConstructConfig(){
        mapper = new ObjectMapper();
@@ -39,15 +37,10 @@ public class JsonService {
 
     return mapper;}
 
-
     // dessa metoder kan nog göras till en generell!
 
     public void itemlistToJson() throws IOException {
-        try { System.out.println("DEBUG: Sparar följande klasser i itemList:");
-            for (Item i : inventory.getItemList()) {
-                System.out.println(" - " + i.getClass().getName());
-            }
-            System.out.println("Antal: " + inventory.getItemList().size());
+        try{
             mapper.writeValue(new File("items.json"),inventory.getItemList());
             System.out.println("Listan är sparad i fil");}
         catch (IOException e){ throw new IOException("Fel uppstsod vid sparande av Items till fil.");}}

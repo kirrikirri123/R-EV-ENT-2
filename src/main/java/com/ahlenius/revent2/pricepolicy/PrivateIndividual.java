@@ -6,7 +6,7 @@ public class PrivateIndividual  implements PricePolicy{
     public String priceVAT(double x) {
         double inkVAT = x * 1.25;
         double diff = inkVAT - x;
-        return "ínkl. moms 25 % : "+ diff +" kr.\nTotalkostnad: \" + inkVAT +\" kr.";}
+        return inkVAT + " kr."+"\nInkl. moms 25 % : "+ diff +" kr.";}
 
     @Override
     public double discount(double x) {

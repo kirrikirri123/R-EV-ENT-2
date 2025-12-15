@@ -4,6 +4,8 @@ import com.ahlenius.revent2.entity.*;
 import com.ahlenius.revent2.exceptions.InvalidAmountRentingDaysException;
 import com.ahlenius.revent2.exceptions.InvalidDateChoiceException;
 import com.ahlenius.revent2.exceptions.InvalidRentalInfoInputException;
+import com.ahlenius.revent2.pricepolicy.PrivateIndividual;
+import com.ahlenius.revent2.pricepolicy.Society;
 import com.ahlenius.revent2.repository.Inventory;
 import com.ahlenius.revent2.repository.RentalRegistry;
 
@@ -21,6 +23,8 @@ public class RentalService {
     private Inventory inventory;
     private RentalRegistry rentalRegistry;
     private JsonService jsonService;
+    private PrivateIndividual privateIndividual = new PrivateIndividual();
+    private Society society = new Society();
 
 
     public RentalService (){}
@@ -29,6 +33,7 @@ public class RentalService {
         this.inventory = inventory;
         this.rentalRegistry = rentalRegistry;
         this.jsonService = jsonService;
+
     }
 
     public RentalRegistry getRentalRegistry() {
@@ -131,27 +136,30 @@ public class RentalService {
         member.getHistoryMember().add(infoToHistory);
     }
     // byt antal
-    public void changeRentDays(Member member, int x) {
-        getRentalRegistry().getRentalList().get(getRentalRegistry().getRentalList().indexOf(member)).setRentDays(x); // Ändra till streams?
-    System.out.println("I metoden sett dagar");
+    public void changeRentDays(Rental rental, int x) {
+        rental.setRentDays(x);
+    System.out.println("I metoden sätt dagar");
     }
     //visa valt antal
-    public int rentalCountDays(Member member) {
-        return  getRentalRegistry().getRentalList().get(getRentalRegistry().getRentalList().indexOf(member)).getRentDays();  // Ändra till streams?
+    public int rentalCountDays(Rental rental) {
+                return  rental.getRentDays();
     }
-    public double returnRentalDayPrice(Member member) {
-        return  getRentalRegistry().getRentalList().get(getRentalRegistry().getRentalList().indexOf(member)).getRentalItem().getDayPrice();// Ändra till streams?
+    public double returnRentalDayPrice(Rental rental) {
+        return  rental.getRentalItem().getDayPrice();
     }
     public LocalDate userChooseDate(String dateStartString){
-        String date=dateStartString.replace(' ','-');
+        String date;
+        if(dateStartString.contains(" ")){
+        date =dateStartString.replace(' ','-');}
+        else {date = dateStartString;}
         return createDateOfRent(date);}
 
-    public void countActualDays(LocalDate stopRent, Member member){ // här finns risk att det är ett förstort tal i long när de konverteras till int.
-         LocalDate theStartOfRent = getRentalRegistry().getRentalList().get(getRentalRegistry().getRentalList().indexOf(member)).getStartOfRent(); //  Ändrad bör att funka mot List istället för map okänt i praktiken.
-        long actualDaysLong = stopRent.toEpochDay() - theStartOfRent.toEpochDay();
+    public void countActualDays(LocalDate stopRent, Rental rental){ // här finns risk att det är ett förstort tal i long när de konverteras till int.
+         LocalDate theStartOfRent = rental.getStartOfRent();
+         long actualDaysLong = stopRent.toEpochDay() - theStartOfRent.toEpochDay();
         int actualDays =(int) actualDaysLong;
         System.out.println("I metoden räkna om dagar.");
-        changeRentDays(member,actualDays);
+        changeRentDays(rental,actualDays);
     }
 
     public void sumRentalsList() { // Ekonomi att se över vid senare tillfälle.
@@ -170,9 +178,21 @@ public class RentalService {
         if(days>=30){ price = priceMonth(dayPrice,days);}
         return price;
     }
-
+    // Rabatt vid uthyrning längre än 30 dagar. Skriv ut i UI info om detta?
     public double priceMonth(double dayPrice,double days) {
         return (days/30)*((dayPrice*30)*0.7);
+    }
+    public double calculateBasePrice(Rental rental) {
+            return calculateDay(returnRentalDayPrice(rental), rentalCountDays(rental));
+    }
+    public String pricePolicyCalc(Rental rental) {
+            double totalBasePrice = calculateBasePrice(rental);
+            String totalPrice;
+        if (rental.getRentingMember().getMemberStatus().equalsIgnoreCase("privat")) {
+            totalPrice = privateIndividual.priceVAT(privateIndividual.discount(totalBasePrice));
+        } else {
+            totalPrice = society.priceVAT(society.discount(totalBasePrice));
+        }return totalPrice;
     }
 
 }

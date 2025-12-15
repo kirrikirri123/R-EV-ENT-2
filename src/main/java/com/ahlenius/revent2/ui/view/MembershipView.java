@@ -5,12 +5,15 @@ import com.ahlenius.revent2.entity.Rental;
 import com.ahlenius.revent2.exceptions.*;
 import com.ahlenius.revent2.service.JsonService;
 import com.ahlenius.revent2.service.MembershipService;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.TimeUnit;
 
@@ -99,8 +102,12 @@ public class MembershipView {
         memHistoryPane.setAlignment(Pos.CENTER);
         memHistoryPane.getChildren().addAll(headerHistoryMem,memberHistLab,memberHistory,searchBtnHist,exceptionInfoHistory);
          // Steg 2 Visa Historik
-        TableView<Rental> historyTable = new TableView<>(); // Vid knapptryck och hittad medlem så byter vi center till en ny vy.
-
+        VBox memHistShow = new VBox();
+        memHistShow.setSpacing(5);
+        memHistShow.setAlignment(Pos.CENTER);
+        Label headerShowHist = new Label("Medlemshistorik");
+        TableView<String> historyTable = new TableView<>();
+         memHistShow.getChildren().addAll(headerShowHist,historyTable);
 
         //Uppdatera medlemVy
         updateMem = new Button("Uppdatera medlem");
@@ -217,7 +224,10 @@ public class MembershipView {
             searchBtnHist.setText("Söker medlem...");// Lägga en sleep och sen återställa knapp till "Sök."
             try{
             Member foundMem = membershipService.searchMemberByNameOrPhoneReturnMember(memberHistory.getText());
-                membershipService.getMemberHistory(foundMem);
+                List<String> tempHistList = membershipService.getMemberHistory(foundMem);
+                ObservableList<String> obsTempHistList = FXCollections.observableList(tempHistList);
+                memberPane.setCenter(memHistShow);
+                historyTable.setItems(obsTempHistList);
                 searchBtnHist.setText(searchBtnString); memberHistory.clear();
             } catch (NullPointerException|NoHistoryFoundException ex){exceptionInfoHistory.setText(ex.getMessage()); searchBtnHist.setText(searchBtnString);}
         });
@@ -230,7 +240,7 @@ public class MembershipView {
                   Optional<ButtonType> userResult = confrUpdMem.showAndWait();
                    if(userResult.isPresent()){
                         if(userResult.get() == yesBtn) {
-                        updateMemInfo.setText("Medlem bekräftad. Laddar sida för uppdatering av medlemsinfo.");// detta skrivs aldrig ut
+                        updateMemInfo.setText("Medlem bekräftad. Laddar sida för uppdatering av medlemsinfo.");// detta skrivs aldrig ut?
                         try {
                             TimeUnit.MILLISECONDS.sleep(1000);
                                        } catch (InterruptedException e) {System.out.println("Fel uppstod vid sleep");}
@@ -242,7 +252,9 @@ public class MembershipView {
                         updUserStatusCombo.setValue(foundMem.getMemberStatus());
                         }else if(userResult.get() == noBtn) {updateMember.clear(); searchBtnUpd.setText(searchBtnString); confrUpdMem.close();}}
                 } catch (NullPointerException e) { updateMemInfo.setText(e.getMessage()); searchBtnUpd.setText(searchBtnString);}});
-            //Uppdatera ändringar mot register
+
+
+        //Uppdatera ändringar mot register
         confBtn.setOnAction(actionEvent -> {
             if(!updUserNameField.getText().isEmpty()){
             membershipService.updateMemberName(tempMember, updUserNameField.getText());}

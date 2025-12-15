@@ -27,7 +27,7 @@ public class ReventApp extends Application {
     MainView mainView = new MainView();
     MembershipView membershipView = new MembershipView(memberService);
     ProductView productView = new ProductView(rentalService,jsonService);
-    RentalView rentalView = new RentalView(rentalService,memberService);
+    RentalView rentalView = new RentalView(rentalService,memberService, jsonService);
     HistoryView historyView = new HistoryView(rentalService);
     EconomyView economyView = new EconomyView();
     ButtonController buttonController= new ButtonController(startView,mainView,membershipView,productView,rentalView,economyView,historyView);

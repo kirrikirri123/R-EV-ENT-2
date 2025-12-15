@@ -14,9 +14,9 @@
     "available" : true,
     "season" : "Året runt"
   },
-  "rentDays" : 5,
+  "rentDays" : 6,
   "startOfRent" : "2025-12-25",
-  "returned" : false
+  "returned" : true
 }, {
   "rentingMember" : {
     "id" : "123",
@@ -33,9 +33,9 @@
     "available" : true,
     "season" : "Året runt"
   },
-  "rentDays" : 2,
+  "rentDays" : 11,
   "startOfRent" : "2025-12-20",
-  "returned" : false
+  "returned" : true
 }, {
   "rentingMember" : {
     "id" : "123",
@@ -52,7 +52,26 @@
     "available" : true,
     "indoorUse" : false
   },
-  "rentDays" : 5,
+  "rentDays" : 2,
   "startOfRent" : "2025-12-14",
-  "returned" : false
+  "returned" : true
+}, {
+  "rentingMember" : {
+    "id" : "920618",
+    "name" : "Kickan Karlsson",
+    "phone" : "095014841",
+    "memberStatus" : "Privat",
+    "historyMember" : [ "Stubbe, Hyresstart: 2025-12-15" ]
+  },
+  "rentalItem" : {
+    "type" : "MascotCostume",
+    "name" : "Stubbe",
+    "description" : "Träig, Stadig. Endast stående",
+    "dayPrice" : 125.0,
+    "available" : true,
+    "season" : "Året runt"
+  },
+  "rentDays" : 16,
+  "startOfRent" : "2025-12-15",
+  "returned" : true
 } ]

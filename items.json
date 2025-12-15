@@ -1,10 +1,12 @@
 [ {
+  "type" : "BouncyCastle",
   "name" : "Såpbubbla",
   "description" : "Rund, Max 3 barn",
   "dayPrice" : 1570.0,
   "available" : true,
   "indoorUse" : false
 }, {
+  "type" : "MascotCostume",
   "name" : "Stubbe",
   "description" : "Träig, Stadig. Endast stående",
   "dayPrice" : 125.0,
