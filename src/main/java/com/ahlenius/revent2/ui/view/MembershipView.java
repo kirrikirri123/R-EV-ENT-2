@@ -3,6 +3,7 @@ package com.ahlenius.revent2.ui.view;
 import com.ahlenius.revent2.entity.Member;
 import com.ahlenius.revent2.entity.Rental;
 import com.ahlenius.revent2.exceptions.*;
+import com.ahlenius.revent2.service.JsonService;
 import com.ahlenius.revent2.service.MembershipService;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -16,6 +17,7 @@ import java.util.concurrent.TimeUnit;
 public class MembershipView {
     // Här kommer under meny men olika alternativ till medlemskapshantering.
     private MembershipService membershipService;
+    private JsonService jsonService;
     private BorderPane memberPane = new BorderPane();
     private  VBox gridPaneNewMem = new VBox();
     private VBox memHistoryPane = new VBox();
@@ -249,7 +251,7 @@ public class MembershipView {
             if(!updUserStatusCombo.getValue().equals(tempMember.getMemberStatus())){
             membershipService.updateMemberStatus(tempMember,updUserStatusCombo.getValue());}
             try {
-                membershipService.listToJson();
+                jsonService.memberlistToJson();
                 confrmUpdText.setText("Efter uppdatering:\n"+ tempMember);
                 updUserNameField.clear(); updUserPhoneField.clear(); tempMember= null; validatedMem.setText("");
             } catch (IOException e) {confrmUpdText.setText(e.getMessage());}
@@ -262,7 +264,7 @@ public class MembershipView {
                 if(userRemoveResult.get() ==removeBtn){
                     try {
                     membershipService.getMemberRegistry().remove(tempMember);
-                    membershipService.listToJson(); // behövs denna??
+                    jsonService.memberlistToJson(); // behövs denna??
                     confrmUpdText.setText(tempMember.getName() + "s medlemskap är avslutat.");
                     } catch (IOException e) { confrmUpdText.setText(e.getMessage());}
                 }else{

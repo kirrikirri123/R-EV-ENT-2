@@ -3,22 +3,20 @@ package com.ahlenius.revent2.service;
 import com.ahlenius.revent2.entity.Member;
 import com.ahlenius.revent2.exceptions.*;
 import com.ahlenius.revent2.repository.MemberRegistry;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.SerializationFeature;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.*;
 
 public class MembershipService {
     // Hanterar memberfunktioner. Medlemsrabatter? Ta isf in PI och S objekten hit istället?
     private MemberRegistry memberRegistry;
-     ObjectMapper mapper = new ObjectMapper();
+    private JsonService jsonService;
 
     public MembershipService(){}
 
-    public MembershipService(MemberRegistry memberRegistry){
-        this.memberRegistry = memberRegistry;}
+    public MembershipService(MemberRegistry memberRegistry, JsonService jsonService){
+        this.memberRegistry = memberRegistry;
+        this.jsonService = jsonService;}
 
     public MemberRegistry getMemberRegistry() {
         return memberRegistry;
@@ -38,22 +36,7 @@ public class MembershipService {
     public void addMemberList(Member member) throws IOException {
         getMemberRegistry().add(member);
         System.out.println(member.getName() + " är sparad i listan.");
-        listToJson();} //bekräftelse i konsoll
-
-    public void listToJson() throws IOException {
-    try {
-        mapper.enable(SerializationFeature.INDENT_OUTPUT);
-        mapper.writeValue(new File("members.json"),memberRegistry.getMemberRegistryList());
-        System.out.println("Member-listan är sparad i fil");}// bekräftelse i konsoll
-    catch (IOException e){ throw new IOException("Fel uppstsod vid sparande av medlemsinfo till fil.");}}
-
-    public void loadJsonToArrayList() throws IOException{
-    try{
-        List<Member> fromFile = Arrays.asList(mapper.readValue(new File("members.json"),Member[].class));
-        System.out.println("Laddat fil i temporär lista.");
-       memberRegistry.addList(fromFile);
-        System.out.println("Members laddad från Json till lista.");}
-    catch (IOException e){throw new IOException("Fel uppstod vid uppladdning av medlemsinfo från fil.");}}
+        jsonService.memberlistToJson();}
 
 // Söka ändra medlem.
     public List<Member> searchMemberByNameIdReturnList(String nameOrPhone) throws NullPointerException {

@@ -1,26 +1,29 @@
 package com.ahlenius.revent2.entity;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonTypeName;
+import javafx.beans.property.SimpleBooleanProperty;
 
-@JsonInclude
+
 @JsonTypeName("BouncyCastle")
 public class BouncyCastle extends Item {
-     private boolean indoorUse; // se om detta stör ObservableList
+     private SimpleBooleanProperty indoorUse = new SimpleBooleanProperty();
 
     public BouncyCastle(){
     }
 
     public BouncyCastle(String name,String description,double day,boolean available, boolean indoorUse){
         super(name, description,day,available);
-        this.indoorUse = indoorUse;
+        this.indoorUse.set(indoorUse);
+    }
+    @JsonProperty("indoorUse")
+    public boolean isIndoorUse() {
+        return indoorUse.get();
     }
 
-    public boolean isIndoorUse() {
-        return indoorUse;
-    }
+    @JsonProperty("indoorUse")
     public void setIndoorUse(boolean indoorUse){
-        this.indoorUse = indoorUse;
+        this.indoorUse.set(indoorUse);
 
     }
     @Override

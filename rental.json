@@ -1,19 +1,20 @@
 [ {
   "rentingMember" : {
-    "id" : "18891209",
-    "name" : "Björn Sovis",
-    "phone" : "07011111111",
+    "id" : "970517",
+    "name" : "Kickan Knäppsson",
+    "phone" : "091077993",
     "memberStatus" : "Privat",
-    "historyMember" : [ "UltimateXtreme, Hyresstart: 2025-12-11" ]
+    "historyMember" : [ "Lucia, Hyresstart: 2025-12-13" ]
   },
   "rentalItem" : {
     "type" : "BouncyCastle",
-    "name" : "UltimateXtreme",
-    "description" : " Maxad hoppupplevelse, för max 8 vuxna",
-    "dayPrice" : 3500.0,
     "available" : true,
+    "name" : "Lucia",
+    "description" : "Ljudkrona, Vitdräkt, traditionell. Exklusiv!",
+    "dayPrice" : 750.0,
     "indoorUse" : false
   },
-  "rentDays" : 2,
+  "rentDays" : 5,
+  "startOfRent" : "2025-12-13",
   "returned" : false
 } ]

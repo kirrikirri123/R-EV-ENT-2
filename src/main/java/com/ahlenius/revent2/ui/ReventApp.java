@@ -2,6 +2,7 @@ package com.ahlenius.revent2.ui;
 import com.ahlenius.revent2.repository.Inventory;
 import com.ahlenius.revent2.repository.MemberRegistry;
 import com.ahlenius.revent2.repository.RentalRegistry;
+import com.ahlenius.revent2.service.JsonService;
 import com.ahlenius.revent2.service.MembershipService;
 import com.ahlenius.revent2.service.RentalService;
 import com.ahlenius.revent2.ui.controller.ButtonController;
@@ -17,8 +18,10 @@ public class ReventApp extends Application {
     MemberRegistry memberRegistry = new MemberRegistry();
     RentalRegistry rentalRegistry = new RentalRegistry();
 
-    MembershipService memberService = new MembershipService(memberRegistry); //Plocka in även PI och S objektet?
-    RentalService rentalService = new RentalService(inventory,rentalRegistry);
+    //Plocka in även PI och S objektet?
+    JsonService jsonService = new JsonService(inventory,rentalRegistry,memberRegistry);
+    RentalService rentalService = new RentalService(inventory,rentalRegistry,jsonService);
+    MembershipService memberService = new MembershipService(memberRegistry,jsonService);
 
     StartView startView = new StartView();
     MainView mainView = new MainView();
@@ -35,13 +38,14 @@ public class ReventApp extends Application {
 
         stage.setTitle("R-EV-ENT - Re-Invent your event - Just rent!");
         //Ladda in listor
-        rentalService.defaultList();
+       // rentalService.defaultList();
         try {
-            memberService.loadJsonToArrayList();
-            rentalService.loadRentalJsonToArrayList();
-            rentalService.loadJsonToArrayList();
-        } catch (IOException e) {System.out.println(e.getMessage());}
+            jsonService.loadMemberJsonToArrayList();
+            jsonService.loadItemJsonToArrayList(); // Funkar ej
+            jsonService.loadRentalJsonToArrayList(); // Funkar ej
 
+
+        } catch (IOException e) {System.out.println(e.getMessage());}
 
        start = new Scene(startView.getStartView(),500,450);
        main = new Scene(mainView.getMainView(),825,800);

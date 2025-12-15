@@ -1,6 +1,7 @@
 package com.ahlenius.revent2.ui.view;
 
 import com.ahlenius.revent2.entity.Item;
+import com.ahlenius.revent2.service.JsonService;
 import com.ahlenius.revent2.service.RentalService;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -14,7 +15,8 @@ import java.util.Optional;
 
 public class ProductView {
     // Här läggs allt som har med produkterna att göra. Foto-info, boka osv.
-    private RentalService rentalService;
+    private RentalService rentalService; // när behöver man göra new?
+    private JsonService jsonService; // när behöver man new? när måste man ta in i konstruktor??
     private BorderPane productPane = new BorderPane();
     private FlowPane itemView = new FlowPane();
     private VBox newProdBox = new VBox();
@@ -253,7 +255,7 @@ public class ProductView {
                     if(!updProdDescripField.getText().isEmpty()) {
                         rentalService.updateProdDescrip(tempItem, updProdDescripField.getText());
                         try {
-                            rentalService.listToJson();
+                            jsonService.rentalistToJson();
                             confrmUpdText.setText("Efter uppdatering:\n"+ tempItem);
                             updProdNameField.clear();updDayPriceField.clear(); updProdDescripField.clear(); tempItem= null; validatedProd.setText("");
                         } catch (IOException e) {confrmUpdText.setText(e.getMessage());}
@@ -266,7 +268,7 @@ public class ProductView {
                 if(userRemoveResult.get() == removeBtn){
                     try {
                         rentalService.removeItem(tempItem); System.out.println(tempItem + "Raderad");
-                        rentalService.listToJson(); // behövs denna??
+                        jsonService.rentalistToJson(); // behövs denna??
                         confrmUpdText.setText(tempItem.getName() + " är raderad.");
                     } catch (IOException e) { confrmUpdText.setText(e.getMessage());}
                 }else{

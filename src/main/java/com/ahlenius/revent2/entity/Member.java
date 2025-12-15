@@ -4,6 +4,8 @@ import javafx.beans.property.SimpleStringProperty;
 import java.util.LinkedList;
 import java.util.List;
 
+// Sätta annotationer på alla dessa också även om de inte är "special"datatyper som ska skickas  runt ?
+
 public class Member {
     private SimpleStringProperty id = new SimpleStringProperty();
     private SimpleStringProperty name= new SimpleStringProperty();

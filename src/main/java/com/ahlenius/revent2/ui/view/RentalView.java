@@ -3,10 +3,7 @@ package com.ahlenius.revent2.ui.view;
 import com.ahlenius.revent2.entity.Item;
 import com.ahlenius.revent2.entity.Member;
 import com.ahlenius.revent2.entity.Rental;
-import com.ahlenius.revent2.exceptions.InvalidMemberInfoInputException;
-import com.ahlenius.revent2.exceptions.InvalidNameInputException;
-import com.ahlenius.revent2.exceptions.InvalidPhoneInputException;
-import com.ahlenius.revent2.exceptions.NoMemberFoundException;
+import com.ahlenius.revent2.exceptions.*;
 import com.ahlenius.revent2.service.MembershipService;
 import com.ahlenius.revent2.service.RentalService;
 import javafx.geometry.Insets;
@@ -40,6 +37,7 @@ public class RentalView {
     private Label exceptionInfo = new Label();
     private Member foundRentingMem;
     private Rental tempRental;
+    private int days;
 
     public RentalView(){}
 
@@ -123,7 +121,7 @@ public class RentalView {
         endRentalBox.getChildren().addAll(headerCloseRental, rentalChoice, rentingMemberComboBox, confirmRentMem);
 
         Alert confEndRent = new Alert(Alert.AlertType.CONFIRMATION);
-        ButtonType endRentBtn = new ButtonType("Avsluta");
+        ButtonType endRentBtn = new ButtonType("Ja, avsluta");
         ButtonType closeConfAlertBtn = new ButtonType("Avbryt");
         confEndRent.getButtonTypes().setAll(endRentBtn, closeConfAlertBtn);
         confEndRent.setTitle("Avsluta Uthyrning");
@@ -142,6 +140,17 @@ public class RentalView {
         Label exceptionEndRent = new Label();
         finalEndRentBox.getChildren().addAll(headerCloseRental, validateEndRent, endDateOfRent, endDateField, confEndRentBtn, exceptionEndRent);
 
+         // Steg 3 - Räkna ihop uthyrning. Dagar och kostnad.
+        VBox finnishedRentingBox = new VBox();
+        finnishedRentingBox.setSpacing(10);
+        finnishedRentingBox.setAlignment(Pos.CENTER);
+        Label headerRentingInfo = new Label("Urhyrning avslutat");
+        Label rentingDays = new Label("dagar");
+        Label rentingCost = new Label("Totalkostnad");
+
+        finnishedRentingBox.getChildren().addAll(headerRentingInfo,rentingDays,rentingCost);
+
+
         // Knappar Layout
         viewProd.setOnAction(actionEvent -> {
             itemListTableView.refresh();
@@ -153,55 +162,64 @@ public class RentalView {
             daysOfRentField.clear();
             fromDateField.clear();
             exceptionInfo.setText("");
+            exceptionEndRent.setText("");
         });
         endRental.setOnAction(actionEvent -> {
             rentalPane.setCenter(endRentalBox);
+            exceptionEndRent.setText("");
         });
 
         // Knappar funktioner
         // Ny uthyrning
         OKBTN.setOnAction(actionEvent -> {
-            int days = Integer.parseInt(daysOfRentField.getText());
-            String dateStart = rentalService.userChooseDate(fromDateField.getText());
+            try {
+                days = Integer.parseInt(daysOfRentField.getText());
+            } catch (NumberFormatException e) {
+                exceptionInfo.setText("Missat antal dagar. Skriv ett ungefärligt antal dar.");
+            }
+           LocalDate dateStart = rentalService.createDateOfRent(fromDateField.getText());
             try {
                 foundRentingMem = membershipService.searchMemberByNameOrPhoneReturnMember(rentalMemField.getText());
             } catch (NullPointerException e) {
                 exceptionInfo.setText(e.getMessage() + ".\n Namnet behöver ha den exakta stavningen.");}
             if(foundRentingMem != null){
             try {
-                Rental newestRental = rentalService.newRental(foundRentingMem, availableItem.getValue(), days,dateStart);
+                Rental newestRental = rentalService.newRental(foundRentingMem, availableItem.getValue(),days,String.valueOf(dateStart));
+               // Borde man ha en Alert för att bekräfta bokning, typ medlem hyr itemname  from - datum?
                 newestRental.getRentalItem().setAvailable(false);
                 confrimationText.setText("Ny uthyrning skapad.\n" + newestRental);
+                newestRental.getRentalItem().setAvailable(false);
                 rentalMemField.clear();
                 daysOfRentField.clear();
                 fromDateField.clear();
                 exceptionInfo.setText("");
-                //tempRental = newestRental;
-            } catch (IOException | DateTimeParseException e) {
-                exceptionInfo.setText("Felaktigt datumformat. \nSeparera med ett mellanslag eller bindesstreck tex. 2025-12-31 ");
+            } catch (IOException | InvalidAmountRentingDaysException | InvalidDateChoiceException |
+                     InvalidRentalInfoInputException e) {exceptionInfo.setText(e.getMessage());
             }
         }});
         // Avsluta uthyrning
         confirmRentMem.setOnAction(actionEvent -> {
-            rentingMemberComboBox.getValue();
-            confEndRent.setContentText("Vill du avsluta uthyrningen av " + tempRental.getRentalItem().getName() + " av " + tempRental.getRentingMember().getName() + " ?");
+            tempRental = rentingMemberComboBox.getValue();
+
+            confEndRent.setContentText("Vill du avsluta uthyrningen av " + tempRental.getRentalItem().getName() + " till " + tempRental.getRentingMember().getName() + " ?");
             Optional<ButtonType> userEndingRentResult = confEndRent.showAndWait();
             if (userEndingRentResult.isPresent()) {
                 if (userEndingRentResult.get() == endRentBtn) {
                     rentalPane.setCenter(finalEndRentBox);}
                 if (userEndingRentResult.get() == closeConfAlertBtn) {
-                    exceptionEndRent.setText("Avbryter återlämning. Produkt forfarnade uthyrd.");
+                    exceptionEndRent.setText("Avbryter återlämning. Produkt fortfarande uthyrd.");
                 }
             }
         });
         confEndRentBtn.setOnAction(actionE -> {
             tempRental.setReturned(true);
             tempRental.getRentalItem().setAvailable(true);
-            try {
-                String dateStopRent = rentalService.userChooseDate(endDateField.getText());
+            try { // Ändra fel hanteringen HÄR !!!!!
+                LocalDate dateStopRent = rentalService.userChooseDate(endDateField.getText());
                 rentalService.countActualDays(dateStopRent,tempRental.getRentingMember());
+                rentalPane.setCenter(finnishedRentingBox);
             } catch (Exception e) {
-                exceptionEndRent.setText(e.getMessage());
+                exceptionEndRent.setText("Fel vid ihopräknande av dagar.");
             }
 
         });
