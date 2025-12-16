@@ -1,19 +1,13 @@
 [ {
+  "id" : "970517",
+  "name" : "Kickan Knäppsson",
+  "phone" : "091077993",
+  "memberStatus" : "Privat",
+  "historyMember" : [ "Såpbubbla, Hyresstart: 2025-12-16" ]
+}, {
   "id" : "19871211",
   "name" : "Bjärv Örnmark",
   "phone" : "0910 77 44 11",
-  "memberStatus" : "Privat",
-  "historyMember" : [ ]
-}, {
-  "id" : "123456",
-  "name" : "Ersboda Pingisföreningsklubb",
-  "phone" : "0950-12363",
-  "memberStatus" : "Förening",
-  "historyMember" : [ ]
-}, {
-  "id" : "20015514451",
-  "name" : "Bung Lang ",
-  "phone" : "090456126",
   "memberStatus" : "Privat",
   "historyMember" : [ ]
 }, {
@@ -23,21 +17,45 @@
   "memberStatus" : "Privat",
   "historyMember" : [ ]
 }, {
-  "id" : "19971205",
-  "name" : "Malin Mört",
-  "phone" : "090457165",
+  "id" : "1901-12-24",
+  "name" : "Petter Nicklas",
+  "phone" : "0736677889",
   "memberStatus" : "Privat",
   "historyMember" : [ ]
 }, {
-  "id" : "970517",
-  "name" : "Kickan Knäppsson",
-  "phone" : "091077993",
+  "id" : "199712145566",
+  "name" : "Brun Björnsson",
+  "phone" : "09501254654",
   "memberStatus" : "Privat",
   "historyMember" : [ ]
 }, {
   "id" : "1992061816",
   "name" : "Kickan Kristersson",
   "phone" : "090156 45 12",
+  "memberStatus" : "Privat",
+  "historyMember" : [ ]
+}, {
+  "id" : "20015514451",
+  "name" : "Bung Lang ",
+  "phone" : "090456126",
+  "memberStatus" : "Privat",
+  "historyMember" : [ ]
+}, {
+  "id" : "123",
+  "name" : "Björn Varg",
+  "phone" : "095037417",
+  "memberStatus" : "Privat",
+  "historyMember" : [ ]
+}, {
+  "id" : "123456",
+  "name" : "Ersboda Pingisföreningsklubb",
+  "phone" : "0950-12363",
+  "memberStatus" : "Förening",
+  "historyMember" : [ ]
+}, {
+  "id" : "19971205",
+  "name" : "Malin Mört",
+  "phone" : "090457165",
   "memberStatus" : "Privat",
   "historyMember" : [ ]
 }, {
@@ -50,18 +68,6 @@
   "id" : "1",
   "name" : "Marta Mus",
   "phone" : "0950-10832",
-  "memberStatus" : "Privat",
-  "historyMember" : [ ]
-}, {
-  "id" : "1901-12-24",
-  "name" : "Petter Nicklas",
-  "phone" : "0736677889",
-  "memberStatus" : "Privat",
-  "historyMember" : [ ]
-}, {
-  "id" : "123",
-  "name" : "Björn Varg",
-  "phone" : "095037417",
   "memberStatus" : "Privat",
   "historyMember" : [ ]
 } ]

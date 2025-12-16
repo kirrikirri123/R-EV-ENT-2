@@ -8,6 +8,10 @@ import com.ahlenius.revent2.pricepolicy.PrivateIndividual;
 import com.ahlenius.revent2.pricepolicy.Society;
 import com.ahlenius.revent2.repository.Inventory;
 import com.ahlenius.revent2.repository.RentalRegistry;
+import com.sun.xml.internal.ws.policy.privateutil.PolicyUtils;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
 
 import java.io.IOException;
 import java.time.LocalDate;
@@ -16,7 +20,9 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.time.temporal.TemporalAccessor;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class RentalService {
     //Hanterar Item-funktioner kopplade till uthyrning.
@@ -93,7 +99,9 @@ public class RentalService {
         jsonService.itemlistToJson();
     }
     public void addItemToList(Item item) {
-        inventory.add(item);
+        inventory.getItemList().add(item);
+        inventory.getItemsObsList().add(item);
+        //inventory.add(item);
         System.out.println(item.getName() + " är sparad i listan.");
     }
     public void defaultList() { // För testning.
@@ -131,9 +139,10 @@ public class RentalService {
         addHistory(rentalItem,rentalItem.getRentingMember());
         jsonService.rentalistToJson();
     }
-    public void addHistory(Rental rentalItem, Member member) {
+    public void addHistory(Rental rentalItem, Member member) throws IOException {
         String infoToHistory = rentalItem.getRentalItem().getName() +", Hyresstart: "+ rentalItem.getStartOfRent();
         member.getHistoryMember().add(infoToHistory);
+        jsonService.memberlistToJson();
     }
     // byt antal
     public void changeRentDays(Rental rental, int x) {
@@ -194,6 +203,11 @@ public class RentalService {
             totalPrice = society.priceVAT(society.discount(totalBasePrice));
         }return totalPrice;
     }
+    // Sortera lista så att bara dem med Returned false synd.
+    public ObservableList<Rental> rentalsObsListNotReturned(ObservableList<Rental> obsListRent){
+        FilteredList<Rental> activeRentals = new FilteredList<>(obsListRent, rental -> !rental.isReturned());
+        return activeRentals;}
+
 
 }
 

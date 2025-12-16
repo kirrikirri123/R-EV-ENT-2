@@ -1,6 +1,8 @@
 package com.ahlenius.revent2.entity;
 
 import javafx.beans.property.SimpleStringProperty;
+
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -11,7 +13,7 @@ public class Member {
     private SimpleStringProperty name= new SimpleStringProperty();
     private SimpleStringProperty phone= new SimpleStringProperty();
     private SimpleStringProperty memberStatus= new SimpleStringProperty(); //private eller society
-    private List<String> historyMember = new LinkedList<>();
+    private List<String> historyMember = new ArrayList<>();
 
     public Member (){}
     public Member (String id, String name,String phone, String memberStatus) {

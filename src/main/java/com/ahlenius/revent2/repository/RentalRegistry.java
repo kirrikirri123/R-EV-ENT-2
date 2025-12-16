@@ -21,21 +21,21 @@ public class RentalRegistry {
     }
 
     public ObservableList<Rental> getRentalObsList(){
-     return rentalObsList;
-    }
+    return rentalObsList;}
+
 
     public void add(Rental rental){
         rentalList.add(rental);
-        rentalObsList.add(rental);
+     rentalObsList.add(rental);
     }
     public void remove(Rental rental){
         rentalList.remove(rental);
-        rentalObsList.remove(rental);
+   rentalObsList.remove(rental);
     }
 
     public void addList(List<Rental> tempRental){
         rentalList.addAll(tempRental);
-        rentalObsList.addAll(tempRental);
+   rentalObsList.addAll(tempRental);
     }
 
 

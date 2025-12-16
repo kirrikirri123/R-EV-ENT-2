@@ -9,6 +9,7 @@ import com.ahlenius.revent2.ui.controller.ButtonController;
 import com.ahlenius.revent2.ui.view.*;
 import javafx.application.Application;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -25,7 +26,7 @@ public class ReventApp extends Application {
 
     StartView startView = new StartView();
     MainView mainView = new MainView();
-    MembershipView membershipView = new MembershipView(memberService);
+    MembershipView membershipView = new MembershipView(memberService,jsonService);
     ProductView productView = new ProductView(rentalService,jsonService);
     RentalView rentalView = new RentalView(rentalService,memberService, jsonService);
     HistoryView historyView = new HistoryView(rentalService);
@@ -56,8 +57,16 @@ public class ReventApp extends Application {
         stage.setScene(start);
         stage.show();
 
+        Alert saveBeforeQuit = new Alert(Alert.AlertType.CONFIRMATION);
+        saveBeforeQuit.setHeaderText("Spara innan avslut?");
+        saveBeforeQuit.setTitle("Spara ändringar");
+        saveBeforeQuit.setContentText("Önskar du att spara dina ändringar innan programmet stängs?");
+        // OM ja spara i alla listor, OM nej avsluta bara rätt av.
+
+
         // Action på knappar kopplade till stage och scene.
         mainView.getQuitBtn().setOnAction(actionEvent -> {
+            saveBeforeQuit.showAndWait();
             stage.close();
         });
          startView.getImageStart().setOnMouseClicked(mouseEvent -> { // Flytta denna till buttoncontroller alt. flytta metodanrop till konstruktor?

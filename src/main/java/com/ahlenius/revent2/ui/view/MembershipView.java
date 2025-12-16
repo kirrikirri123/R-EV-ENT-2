@@ -10,9 +10,12 @@ import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.*;
 import java.io.IOException;
+import java.io.StringReader;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.TimeUnit;
@@ -40,8 +43,9 @@ public class MembershipView {
 
     public MembershipView(){}
 
-    public MembershipView(MembershipService membershipService) {
+    public MembershipView(MembershipService membershipService, JsonService jsonService) {
         this.membershipService = membershipService;
+        this.jsonService = jsonService;
 
         //NY medlemsVy
         Label headerText = new Label("Skapa ny medlem");
@@ -50,7 +54,8 @@ public class MembershipView {
         newMem = new Button("Ny medlem");
         Label fName = new Label("Fullstädningt namn / Föreningens namn");
         Label phone = new Label("Telefonnummer ");
-        Label idNR= new Label("Personnummer / Organistationsnummer "); // Just nu bara privatPersoner.
+        Label idNR= new Label("Personnummer / Organistationsnummer ");
+        Label status = new Label("Välj status: ");// Just nu bara PrivatPersoner.
         TextField userName = new TextField();
         userName.maxWidth(225);
         userName.setPromptText("Kickan Kristersson");
@@ -60,12 +65,19 @@ public class MembershipView {
         TextField userId = new TextField();
         userId.maxWidth(225);
         userId.setPromptText("1990-01-01 / 556622-0000");
+        String statusPi= "Privatperson";
+        String statusSo ="Förening";
+        ObservableList<String> statusComboList = FXCollections.observableArrayList();
+        statusComboList.addAll(statusPi,statusSo);
+        ComboBox<String> statusComboBox = new ComboBox<>(statusComboList);
         newMemPane.add(fName,0,0);
         newMemPane.add(userName,1,0);
         newMemPane.add(phone,0,2);
         newMemPane.add(userPhone,1,2);
         newMemPane.add(idNR,0,3);
         newMemPane.add(userId,1,3);
+        newMemPane.add(status,0,4);
+        newMemPane.add(statusComboBox,1, 4);
         newMemPane.add(OKBTN,2,4);
         newMemPane.add(confrimationText,1,5);
         newMemPane.add(exceptionInfo,1,6);
@@ -107,7 +119,10 @@ public class MembershipView {
         memHistShow.setAlignment(Pos.CENTER);
         Label headerShowHist = new Label("Medlemshistorik");
         TableView<String> historyTable = new TableView<>();
-         memHistShow.getChildren().addAll(headerShowHist,historyTable);
+        TableColumn<String,String> historyColumn = new TableColumn<>("Historik");
+        historyColumn.setCellValueFactory(new PropertyValueFactory<>("historyMember"));
+        historyTable.getColumns().add(historyColumn);
+        memHistShow.getChildren().addAll(headerShowHist,historyTable);
 
         //Uppdatera medlemVy
         updateMem = new Button("Uppdatera medlem");
