@@ -4,6 +4,7 @@ import com.ahlenius.revent2.entity.*;
 import com.ahlenius.revent2.exceptions.InvalidAmountRentingDaysException;
 import com.ahlenius.revent2.exceptions.InvalidDateChoiceException;
 import com.ahlenius.revent2.exceptions.InvalidRentalInfoInputException;
+import com.ahlenius.revent2.exceptions.NoHistoryFoundException;
 import com.ahlenius.revent2.pricepolicy.PrivateIndividual;
 import com.ahlenius.revent2.pricepolicy.Society;
 import com.ahlenius.revent2.repository.Inventory;
@@ -22,6 +23,7 @@ import java.time.temporal.TemporalAccessor;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Observable;
 import java.util.stream.Collectors;
 
 public class RentalService {
@@ -207,6 +209,14 @@ public class RentalService {
     public ObservableList<Rental> rentalsObsListNotReturned(ObservableList<Rental> obsListRent){
         FilteredList<Rental> activeRentals = new FilteredList<>(obsListRent, rental -> !rental.isReturned());
         return activeRentals;}
+
+    public ObservableList<Rental> memberRentalHistoryObsList(Member member)throws NoHistoryFoundException{
+       ObservableList<Rental> tempObsList = getRentalRegistry().getRentalObsList();
+                FilteredList<Rental> memberHistoryObsList = new FilteredList<>(tempObsList, rental -> rental.getRentingMember().getName().equals(member.getName()));
+           if(memberHistoryObsList.isEmpty()){throw new NoHistoryFoundException("Ingen historik fanns på medlem");}
+                return memberHistoryObsList;
+    }
+
 
 
 }

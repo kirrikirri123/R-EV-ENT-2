@@ -42,9 +42,11 @@ public class ProductView {
 
                 // GalleriVY
         products = new Button("Galleri");
-        VBox item1 = new VBox();
         Label headerGallery = new Label("Ett urval av produkter");
+        headerGallery.setAlignment(Pos.CENTER);
         headerGallery.setPrefSize(750,55);
+
+        VBox item1 = new VBox();
         item1.setAlignment(Pos.CENTER);
         item1.setSpacing(10);
         item1.setMaxWidth(250);
@@ -59,7 +61,7 @@ public class ProductView {
         String dayPriceItem = "275";
         Label dayPriceItem1 = new Label(dayPriceItem+ "kr");
         item1.setSpacing(5);
-        item1.getChildren().addAll(headerGallery,imageView1,nameItem1,descripItem1,dayPriceItem1);
+        item1.getChildren().addAll(imageView1,nameItem1,descripItem1,dayPriceItem1);
 
         VBox item2 = new VBox();
         item2.setMaxWidth(250);
@@ -99,7 +101,7 @@ public class ProductView {
 
         itemView.setHgap(20);
         itemView.setVgap(20);
-        itemView.getChildren().addAll(item1,item2,item3,item4,item5,item6);
+        itemView.getChildren().addAll(headerGallery,item1,item2,item3,item4,item5,item6);
 
         // Ny produktVY
         Label headerNewProd = new Label(" Skapa ny produkt");

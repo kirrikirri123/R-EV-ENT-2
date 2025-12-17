@@ -1,8 +1,11 @@
 package com.ahlenius.revent2.service;
 
 import com.ahlenius.revent2.entity.Member;
+import com.ahlenius.revent2.entity.Rental;
 import com.ahlenius.revent2.exceptions.*;
 import com.ahlenius.revent2.repository.MemberRegistry;
+import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
 
 import java.io.IOException;
 import java.util.*;
