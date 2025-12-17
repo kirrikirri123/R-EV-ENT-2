@@ -1,8 +1,10 @@
 package com.ahlenius.revent2.ui.controller;
 
+import com.ahlenius.revent2.service.RentalService;
 import com.ahlenius.revent2.ui.view.*;
 
 public class ButtonController {
+    private RentalService rentalService;
     private StartView startView;
     private MainView mainView;
     private MembershipView membershipView;
@@ -12,7 +14,7 @@ public class ButtonController {
     private HistoryView historyView;
 
 
-    public ButtonController(StartView start, MainView main, MembershipView membership,ProductView product,RentalView rental,EconomyView economy,HistoryView history) {
+    public ButtonController(StartView start, MainView main, MembershipView membership,ProductView product,RentalView rental,EconomyView economy,HistoryView history,RentalService rentalService) {
         this.startView = start;
         this.mainView = main;
         this.membershipView = membership;
@@ -20,12 +22,12 @@ public class ButtonController {
         this.rentalView = rental;
         this.economyView = economy;
         this.historyView = history;
-
+        this.rentalService = rentalService;
 
         // Medlemsknappar i meny.
         mainView.getNewMem().setOnAction(actionEvent -> {
             mainView.getMainView().setCenter(membershipView.getMemberPane());
-            membershipView.getMemberPane().setCenter(membershipView.getGridPaneNewMem());
+            membershipView.getMemberPane().setCenter(membershipView.getNewMemBox());
         });
 
         mainView.getHistoryMem().setOnAction(actionEvent -> {
@@ -96,11 +98,17 @@ public class ButtonController {
               mainView.getMainView().setCenter(membershipView.getMemberPane());
               membershipView.getMemberPane().setCenter(membershipView.getMemHistoryPane());
           });
+        historyView.getMemberHistBtn().setOnAction(actionEvent -> {
+            mainView.getMainView().setCenter(membershipView.getMemberPane());
+            membershipView.getMemberPane().setCenter(membershipView.getMemHistoryPane());
+        });
 
         // Ekonomiknappar i meny
         mainView.getRevenue().setOnAction(actionEvent -> {
             mainView.getMainView().setCenter(economyView.getEconomyPane());
-        });
+            economyView.getSum().setText(String.valueOf(rentalService.sumBusinessToDayReturnDouble())+" kr ex moms.*");
+            });
+
 
     }
 }

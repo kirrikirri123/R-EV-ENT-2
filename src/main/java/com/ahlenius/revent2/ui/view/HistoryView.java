@@ -1,6 +1,5 @@
 package com.ahlenius.revent2.ui.view;
 
-import com.ahlenius.revent2.entity.Item;
 import com.ahlenius.revent2.entity.Rental;
 import com.ahlenius.revent2.service.RentalService;
 import javafx.geometry.Insets;
@@ -14,7 +13,6 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 
 public class HistoryView {
-    // Här ligger valmöjgliheter kring att hitta igen historiken.
 
     private RentalService rentalService;
     private BorderPane historyPane = new BorderPane();
@@ -54,25 +52,14 @@ public class HistoryView {
 
         historyViewBox.getChildren().addAll(headerHistory,allHistoryView);
 
-        // medlem specifikhistoprik
-        Label headerMemberHist = new Label("Medlemsspecifk historik");
-        memberHistoryBox.setAlignment(Pos.CENTER);
-
-        memberHistoryBox.getChildren().addAll(headerMemberHist);
 
         // Knappar Layout
 
         viewHistBtn.setOnAction(actionEvent -> {
             historyPane.setCenter(historyViewBox);
         });
-        memberHistBtn.setOnAction(actionEvent -> {
-            historyPane.setCenter(memberHistoryBox);
-        });
 
-        // Knappar Funktioner
-
-
-        // Layout RentalPane
+        // Layout HistoryPane
         historyPane.setLeft(leftBox);
         historyPane.setCenter(historyViewBox);
     }

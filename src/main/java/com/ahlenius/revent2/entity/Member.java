@@ -3,16 +3,13 @@ package com.ahlenius.revent2.entity;
 import javafx.beans.property.SimpleStringProperty;
 
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
-
-// Sätta annotationer på alla dessa också även om de inte är "special"datatyper som ska skickas  runt ?
 
 public class Member {
     private SimpleStringProperty id = new SimpleStringProperty();
     private SimpleStringProperty name= new SimpleStringProperty();
     private SimpleStringProperty phone= new SimpleStringProperty();
-    private SimpleStringProperty memberStatus= new SimpleStringProperty(); //private eller society
+    private SimpleStringProperty memberStatus= new SimpleStringProperty();
     private List<String> historyMember = new ArrayList<>();
 
     public Member (){}
