@@ -4,8 +4,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleObjectProperty;
-
-
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
@@ -23,7 +21,7 @@ public class Rental {
         this.rentingMember.set(rentingMember);
         this.rentalItem.set(rentalItem);
         this.rentDays.set(rentDays);
-        this.startOfRent.set(createDateOfRent(startOfRent)); // Probemet?
+        this.startOfRent.set(createDateOfRent(startOfRent));
         this.returned.set(false);
     }
 
@@ -81,6 +79,7 @@ public class Rental {
     public void setRentingMember(Member rentingMember) {
         this.rentingMember.set(rentingMember);
     }
+
     //_____________________________________________________________________________________
     // skapa start
     public LocalDate createDateOfRent(String YYYYMMDD) throws DateTimeParseException {

@@ -21,7 +21,6 @@ public class ReventApp extends Application {
     MemberRegistry memberRegistry = new MemberRegistry();
     RentalRegistry rentalRegistry = new RentalRegistry();
 
-    //Plocka in även PI och S objektet?
     JsonService jsonService = new JsonService(inventory,rentalRegistry,memberRegistry);
     RentalService rentalService = new RentalService(inventory,rentalRegistry,jsonService);
     MembershipService memberService = new MembershipService(memberRegistry,jsonService);
@@ -33,27 +32,27 @@ public class ReventApp extends Application {
     RentalView rentalView = new RentalView(rentalService,memberService, jsonService);
     HistoryView historyView = new HistoryView(rentalService);
     EconomyView economyView = new EconomyView(rentalService);
-    ButtonController buttonController= new ButtonController(startView,mainView,membershipView,productView,rentalView,economyView,historyView);
+    ButtonController buttonController= new ButtonController(startView,mainView,membershipView,productView,rentalView,economyView,historyView,rentalService);
     Scene start,main;
 
     @Override
     public void start(Stage stage) throws Exception {
 
         stage.setTitle("R-EV-ENT - Re-Invent your event - Just rent!");
-        //Ladda in listor
-       // rentalService.defaultList();
+
+        // Ladda in listor
         try {
             jsonService.loadMemberJsonToArrayList();
         } catch (IOException e) {System.out.println(e.getMessage());}
         try {
-            jsonService.loadItemJsonToArrayList(); // Funkar ej
+            jsonService.loadItemJsonToArrayList(); // Funkar ej om ej "type" finns.
         } catch (IOException e) {System.out.println(e.getMessage());}
         try{
             jsonService.loadRentalJsonToArrayList();
         } catch (IOException e) {System.out.println(e.getMessage());}
 
        start = new Scene(startView.getStartView(),500,450);
-       main = new Scene(mainView.getMainView(),825,800);
+       main = new Scene(mainView.getMainView(),925,550);
        start.getStylesheets().add("/com/ahlenius/revent2/revent_style.css");
        main.getStylesheets().add("/com/ahlenius/revent2/revent_style.css");
         stage.setScene(start);
@@ -66,7 +65,8 @@ public class ReventApp extends Application {
         ButtonType yesBtn = new ButtonType("Ja, spara");
         ButtonType noBtn = new ButtonType("Nej, låt bli");
         saveBeforeQuit.getButtonTypes().setAll(yesBtn,noBtn);
-        // Action på knappar kopplade till stage och scene.
+
+        // Knappar kopplade till stage och scene.
         mainView.getQuitBtn().setOnAction(actionEvent -> {
             Optional<ButtonType> userChoice = saveBeforeQuit.showAndWait();
             if(userChoice.isPresent()){
@@ -75,7 +75,7 @@ public class ReventApp extends Application {
                         jsonService.memberlistToJson();
                     } catch (IOException e) {System.out.println(e.getMessage());}
                     /*try {
-                        jsonService.itemlistToJson(); // Sparar uten type ...
+                        jsonService.itemlistToJson(); // Sparar utan type ...
                     } catch (IOException e) {System.out.println(e.getMessage());}*/
                     try{
                         jsonService.rentalistToJson();
@@ -87,7 +87,6 @@ public class ReventApp extends Application {
          startView.getImageStart().setOnMouseClicked(mouseEvent -> { // Flytta denna till buttoncontroller alt. flytta metodanrop till konstruktor?
          changeScene(stage,main);});
           }
-
 
     public void changeScene(Stage stage,Scene scene){
         stage.setScene(scene);

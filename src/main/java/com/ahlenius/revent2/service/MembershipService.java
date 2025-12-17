@@ -1,12 +1,8 @@
 package com.ahlenius.revent2.service;
 
 import com.ahlenius.revent2.entity.Member;
-import com.ahlenius.revent2.entity.Rental;
 import com.ahlenius.revent2.exceptions.*;
 import com.ahlenius.revent2.repository.MemberRegistry;
-import javafx.collections.ObservableList;
-import javafx.collections.transformation.FilteredList;
-
 import java.io.IOException;
 import java.util.*;
 
@@ -48,7 +44,7 @@ public class MembershipService {
             if (m.getName().contains(nameOrPhone) && m.getName().length()>3|| m.getName().equalsIgnoreCase(nameOrPhone) || m.getPhone().equals(nameOrPhone)) {
                 foundM.add(m);}}
         if (foundM.isEmpty()) { throw new NullPointerException("Hittade ingen matchande medlem.");}
-        return foundM;} // sorterar med contains om det är mer än 3 chars och inte bara blanksteg.
+        return foundM;}
 
     public Member searchMemberByNameOrPhoneReturnMember(String nameOrPhone) throws NullPointerException{
         Member foundMember = null;
@@ -59,7 +55,6 @@ public class MembershipService {
         if(foundMember==null){throw new NullPointerException("Hittade ingen matchande medlem.");}
         return foundMember;
     }
-
     public ArrayList<String> checkMemberlistReturnFormatedStringList(String nameOrPhone) throws NullPointerException {
         List<Member> foundMatches = searchMemberByNameIdReturnList(nameOrPhone);
         ArrayList<String> foundMemInfo = new ArrayList<>();
@@ -72,10 +67,6 @@ public class MembershipService {
             throw new NoHistoryFoundException("Finns ingen historik på vald medlem.");
         } return member.getHistoryMember();    }
 
-    public void printMemberReg() throws NullPointerException {
-        if (getMemberRegistry().getMemberRegistryList().isEmpty())
-            {throw new NullPointerException("Listan är tom.");}
-        for (Member m: getMemberRegistry().getMemberRegistryList()){ System.out.println(m);}}
 
     public void updateMemberName(Member member,String newName){
         member.setName(newName); }
@@ -87,9 +78,9 @@ public class MembershipService {
         if (status.equalsIgnoreCase("Privatperson")) {
             member.setMemberStatus("Privat");
         } else if (status.equalsIgnoreCase("Förening")) {
-            member.setMemberStatus("Förening");
-        }
+            member.setMemberStatus("Förening");}
     }
+
     public String createMemberStatus(String status){
         String userStatus ="";
         if (status.equalsIgnoreCase("Privatperson")) {

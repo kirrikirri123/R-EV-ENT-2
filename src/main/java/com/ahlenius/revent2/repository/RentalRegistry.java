@@ -3,9 +3,7 @@ package com.ahlenius.revent2.repository;
 import com.ahlenius.revent2.entity.Rental;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-
 import java.util.ArrayList;
-
 import java.util.List;
 
 

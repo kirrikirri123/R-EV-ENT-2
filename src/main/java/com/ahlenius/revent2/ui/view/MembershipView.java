@@ -28,7 +28,7 @@ public class MembershipView {
     private RentalService rentalService;
     private JsonService jsonService;
     private BorderPane memberPane = new BorderPane();
-    private  VBox gridPaneNewMem = new VBox();
+    private  VBox newMemBox = new VBox();
     private VBox memHistoryPane = new VBox();
     private VBox updateMemPane = new VBox();
     private VBox searchMemPane = new VBox();
@@ -59,7 +59,7 @@ public class MembershipView {
         Label fName = new Label("Fullstädningt namn / Föreningens namn");
         Label phone = new Label("Telefonnummer ");
         Label idNR= new Label("Personnummer / Organistationsnummer ");
-        Label status = new Label("Välj status: ");// Just nu bara PrivatPersoner.
+        Label status = new Label("Välj status: ");
         TextField userName = new TextField();
         userName.maxWidth(225);
         userName.setPromptText("Kickan Kristersson");
@@ -88,8 +88,9 @@ public class MembershipView {
         newMemPane.setVgap(5);
         newMemPane.setHgap(5);
         newMemPane.setAlignment(Pos.CENTER);
-        gridPaneNewMem.setAlignment(Pos.CENTER);
-        gridPaneNewMem.getChildren().addAll(headerText,newMemPane);
+        newMemBox.setSpacing(10);
+        newMemBox.setAlignment(Pos.CENTER);
+        newMemBox.getChildren().addAll(headerText,newMemPane);
 
         //Sök medlemsVy
         searchMem = new Button("Sök medlem");
@@ -101,7 +102,7 @@ public class MembershipView {
         searchMember.setMaxWidth(250);
         searchMember.setPromptText("Tex. Bosse Bengtsson eller 0950 14841");
         Button searchBtnMem = new Button(searchBtnString);
-        searchMemPane.setSpacing(5);
+        searchMemPane.setSpacing(10);
         searchMemPane.setAlignment(Pos.CENTER);
         searchMemPane.getChildren().addAll(headerSearch,searchMemLabel,searchMember,searchBtnMem,confirmationSearchMem);
 
@@ -114,7 +115,7 @@ public class MembershipView {
         memberHistory.setMaxWidth(250);
         memberHistory.setPromptText("Tex. Bosse Bengtsson eller 0950 14841");
         Button searchBtnHist = new Button(searchBtnString);
-        memHistoryPane.setSpacing(5);
+        memHistoryPane.setSpacing(10);
         memHistoryPane.setAlignment(Pos.CENTER);
         memHistoryPane.getChildren().addAll(headerHistoryMem,memberHistLab,memberHistory,searchBtnHist,exceptionInfoHistory);
 
@@ -145,7 +146,7 @@ public class MembershipView {
         updateMember.setMaxWidth(250);
         updateMember.setPromptText("Tex. Bosse Bengtsson eller 0950 14841");
         Button searchBtnUpd = new Button(searchBtnString);
-        updateMemPane.setSpacing(5);
+        updateMemPane.setSpacing(10);
         updateMemPane.setAlignment(Pos.CENTER);
         updateMemPane.getChildren().addAll(headerUpdate,updateMemLabel,updateMember,searchBtnUpd,updateMemInfo);
           Alert confrUpdMem = new Alert(Alert.AlertType.CONFIRMATION);
@@ -208,7 +209,7 @@ public class MembershipView {
 
         // Knappar Layout
         newMem.setOnAction(actionEvent -> {
-            memberPane.setCenter(gridPaneNewMem);
+            memberPane.setCenter(newMemBox);
         });
         searchMem.setOnAction( actionEvent -> {
             memberPane.setCenter(searchMemPane);
@@ -241,8 +242,8 @@ public class MembershipView {
              confirmationSearchMem.setText(" ");
             searchBtnMem.setText("Söker medlem..."); // Lägga en sleep och sen återställa knapp till "Sök. Så syns det att den "gör nått"
             try {
-                ArrayList<String> foundMem= membershipService.checkMemberlistReturnFormatedStringList(searchMember.getText());
-                foundMem.stream().forEach(s-> builder.append(s).append("\n")); // Göör troligast så hisotriken finns kvar.
+                ArrayList<String> foundMem = new ArrayList<>(membershipService.checkMemberlistReturnFormatedStringList(searchMember.getText()));
+                  foundMem.stream().forEach(s-> builder.append(s).append("\n")); // Göör troligast så hisotriken finns kvar.
                 confirmationSearchMem.setText(builder.toString());
                 searchBtnMem.setText(searchBtnString); searchMember.clear(); foundMem.clear();
             } catch (NullPointerException ex) { confirmationSearchMem.setText(ex.getMessage());searchBtnMem.setText(searchBtnString); }}});
@@ -258,7 +259,6 @@ public class MembershipView {
                 searchBtnHist.setText(searchBtnString);
                 memberHistory.clear();
            }catch (NoHistoryFoundException ex){exceptionInfoHistory.setText(ex.getMessage());} searchBtnHist.setText(searchBtnString);
-
         });
 
         // Uppdatera medlemsinfo
@@ -316,29 +316,23 @@ public class MembershipView {
         });
 
          // Layout MembershipView
-        memberPane.setCenter(gridPaneNewMem);
+        memberPane.setCenter(newMemBox);
         memberPane.setLeft(leftField);
     }
-
-    public VBox getGridPaneNewMem() {
-        return gridPaneNewMem;
+    public VBox getNewMemBox() {
+        return newMemBox;
     }
-
     public VBox getMemHistoryPane() {
         return memHistoryPane;
     }
-
     public VBox getUpdateMemPane() {
         return updateMemPane;
     }
-
     public VBox getSearchMemPane() {
         return searchMemPane;
     }
-
     public BorderPane getMemberPane(){
         return memberPane;
     }
-
 
 }

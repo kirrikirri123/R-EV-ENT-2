@@ -37,8 +37,7 @@ public class JsonService {
 
     return mapper;}
 
-    // dessa metoder kan nog göras till en generell!
-
+    // ITEMS
     public void itemlistToJson() throws IOException {
         try{
             mapper.writeValue(new File("items.json"),inventory.getItemList());
@@ -53,8 +52,7 @@ public class JsonService {
             System.out.println("Items laddad från Json till lista. ");}
         catch (IOException e){throw new IOException("Fel uppstod vid uppladdning av Items-data från fil.");}}
 
-
-
+    // RENTALS
     public void rentalistToJson() throws IOException {
         try {
             mapper.writeValue(new File("rental.json"),rentalRegistry.getRentalList());
@@ -69,7 +67,7 @@ public class JsonService {
             System.out.println("Rentals laddad från Json till lista.");}
         catch (IOException e){throw new IOException("Fel uppstod vid uppladdning av uthyrningsinfo från fil.");}}
 
-
+    //MEMBERS
     public void memberlistToJson() throws IOException {
         try {
             mapper.writeValue(new File("members.json"),memberRegistry.getMemberRegistryList());

@@ -47,61 +47,41 @@ public class ProductView {
         headerGallery.setPrefSize(750,55);
 
         VBox item1 = new VBox();
-        item1.setAlignment(Pos.CENTER);
+        item1.setAlignment(Pos.BASELINE_LEFT);
         item1.setSpacing(10);
-        item1.setMaxWidth(250);
         Image image1 = new Image(getClass().getResourceAsStream("/com/ahlenius/revent2/gurk_costume.png"));
         ImageView imageView1 = new ImageView(image1);
         imageView1.setPreserveRatio(true);
-        imageView1.setFitWidth(250);
-        String nameItem = "Gurk-man";
-        Label nameItem1 = new Label(nameItem);
-        String descripItem = "Grön och ståtlig dräkt. \nGaranterar skratt!";
-        Label descripItem1 = new Label(descripItem);
-        String dayPriceItem = "275";
-        Label dayPriceItem1 = new Label(dayPriceItem+ "kr");
+        imageView1.setFitWidth(235);
+        Label nameItem1 = new Label("Gruk-Man");
+        Label descripItem1 = new Label("Grön och ståtlig dräkt.Garanterar skratt!");
+        Label dayPriceItem1 = new Label("275kr");
         item1.setSpacing(5);
         item1.getChildren().addAll(imageView1,nameItem1,descripItem1,dayPriceItem1);
 
         VBox item2 = new VBox();
-        item2.setMaxWidth(250);
+        item2.setAlignment(Pos.CENTER);
         Image image2 = new Image(getClass().getResourceAsStream("/com/ahlenius/revent2/dino_costume.png"));
         ImageView imageView2 = new ImageView(image2);
         imageView2.setPreserveRatio(true);
-        imageView2.setFitWidth(250);
-        item2.getChildren().addAll(imageView2);
-
-        VBox item3 = new VBox();
-        Image image3 = new Image(getClass().getResourceAsStream("/com/ahlenius/revent2/bear_costume.png"));
-        ImageView imageView3 = new ImageView(image3);
-        imageView3.setPreserveRatio(true);
-        imageView3.setFitWidth(250);
-        item3.getChildren().addAll(imageView3);
+        imageView2.setFitWidth(235);
+        Label item2name = new Label("Dino-dräkt");
+        Label item2desc = new Label("Skräckinjagande. Springvänlig modell");
+        Label item2price = new Label("575kr");
+        item1.setSpacing(5);
+        item2.getChildren().addAll(imageView2,item2name,item2desc,item2price);
 
         VBox item4 = new VBox();
+        item4.setAlignment(Pos.BASELINE_RIGHT);
         Image image4 = new Image(getClass().getResourceAsStream("/com/ahlenius/revent2/trampoline.png"));
         ImageView imageView4 = new ImageView(image4);
         imageView4.setPreserveRatio(true);
-        imageView4.setFitWidth(250);
-        item4.getChildren().addAll(imageView4);
-
-        VBox item5 = new VBox();
-        Image image5 = new Image(getClass().getResourceAsStream("/com/ahlenius/revent2/house.png"));
-        ImageView imageView5 = new ImageView(image5);
-        imageView5.setPreserveRatio(true);
-        imageView5.setFitWidth(250);
-        item5.getChildren().addAll(imageView5);
-
-        VBox item6 = new VBox();
-        Image image6 = new Image(getClass().getResourceAsStream("/com/ahlenius/revent2/Castle.png"));
-        ImageView imageView6 = new ImageView(image6);
-        imageView6.setPreserveRatio(true);
-        imageView6.setFitWidth(250);
-        item6.getChildren().addAll(imageView6);
-
-        itemView.setHgap(20);
-        itemView.setVgap(20);
-        itemView.getChildren().addAll(headerGallery,item1,item2,item3,item4,item5,item6);
+        imageView4.setFitWidth(235);
+        Label item4name = new Label("Studsmatta - Större ");
+        Label item4desc = new Label("Klassisk trampolin. Max vikt 350 kg");
+        Label item4Price = new Label("1500kr");
+        item4.getChildren().addAll(imageView4,item4name,item4desc,item4Price);
+        itemView.getChildren().addAll(headerGallery,item1,item2,item4);
 
         // Ny produktVY
         Label headerNewProd = new Label(" Skapa ny produkt");

@@ -11,7 +11,7 @@ import java.util.Set;
 
 public class MemberRegistry {
     private Set<Member> memberRegistryList = new HashSet<>();
-    private ObservableSet<Member> memberRegObsList = FXCollections.observableSet(); //Varför använda denna när obs set inte går använda i tex en combo box??
+    private ObservableSet<Member> memberRegObsList = FXCollections.observableSet(); // Används aldrig i programmet.
 
     public MemberRegistry(){}
 
@@ -37,11 +37,6 @@ public class MemberRegistry {
         memberRegObsList.addAll(tempMember);
     }
 
-    public ObservableList<Member> convertMemberSetToObsList(){
-        ObservableList<Member> tempObsMemList = FXCollections.observableArrayList();
-        tempObsMemList.addAll(memberRegObsList);
-                return tempObsMemList; // varför returnerar denna inget?
-    }
 
 }
 

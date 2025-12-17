@@ -9,31 +9,23 @@ import com.ahlenius.revent2.pricepolicy.PrivateIndividual;
 import com.ahlenius.revent2.pricepolicy.Society;
 import com.ahlenius.revent2.repository.Inventory;
 import com.ahlenius.revent2.repository.RentalRegistry;
-import com.sun.xml.internal.ws.policy.privateutil.PolicyUtils;
-import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
-
 import java.io.IOException;
 import java.time.LocalDate;
-import java.time.chrono.ChronoLocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
-import java.time.temporal.TemporalAccessor;
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
-import java.util.Observable;
-import java.util.stream.Collectors;
+
 
 public class RentalService {
-    //Hanterar Item-funktioner kopplade till uthyrning.
+
     private Inventory inventory;
     private RentalRegistry rentalRegistry;
     private JsonService jsonService;
     private PrivateIndividual privateIndividual = new PrivateIndividual();
     private Society society = new Society();
-
 
     public RentalService (){}
 
@@ -41,7 +33,6 @@ public class RentalService {
         this.inventory = inventory;
         this.rentalRegistry = rentalRegistry;
         this.jsonService = jsonService;
-
     }
 
     public RentalRegistry getRentalRegistry() {
@@ -101,19 +92,9 @@ public class RentalService {
         jsonService.itemlistToJson();
     }
     public void addItemToList(Item item) {
-        inventory.getItemList().add(item);
-        inventory.getItemsObsList().add(item);
-        //inventory.add(item);
+        inventory.add(item);
         System.out.println(item.getName() + " är sparad i listan.");
     }
-    public void defaultList() { // För testning.
-        try{
-        newBouncyItem("Kungliga slottet"," Stor hoppborg,för max 15 barn",1000,true, false);
-        newBouncyItem("Slott"," Liten hoppborg, för max 7 barn",450,true, true);
-        newBouncyItem("UltimateXtreme"," Maxad hoppupplevelse, för max 8 vuxna",3500,true, false);
-        newMascotItem("Nallebjörn"," Kramgo, lurvig brunbjörndräkt", 200,true,"Året om");
-        newMascotItem("Tomten"," Premium tomtedräkt. Kvalitetskläder naturligt skägg. Inga skor medföljer.", 1000,true,"Jul");
-    } catch (IOException ex) { System.out.println(ex.getMessage());}}
 
     //Uthyrningsmetoder
     public LocalDate createDateOfRent(String YYYYMMDD) throws DateTimeParseException {
@@ -165,7 +146,7 @@ public class RentalService {
         else {date = dateStartString;}
         return createDateOfRent(date);}
 
-    public void countActualDays(LocalDate stopRent, Rental rental){ // här finns risk att det är ett förstort tal i long när de konverteras till int.
+    public void countActualDays(LocalDate stopRent, Rental rental){
          LocalDate theStartOfRent = rental.getStartOfRent();
          long actualDaysLong = stopRent.toEpochDay() - theStartOfRent.toEpochDay();
         int actualDays =(int) actualDaysLong;
@@ -180,7 +161,6 @@ public class RentalService {
             sum += price;
         }return sum;}
 
-
     public double calculateDay(double dayPrice,int days) {
         double price = dayPrice * days;
         if(days>=30){ price = priceMonth(dayPrice,days);}
@@ -190,6 +170,7 @@ public class RentalService {
     public double priceMonth(double dayPrice,double days) {
         return (days/30)*((dayPrice*30)*0.7);
     }
+
     public double calculateBasePrice(Rental rental) {
             return calculateDay(returnRentalDayPrice(rental), rentalCountDays(rental));
     }
@@ -203,8 +184,7 @@ public class RentalService {
         }return totalPrice;
     }
 
-
-    // HISTORIKRELATERADE METODER
+    // Historikrelaterade Metoder
     public ObservableList<Rental> rentalsObsListNotReturned(ObservableList<Rental> obsListRent){
         FilteredList<Rental> activeRentals = new FilteredList<>(obsListRent, rental -> !rental.isReturned());
         return activeRentals;}
@@ -215,8 +195,6 @@ public class RentalService {
            if(memberHistoryObsList.isEmpty()){throw new NoHistoryFoundException("Ingen historik fanns på medlem");}
                 return memberHistoryObsList;
     }
-
-
 
 }
 

@@ -2,6 +2,7 @@ package com.ahlenius.revent2.ui.view;
 
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.Cursor;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -76,7 +77,7 @@ public class MainView {
         economyMenu.getItems().addAll(revenue);
 
         menuHeader.getMenus().addAll(startMenu, memberMenu, productMenu, rentalMenu, history, economyMenu);
-        menuHeader.setPadding(new Insets(2, 10, 2, 200));
+        menuHeader.setPadding(new Insets(2, 10, 2, 345));
         //Center Welcome
         Label mainLabel = new Label(" Välkommen, dags att börja hyra!");
         mainLabel.setStyle("-fx-font-size: 24px");
@@ -97,6 +98,7 @@ public class MainView {
         bottom.setPrefHeight(50);
         bottom.getChildren().addAll(bottomLabel, quitBtn);
         header.getChildren().addAll(topHeader, menuHeader);
+
         // Layout
         mainPane.setTop(header);
         mainPane.setCenter(centerBox);

@@ -1,15 +1,36 @@
 [ {
   "type" : "BouncyCastle",
-  "name" : "Såpbubbla",
-  "description" : "Rund, Max 3 barn",
-  "dayPrice" : 1570.0,
+  "name" : "Kungliga slottet",
+  "description" : " Stor hoppborg,för max 15 barn",
+  "dayPrice" : 1000.0,
+  "available" : true,
+  "indoorUse" : false
+}, {
+  "type" : "BouncyCastle",
+  "name" : "Slott",
+  "description" : " Liten hoppborg, för max 7 barn",
+  "dayPrice" : 450.0,
+  "available" : true,
+  "indoorUse" : true
+}, {
+  "type" : "BouncyCastle",
+  "name" : "UltimateXtreme",
+  "description" : " Maxad hoppupplevelse, för max 8 vuxna",
+  "dayPrice" : 3500.0,
   "available" : true,
   "indoorUse" : false
 }, {
   "type" : "MascotCostume",
-  "name" : "Stubbe",
-  "description" : "Träig, Stadig. Endast stående",
-  "dayPrice" : 125.0,
+  "name" : "Nallebjörn",
+  "description" : " Kramgo, lurvig brunbjörndräkt",
+  "dayPrice" : 200.0,
   "available" : true,
-  "season" : "Året runt"
+  "season" : "Året om"
+}, {
+  "type" : "MascotCostume",
+  "name" : "Tomten",
+  "description" : " Premium tomtedräkt. Kvalitetskläder naturligt skägg. Inga skor medföljer.",
+  "dayPrice" : 1000.0,
+  "available" : true,
+  "season" : "Jul"
 } ]
