@@ -4,6 +4,7 @@ import com.ahlenius.revent2.entity.*;
 import com.ahlenius.revent2.exceptions.InvalidAmountRentingDaysException;
 import com.ahlenius.revent2.exceptions.InvalidDateChoiceException;
 import com.ahlenius.revent2.exceptions.InvalidRentalInfoInputException;
+import com.ahlenius.revent2.exceptions.NoHistoryFoundException;
 import com.ahlenius.revent2.pricepolicy.PrivateIndividual;
 import com.ahlenius.revent2.pricepolicy.Society;
 import com.ahlenius.revent2.repository.Inventory;
@@ -22,6 +23,7 @@ import java.time.temporal.TemporalAccessor;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Observable;
 import java.util.stream.Collectors;
 
 public class RentalService {
@@ -171,16 +173,13 @@ public class RentalService {
         changeRentDays(rental,actualDays);
     }
 
-    public void sumRentalsList() { // Ekonomi att se över vid senare tillfälle.
-        System.out.println("Hyrestransaktioner idag: ");
+    public double sumBusinessToDayReturnDouble() {
         double sum=0;
-        for (Rental rent : getRentalRegistry().getRentalList()) {
-            double price = calculateDay(rent.getRentalItem().getDayPrice(),rent.getRentDays());//OBS! Tar inte in pricepolicy.
-            sum +=price;
-            System.out.println(rent.getRentingMember().getName() + " Produkt: "+ rent.getRentalItem().getName() +
-                    ". Dagspris: " + rent.getRentalItem().getDayPrice()+ "kr. Hyrestid i dagar: "+ rent.getRentDays()
-                    + ". Beräknad intäkt på uthyrningen bortsett från ev.rabatter: "+price+ " kr.");
-        }System.out.println("Totala intäkter på affärer gjorda idag beräknas bli: "+ sum + "kr ex. moms.");}
+        for(Rental rent : getRentalRegistry().getRentalList()) {
+            double price = calculateDay(rent.getRentalItem().getDayPrice(), rent.getRentDays());//OBS! Tar inte in pricepolicy.
+            sum += price;
+        }return sum;}
+
 
     public double calculateDay(double dayPrice,int days) {
         double price = dayPrice * days;
@@ -203,10 +202,20 @@ public class RentalService {
             totalPrice = society.priceVAT(society.discount(totalBasePrice));
         }return totalPrice;
     }
-    // Sortera lista så att bara dem med Returned false synd.
+
+
+    // HISTORIKRELATERADE METODER
     public ObservableList<Rental> rentalsObsListNotReturned(ObservableList<Rental> obsListRent){
         FilteredList<Rental> activeRentals = new FilteredList<>(obsListRent, rental -> !rental.isReturned());
         return activeRentals;}
+
+    public ObservableList<Rental> memberRentalHistoryObsList(Member member)throws NoHistoryFoundException{
+       ObservableList<Rental> tempObsList = getRentalRegistry().getRentalObsList();
+                FilteredList<Rental> memberHistoryObsList = new FilteredList<>(tempObsList, rental -> rental.getRentingMember().getName().equals(member.getName()));
+           if(memberHistoryObsList.isEmpty()){throw new NoHistoryFoundException("Ingen historik fanns på medlem");}
+                return memberHistoryObsList;
+    }
+
 
 
 }

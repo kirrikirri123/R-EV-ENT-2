@@ -42,9 +42,11 @@ public class ProductView {
 
                 // GalleriVY
         products = new Button("Galleri");
-        VBox item1 = new VBox();
         Label headerGallery = new Label("Ett urval av produkter");
+        headerGallery.setAlignment(Pos.CENTER);
         headerGallery.setPrefSize(750,55);
+
+        VBox item1 = new VBox();
         item1.setAlignment(Pos.CENTER);
         item1.setSpacing(10);
         item1.setMaxWidth(250);
@@ -59,7 +61,7 @@ public class ProductView {
         String dayPriceItem = "275";
         Label dayPriceItem1 = new Label(dayPriceItem+ "kr");
         item1.setSpacing(5);
-        item1.getChildren().addAll(headerGallery,imageView1,nameItem1,descripItem1,dayPriceItem1);
+        item1.getChildren().addAll(imageView1,nameItem1,descripItem1,dayPriceItem1);
 
         VBox item2 = new VBox();
         item2.setMaxWidth(250);
@@ -99,7 +101,7 @@ public class ProductView {
 
         itemView.setHgap(20);
         itemView.setVgap(20);
-        itemView.getChildren().addAll(item1,item2,item3,item4,item5,item6);
+        itemView.getChildren().addAll(headerGallery,item1,item2,item3,item4,item5,item6);
 
         // Ny produktVY
         Label headerNewProd = new Label(" Skapa ny produkt");
@@ -144,10 +146,10 @@ public class ProductView {
         Label headerUpd = new Label("Redigera produkt");
         Label validatedProd = new Label();
         Label updateProdLabel = new Label("Sök på fullständigt produktnamn för redigering");
-        TextField updateProd = new TextField();
-        updateProd.setPromptText("tex. Tomten");
-        updateProd.setMaxWidth(250);
-        updateProd.setPromptText("Produktnamn");
+        TextField updateProdField = new TextField();
+        updateProdField.setPromptText("tex. Tomten");
+        updateProdField.setMaxWidth(250);
+        updateProdField.setPromptText("Produktnamn");
         Button searchBtnUpd = new Button("Sök och redigera");
 
         Alert confrUpdProd = new Alert(Alert.AlertType.CONFIRMATION);
@@ -159,7 +161,7 @@ public class ProductView {
 
         updateProdPane.setSpacing(5);
         updateProdPane.setAlignment(Pos.CENTER);
-        updateProdPane.getChildren().addAll(headerUpd,updateProdLabel,updateProd,searchBtnUpd,updProdInfo);
+        updateProdPane.getChildren().addAll(headerUpd,updateProdLabel,updateProdField,searchBtnUpd,updProdInfo);
 
         // Steg 2 uppdatera produkt.
         VBox updateProdVbox= new VBox();
@@ -210,10 +212,11 @@ public class ProductView {
         });
         editProd.setOnAction(actionEvent -> {
             productPane.setCenter(updateProdPane);
-            searchBtnUpd.setText("Sök"); updateProd.clear(); updateProdLabel.setText("");confrmUpdText.setText("");
+            searchBtnUpd.setText("Sök"); updateProdField.clear();confrmUpdText.setText("");
         });
 
         // Knappar funktion
+        // Ny produkt -OK
         OKBTN.setOnAction(actionEvent -> {
              double day = Double.parseDouble(dayPriceField.getText());
                 if(itemTypeCombo.getValue().equals(costume)){
@@ -233,26 +236,26 @@ public class ProductView {
         //Uppdatera produkt
         searchBtnUpd.setOnAction(actionEvent -> {
            try {
-              Item foundItem = rentalService.searchItemByNameReturnItem(updateProd.getText());
+              Item foundItem = rentalService.searchItemByNameReturnItem(updateProdField.getText());
                confrUpdProd.setContentText("Hittade produkten - " + foundItem.getName() + ".\n Stämmer det?");
             Optional<ButtonType> userResult = confrUpdProd.showAndWait();
             if(userResult.isPresent()) {
                 if (userResult.get() == yesBtn) {
                     tempItem = foundItem;
-                    updProdInfo.setText("Produkt bekräftad. Laddar sida för uppdatering.");
+                 //  updProdInfo.setText("Produkt bekräftad. Laddar sida för uppdatering."); - Syns aldrig?
                 productPane.setCenter(updateProdVbox);
                 validatedProd.setText("Vald produkt: "+ tempItem.getName());
                 updProdNameField.setText(tempItem.getName());
                 updProdDescripField.setText(tempItem.getDescription());
                 updDayPriceField.setText(String.valueOf(tempItem.getDayPrice()));
 
-                }else if(userResult.get() == noBtn) {  updateProd.clear();
+                }else if(userResult.get() == noBtn) {  updateProdField.clear();
                 searchBtnUpd.setText("Sök"); }}
                 } catch (NullPointerException e) {updProdInfo.setText(e.getMessage());}});
 
         confBtn.setOnAction(actionEvent -> {
             if(!updProdNameField.getText().isEmpty()) {
-                rentalService.updateProdName(tempItem, updProdNameField.getText()); // Lägga in exceptions i metod att fånga här.
+                rentalService.updateProdName(tempItem, updProdNameField.getText());
               if(!updDayPriceField.getText().isEmpty()){
                     rentalService.updateDayPrice(tempItem, updDayPriceField.getText());
                     if(!updProdDescripField.getText().isEmpty()) {

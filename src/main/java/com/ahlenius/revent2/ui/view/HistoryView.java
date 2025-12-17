@@ -42,8 +42,7 @@ public class HistoryView {
         historyViewBox.setAlignment(Pos.CENTER);
         historyViewBox.setSpacing(10);
         TableView<Rental> allHistoryView = new TableView<>(rentalService.getRentalRegistry().getRentalObsList());
-        allHistoryView.setItems(rentalService.getRentalRegistry().getRentalObsList());
-        TableColumn<Rental, String> rentalNameCol = new TableColumn<Rental, String>("Medlem");
+        TableColumn<Rental, String> rentalNameCol = new TableColumn<>("Medlem");
         rentalNameCol.setCellValueFactory(new PropertyValueFactory<>("rentingMember"));
         TableColumn<Rental, String> rentalItemCol = new TableColumn<>("Hyrd vara");
         rentalItemCol.setCellValueFactory(new PropertyValueFactory<>("rentalItem"));

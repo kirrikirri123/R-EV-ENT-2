@@ -10,9 +10,11 @@ import com.ahlenius.revent2.ui.view.*;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.util.Optional;
 
 public class ReventApp extends Application {
     Inventory inventory = new Inventory();
@@ -26,11 +28,11 @@ public class ReventApp extends Application {
 
     StartView startView = new StartView();
     MainView mainView = new MainView();
-    MembershipView membershipView = new MembershipView(memberService,jsonService);
+    MembershipView membershipView = new MembershipView(memberService,jsonService,rentalService);
     ProductView productView = new ProductView(rentalService,jsonService);
     RentalView rentalView = new RentalView(rentalService,memberService, jsonService);
     HistoryView historyView = new HistoryView(rentalService);
-    EconomyView economyView = new EconomyView();
+    EconomyView economyView = new EconomyView(rentalService);
     ButtonController buttonController= new ButtonController(startView,mainView,membershipView,productView,rentalView,economyView,historyView);
     Scene start,main;
 
@@ -61,17 +63,32 @@ public class ReventApp extends Application {
         saveBeforeQuit.setHeaderText("Spara innan avslut?");
         saveBeforeQuit.setTitle("Spara ändringar");
         saveBeforeQuit.setContentText("Önskar du att spara dina ändringar innan programmet stängs?");
-        // OM ja spara i alla listor, OM nej avsluta bara rätt av.
-
-
+        ButtonType yesBtn = new ButtonType("Ja, spara");
+        ButtonType noBtn = new ButtonType("Nej, låt bli");
+        saveBeforeQuit.getButtonTypes().setAll(yesBtn,noBtn);
         // Action på knappar kopplade till stage och scene.
         mainView.getQuitBtn().setOnAction(actionEvent -> {
-            saveBeforeQuit.showAndWait();
+            Optional<ButtonType> userChoice = saveBeforeQuit.showAndWait();
+            if(userChoice.isPresent()){
+                if(userChoice.get()== yesBtn){
+                    try {
+                        jsonService.memberlistToJson();
+                    } catch (IOException e) {System.out.println(e.getMessage());}
+                    /*try {
+                        jsonService.itemlistToJson(); // Sparar uten type ...
+                    } catch (IOException e) {System.out.println(e.getMessage());}*/
+                    try{
+                        jsonService.rentalistToJson();
+                    } catch (IOException e) {System.out.println(e.getMessage());}
+                }
+            }
             stage.close();
         });
          startView.getImageStart().setOnMouseClicked(mouseEvent -> { // Flytta denna till buttoncontroller alt. flytta metodanrop till konstruktor?
          changeScene(stage,main);});
           }
+
+
     public void changeScene(Stage stage,Scene scene){
         stage.setScene(scene);
     }

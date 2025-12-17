@@ -3,13 +3,13 @@ package com.ahlenius.revent2.ui.controller;
 import com.ahlenius.revent2.ui.view.*;
 
 public class ButtonController {
-    private StartView startView = new StartView();
-    private MainView mainView = new MainView();
-    private MembershipView membershipView = new MembershipView();
-    private ProductView productView = new ProductView();
-    private RentalView rentalView = new RentalView();
-    private EconomyView economyView = new EconomyView();
-    private HistoryView historyView = new HistoryView();
+    private StartView startView;
+    private MainView mainView;
+    private MembershipView membershipView;
+    private ProductView productView;
+    private RentalView rentalView;
+    private EconomyView economyView;
+    private HistoryView historyView;
 
 
     public ButtonController(StartView start, MainView main, MembershipView membership,ProductView product,RentalView rental,EconomyView economy,HistoryView history) {
@@ -92,10 +92,10 @@ public class ButtonController {
             historyView.getHistoryPane().setCenter(historyView.getHistoryViewBox());
         });
 
-        mainView.getMemberhistory().setOnAction(actionEvent -> {
-            mainView.getMainView().setCenter(historyView.getHistoryPane());
-            historyView.getHistoryPane().setCenter(historyView.getMemberHistoryBox());
-        });
+          mainView.getMemberhistory().setOnAction(actionEvent -> {
+              mainView.getMainView().setCenter(membershipView.getMemberPane());
+              membershipView.getMemberPane().setCenter(membershipView.getMemHistoryPane());
+          });
 
         // Ekonomiknappar i meny
         mainView.getRevenue().setOnAction(actionEvent -> {

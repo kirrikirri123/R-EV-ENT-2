@@ -3,8 +3,10 @@ package com.ahlenius.revent2.ui.view;
 import com.ahlenius.revent2.entity.Member;
 import com.ahlenius.revent2.entity.Rental;
 import com.ahlenius.revent2.exceptions.*;
+import com.ahlenius.revent2.repository.RentalRegistry;
 import com.ahlenius.revent2.service.JsonService;
 import com.ahlenius.revent2.service.MembershipService;
+import com.ahlenius.revent2.service.RentalService;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
@@ -23,6 +25,7 @@ import java.util.concurrent.TimeUnit;
 public class MembershipView {
     // Här kommer under meny men olika alternativ till medlemskapshantering.
     private MembershipService membershipService;
+    private RentalService rentalService;
     private JsonService jsonService;
     private BorderPane memberPane = new BorderPane();
     private  VBox gridPaneNewMem = new VBox();
@@ -43,9 +46,10 @@ public class MembershipView {
 
     public MembershipView(){}
 
-    public MembershipView(MembershipService membershipService, JsonService jsonService) {
+    public MembershipView(MembershipService membershipService, JsonService jsonService, RentalService rentalService) {
         this.membershipService = membershipService;
         this.jsonService = jsonService;
+        this.rentalService = rentalService;
 
         //NY medlemsVy
         Label headerText = new Label("Skapa ny medlem");
@@ -113,15 +117,23 @@ public class MembershipView {
         memHistoryPane.setSpacing(5);
         memHistoryPane.setAlignment(Pos.CENTER);
         memHistoryPane.getChildren().addAll(headerHistoryMem,memberHistLab,memberHistory,searchBtnHist,exceptionInfoHistory);
-         // Steg 2 Visa Historik
+
+        // Steg 2 Visa Historik
         VBox memHistShow = new VBox();
-        memHistShow.setSpacing(5);
+        memHistShow.setSpacing(10);
         memHistShow.setAlignment(Pos.CENTER);
         Label headerShowHist = new Label("Medlemshistorik");
-        TableView<String> historyTable = new TableView<>();
-        TableColumn<String,String> historyColumn = new TableColumn<>("Historik");
-        historyColumn.setCellValueFactory(new PropertyValueFactory<>("historyMember"));
-        historyTable.getColumns().add(historyColumn);
+        TableView<Rental> historyTable = new TableView<>();
+        TableColumn<Rental, String> rentalNameCol = new TableColumn<Rental, String>("Medlem");
+        rentalNameCol.setCellValueFactory(new PropertyValueFactory<>("rentingMember"));
+        TableColumn<Rental, String> rentalItemCol = new TableColumn<>("Hyrd vara");
+        rentalItemCol.setCellValueFactory(new PropertyValueFactory<>("rentalItem"));
+        TableColumn<Rental, String> startRentCol = new TableColumn<>("Uthyrd from. datum");
+        startRentCol.setCellValueFactory(new PropertyValueFactory<>("startOfRent"));
+        TableColumn<Rental, String> daysRentedCol = new TableColumn<>("Hyresdagar");
+        daysRentedCol.setCellValueFactory(new PropertyValueFactory<>("rentDays"));
+        historyTable.getColumns().setAll(rentalNameCol,rentalItemCol,startRentCol,daysRentedCol);
+
         memHistShow.getChildren().addAll(headerShowHist,historyTable);
 
         //Uppdatera medlemVy
@@ -214,8 +226,8 @@ public class MembershipView {
         // Knappar funktioner
         //Ny medlem -OK
         OKBTN.setOnAction(actionEvent -> {
-            try{
-            membershipService.newMember(userId.getText(), userName.getText(), userPhone.getText(), "Privat");
+              try{
+            membershipService.newMember(userId.getText(), userName.getText(), userPhone.getText(),membershipService.createMemberStatus(statusComboBox.getValue()));
                 confrimationText.setText("Ny medlem skapad.");
                 userId.clear();userName.clear();userPhone.clear();exceptionInfo.setText(" ");
             } catch (InvalidMemberInfoInputException | InvalidNameInputException | InvalidPhoneInputException |
@@ -237,15 +249,18 @@ public class MembershipView {
         //Historik
         searchBtnHist.setOnAction(actionEvent -> {
             searchBtnHist.setText("Söker medlem...");// Lägga en sleep och sen återställa knapp till "Sök."
-            try{
-            Member foundMem = membershipService.searchMemberByNameOrPhoneReturnMember(memberHistory.getText());
-                List<String> tempHistList = membershipService.getMemberHistory(foundMem);
-                ObservableList<String> obsTempHistList = FXCollections.observableList(tempHistList);
+            try {
+            tempHistMember = membershipService.searchMemberByNameOrPhoneReturnMember(memberHistory.getText());
+            } catch (NullPointerException ex){exceptionInfoHistory.setText(ex.getMessage()); searchBtnHist.setText(searchBtnString);}
+            try {
+                historyTable.setItems(rentalService.memberRentalHistoryObsList(tempHistMember));
                 memberPane.setCenter(memHistShow);
-                historyTable.setItems(obsTempHistList);
-                searchBtnHist.setText(searchBtnString); memberHistory.clear();
-            } catch (NullPointerException|NoHistoryFoundException ex){exceptionInfoHistory.setText(ex.getMessage()); searchBtnHist.setText(searchBtnString);}
+                searchBtnHist.setText(searchBtnString);
+                memberHistory.clear();
+           }catch (NoHistoryFoundException ex){exceptionInfoHistory.setText(ex.getMessage());} searchBtnHist.setText(searchBtnString);
+
         });
+
         // Uppdatera medlemsinfo
         searchBtnUpd.setOnAction(actionEvent -> {
             searchBtnUpd.setText("Söker medlem...");
