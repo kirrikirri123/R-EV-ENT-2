@@ -173,16 +173,13 @@ public class RentalService {
         changeRentDays(rental,actualDays);
     }
 
-    public void sumRentalsList() { // Ekonomi att se över vid senare tillfälle.
-        System.out.println("Hyrestransaktioner idag: ");
+    public double sumBusinessToDayReturnDouble() {
         double sum=0;
-        for (Rental rent : getRentalRegistry().getRentalList()) {
-            double price = calculateDay(rent.getRentalItem().getDayPrice(),rent.getRentDays());//OBS! Tar inte in pricepolicy.
-            sum +=price;
-            System.out.println(rent.getRentingMember().getName() + " Produkt: "+ rent.getRentalItem().getName() +
-                    ". Dagspris: " + rent.getRentalItem().getDayPrice()+ "kr. Hyrestid i dagar: "+ rent.getRentDays()
-                    + ". Beräknad intäkt på uthyrningen bortsett från ev.rabatter: "+price+ " kr.");
-        }System.out.println("Totala intäkter på affärer gjorda idag beräknas bli: "+ sum + "kr ex. moms.");}
+        for(Rental rent : getRentalRegistry().getRentalList()) {
+            double price = calculateDay(rent.getRentalItem().getDayPrice(), rent.getRentDays());//OBS! Tar inte in pricepolicy.
+            sum += price;
+        }return sum;}
+
 
     public double calculateDay(double dayPrice,int days) {
         double price = dayPrice * days;
@@ -205,7 +202,9 @@ public class RentalService {
             totalPrice = society.priceVAT(society.discount(totalBasePrice));
         }return totalPrice;
     }
-    // Sortera lista så att bara dem med Returned false synd.
+
+
+    // HISTORIKRELATERADE METODER
     public ObservableList<Rental> rentalsObsListNotReturned(ObservableList<Rental> obsListRent){
         FilteredList<Rental> activeRentals = new FilteredList<>(obsListRent, rental -> !rental.isReturned());
         return activeRentals;}

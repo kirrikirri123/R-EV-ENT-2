@@ -226,8 +226,8 @@ public class MembershipView {
         // Knappar funktioner
         //Ny medlem -OK
         OKBTN.setOnAction(actionEvent -> {
-            try{
-            membershipService.newMember(userId.getText(), userName.getText(), userPhone.getText(), "Privat");
+              try{
+            membershipService.newMember(userId.getText(), userName.getText(), userPhone.getText(),membershipService.createMemberStatus(statusComboBox.getValue()));
                 confrimationText.setText("Ny medlem skapad.");
                 userId.clear();userName.clear();userPhone.clear();exceptionInfo.setText(" ");
             } catch (InvalidMemberInfoInputException | InvalidNameInputException | InvalidPhoneInputException |

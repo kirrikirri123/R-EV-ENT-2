@@ -90,6 +90,14 @@ public class MembershipService {
             member.setMemberStatus("Förening");
         }
     }
+    public String createMemberStatus(String status){
+        String userStatus ="";
+        if (status.equalsIgnoreCase("Privatperson")) {
+            userStatus ="Privat";
+        } else if (status.equalsIgnoreCase("Förening")) {
+            userStatus ="Förening";
+                    }return userStatus;
+    }
 
 
 }
