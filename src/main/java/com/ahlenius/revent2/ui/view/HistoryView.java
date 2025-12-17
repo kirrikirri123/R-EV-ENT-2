@@ -1,10 +1,15 @@
 package com.ahlenius.revent2.ui.view;
 
+import com.ahlenius.revent2.entity.Item;
+import com.ahlenius.revent2.entity.Rental;
 import com.ahlenius.revent2.service.RentalService;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 
@@ -35,7 +40,20 @@ public class HistoryView {
         // Genrell historik
         Label headerHistory = new Label("Uthyrningshistorik");
         historyViewBox.setAlignment(Pos.CENTER);
-        historyViewBox.getChildren().addAll(headerHistory);
+        historyViewBox.setSpacing(10);
+        TableView<Rental> allHistoryView = new TableView<>(rentalService.getRentalRegistry().getRentalObsList());
+        allHistoryView.setItems(rentalService.getRentalRegistry().getRentalObsList());
+        TableColumn<Rental, String> rentalNameCol = new TableColumn<Rental, String>("Medlem");
+        rentalNameCol.setCellValueFactory(new PropertyValueFactory<>("rentingMember"));
+        TableColumn<Rental, String> rentalItemCol = new TableColumn<>("Hyrd vara");
+        rentalItemCol.setCellValueFactory(new PropertyValueFactory<>("rentalItem"));
+        TableColumn<Rental, String> startRentCol = new TableColumn<>("Uthyrd from. datum");
+        startRentCol.setCellValueFactory(new PropertyValueFactory<>("startOfRent"));
+        TableColumn<Rental, String> daysRentedCol = new TableColumn<>("Hyresdagar");
+        daysRentedCol.setCellValueFactory(new PropertyValueFactory<>("rentDays"));
+        allHistoryView.getColumns().setAll(rentalNameCol,rentalItemCol,startRentCol,daysRentedCol);
+
+        historyViewBox.getChildren().addAll(headerHistory,allHistoryView);
 
         // medlem specifikhistoprik
         Label headerMemberHist = new Label("Medlemsspecifk historik");

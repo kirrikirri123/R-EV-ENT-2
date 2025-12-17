@@ -7,6 +7,8 @@ import com.ahlenius.revent2.exceptions.*;
 import com.ahlenius.revent2.service.JsonService;
 import com.ahlenius.revent2.service.MembershipService;
 import com.ahlenius.revent2.service.RentalService;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
@@ -60,7 +62,7 @@ public class RentalView {
         // Aktuella produkter. TabelPane
         Label headerViewProd = new Label("Aktuella produkter för uthyrning: ");
         TableView<Item> itemListTableView = new TableView<>();
-        itemListTableView.setItems(rentalService.getInventory().getItemsObsList());
+        itemListTableView.setItems(rentalService.getInventory().getItemsObsList());// Lägga till en sortering här på endast ej uthyrda!
         TableColumn<Item, String> prodNameCol = new TableColumn<Item, String>("Produktnamn");
         prodNameCol.setCellValueFactory(new PropertyValueFactory<>("name"));
         TableColumn<Item, String> prodDescriptCol = new TableColumn<>("Info");
@@ -89,7 +91,8 @@ public class RentalView {
         daysOfRentField.setMaxWidth(250);
         rentalMemField.setMaxWidth(250);
         rentalMemField.setPromptText("tex. Kickan Kristersson");
-        ComboBox<Member> memberComboBox = new ComboBox<>(membershipService.getMemberRegistry().convertMemberSetToObsList()); // visar inget
+        ObservableList<Member> memberobsListTest = FXCollections.observableArrayList(membershipService.getMemberRegistry().getMemberRegistryList());
+        ComboBox<Member> memberComboBox = new ComboBox<>(memberobsListTest); // visar inget
         ComboBox<Item> availableItem = new ComboBox<>(rentalService.getInventory().getItemsObsList());
         availableItem.setMaxWidth(250);
         TextField fromDateField = new TextField();
@@ -118,7 +121,7 @@ public class RentalView {
         endRentalBox.setSpacing(10);
         endRentalBox.setPadding(new Insets(35, 15, 15, 15));
         Label rentalChoice = new Label("Välj bland aktuella uthyrningar: ");
-        ComboBox<Rental> rentingMemberComboBox = new ComboBox<>(rentalService.getRentalRegistry().getRentalObsList()); // hur ska man sortera denna så bara dem med returned false är med?? Streams i metod?
+        ComboBox<Rental> rentingMemberComboBox = new ComboBox<>(rentalService.rentalsObsListNotReturned(rentalService.getRentalRegistry().getRentalObsList()));
         memberComboBox.getItems().addAll();
         Button confirmRentMem = new Button("Välj uthyrning");
         endRentalBox.getChildren().addAll(headerCloseRental, rentalChoice, rentingMemberComboBox, confirmRentMem);
@@ -180,8 +183,8 @@ public class RentalView {
             rentalPane.setCenter(endRentalBox);
             exceptionEndRent.setText("");
         });
-
         // Knappar funktioner
+
         // Ny uthyrning
         OKBTN.setOnAction(actionEvent -> {
             try {
@@ -197,13 +200,16 @@ public class RentalView {
             if(foundRentingMem != null){
             try {
                 Rental newestRental = rentalService.newRental(foundRentingMem, availableItem.getValue(),days,String.valueOf(dateStart));
-                newestRental.getRentalItem().setAvailable(false);
+                Item rentedItem = newestRental.getRentalItem();
+                rentalService.getInventory().getItemList().stream().filter(item -> item.equals(rentedItem))
+                        .forEach(item -> item.setAvailable(false));
                 confrimationText.setText("Ny uthyrning skapad.\n" + newestRental);
-                newestRental.getRentalItem().setAvailable(false);
+                foundRentingMem = null;
                 rentalMemField.clear();
                 daysOfRentField.clear();
                 fromDateField.clear();
                 exceptionInfo.setText("");
+
             } catch (IOException | InvalidAmountRentingDaysException | InvalidDateChoiceException |
                      InvalidRentalInfoInputException e) {exceptionInfo.setText(e.getMessage());
             }

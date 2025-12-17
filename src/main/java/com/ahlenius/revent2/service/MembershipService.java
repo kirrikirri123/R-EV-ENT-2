@@ -67,9 +67,8 @@ public class MembershipService {
     public List<String> getMemberHistory(Member member)throws NoHistoryFoundException {
         if (member.getHistoryMember().isEmpty()) {
             throw new NoHistoryFoundException("Finns ingen historik på vald medlem.");
-        } return member.getHistoryMember();
+        } return member.getHistoryMember();    }
 
-    }
     public void printMemberReg() throws NullPointerException {
         if (getMemberRegistry().getMemberRegistryList().isEmpty())
             {throw new NullPointerException("Listan är tom.");}

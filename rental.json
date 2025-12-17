@@ -1,48 +1,29 @@
 [ {
   "rentingMember" : {
-    "id" : "970517",
-    "name" : "Kickan Knäppsson",
-    "phone" : "091077993",
+    "id" : "199712145566",
+    "name" : "Brun Björnsson",
+    "phone" : "09501254654",
     "memberStatus" : "Privat",
-    "historyMember" : [ "Julgran, Hyresstart: 2025-12-25" ]
+    "historyMember" : [ "Såpbubbla, Hyresstart: 2025-12-16", "Såpbubbla, Hyresstart: 2025-12-17" ]
   },
   "rentalItem" : {
-    "type" : "MascotCostume",
-    "name" : "Julgran",
-    "description" : "Grön spretig",
-    "dayPrice" : 250.0,
-    "available" : true,
-    "season" : "Året runt"
+    "type" : "BouncyCastle",
+    "name" : "Såpbubbla",
+    "description" : "Rund, Max 3 barn",
+    "dayPrice" : 1570.0,
+    "available" : false,
+    "indoorUse" : false
   },
-  "rentDays" : 6,
-  "startOfRent" : "2025-12-25",
-  "returned" : true
+  "rentDays" : 4,
+  "startOfRent" : "2025-12-16",
+  "returned" : false
 }, {
   "rentingMember" : {
-    "id" : "123",
-    "name" : "Björn Varg",
-    "phone" : "095037417",
+    "id" : "199712145566",
+    "name" : "Brun Björnsson",
+    "phone" : "09501254654",
     "memberStatus" : "Privat",
-    "historyMember" : [ "Mjölkpaket, Hyresstart: 2025-12-20" ]
-  },
-  "rentalItem" : {
-    "type" : "MascotCostume",
-    "name" : "Mjölkpaket",
-    "description" : "Fyrkantig, Tetrig, avtagbar kork",
-    "dayPrice" : 540.0,
-    "available" : true,
-    "season" : "Året runt"
-  },
-  "rentDays" : 11,
-  "startOfRent" : "2025-12-20",
-  "returned" : true
-}, {
-  "rentingMember" : {
-    "id" : "123",
-    "name" : "Björn Varg",
-    "phone" : "095037417",
-    "memberStatus" : "Privat",
-    "historyMember" : [ "Såpbubbla, Hyresstart: 2025-12-14" ]
+    "historyMember" : [ "Såpbubbla, Hyresstart: 2025-12-16", "Såpbubbla, Hyresstart: 2025-12-17" ]
   },
   "rentalItem" : {
     "type" : "BouncyCastle",
@@ -52,26 +33,45 @@
     "available" : true,
     "indoorUse" : false
   },
-  "rentDays" : 2,
-  "startOfRent" : "2025-12-14",
+  "rentDays" : 4,
+  "startOfRent" : "2025-12-17",
   "returned" : true
 }, {
   "rentingMember" : {
-    "id" : "920618",
-    "name" : "Kickan Karlsson",
-    "phone" : "095014841",
+    "id" : "970517",
+    "name" : "Kickan Knäppsson",
+    "phone" : "091077993",
     "memberStatus" : "Privat",
-    "historyMember" : [ "Stubbe, Hyresstart: 2025-12-15" ]
+    "historyMember" : [ "Såpbubbla, Hyresstart: 2025-12-16", "Såpbubbla, Hyresstart: 2025-12-16" ]
   },
   "rentalItem" : {
-    "type" : "MascotCostume",
-    "name" : "Stubbe",
-    "description" : "Träig, Stadig. Endast stående",
-    "dayPrice" : 125.0,
+    "type" : "BouncyCastle",
+    "name" : "Såpbubbla",
+    "description" : "Rund, Max 3 barn",
+    "dayPrice" : 1570.0,
     "available" : true,
-    "season" : "Året runt"
+    "indoorUse" : false
   },
-  "rentDays" : 16,
-  "startOfRent" : "2025-12-15",
+  "rentDays" : 5,
+  "startOfRent" : "2025-12-16",
+  "returned" : true
+}, {
+  "rentingMember" : {
+    "id" : "199712145566",
+    "name" : "Brun Björnsson",
+    "phone" : "09501254654",
+    "memberStatus" : "Privat",
+    "historyMember" : [ "Såpbubbla, Hyresstart: 2025-12-16" ]
+  },
+  "rentalItem" : {
+    "type" : "BouncyCastle",
+    "name" : "Såpbubbla",
+    "description" : "Rund, Max 3 barn",
+    "dayPrice" : 1570.0,
+    "available" : true,
+    "indoorUse" : false
+  },
+  "rentDays" : 4,
+  "startOfRent" : "2025-12-16",
   "returned" : true
 } ]
